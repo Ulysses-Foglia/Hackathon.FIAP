@@ -3,24 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Api", "Fiap.CleanArchitecture.Api\Fiap.CleanArchitecture.Api.csproj", "{51AB299B-6E6C-41B7-A192-B44140D939ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.Api", "Fiap.CleanArchitecture.Api\Fiap.CleanArchitecture.Api.csproj", "{51AB299B-6E6C-41B7-A192-B44140D939ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Entity", "Fiap.CleanArchitecture.Entity\Fiap.CleanArchitecture.Entity.csproj", "{030D27B5-D563-4364-8919-77D40F6FF21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.Entity", "Fiap.CleanArchitecture.Entity\Fiap.CleanArchitecture.Entity.csproj", "{030D27B5-D563-4364-8919-77D40F6FF21A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.UseCase", "Fiap.CleanArchitecture.UseCase\Fiap.CleanArchitecture.UseCase.csproj", "{5DAC9B6C-A48B-4C01-8FE5-E9FA9F2F1A97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.UseCase", "Fiap.CleanArchitecture.UseCase\Fiap.CleanArchitecture.UseCase.csproj", "{5DAC9B6C-A48B-4C01-8FE5-E9FA9F2F1A97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Controller", "Fiap.CleanArchitecture.Controller\Fiap.CleanArchitecture.Controller.csproj", "{92CF4601-D739-4CF7-8DBB-5A6A3FB3A891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.Controller", "Fiap.CleanArchitecture.Controller\Fiap.CleanArchitecture.Controller.csproj", "{92CF4601-D739-4CF7-8DBB-5A6A3FB3A891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Presenter", "Fiap.CleanArchitecture.Presenter\Fiap.CleanArchitecture.Presenter.csproj", "{BDA2554D-7529-46F7-8102-7CAD4A73B202}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.Presenter", "Fiap.CleanArchitecture.Presenter\Fiap.CleanArchitecture.Presenter.csproj", "{BDA2554D-7529-46F7-8102-7CAD4A73B202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Gateway", "Fiap.CleanArchitecture.Gateway\Fiap.CleanArchitecture.Gateway.csproj", "{2C64951A-7CBE-4659-AA6E-BC5CB296A460}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.Gateway", "Fiap.CleanArchitecture.Gateway\Fiap.CleanArchitecture.Gateway.csproj", "{2C64951A-7CBE-4659-AA6E-BC5CB296A460}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Data", "Fiap.CleanArchitecture.Data\Fiap.CleanArchitecture.Data.csproj", "{6EE07DEF-8BBD-4ABF-BC3D-A71A8BCCA529}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiap.CleanArchitecture.Data", "Fiap.CleanArchitecture.Data\Fiap.CleanArchitecture.Data.csproj", "{6EE07DEF-8BBD-4ABF-BC3D-A71A8BCCA529}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{F0B232B4-C9BC-408D-84C7-CA32B07B8925}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.Util", "Fiap.CleanArchitecture.Util\Fiap.CleanArchitecture.Util.csproj", "{13C9A934-EFE4-4362-A4A5-80EFC39A080E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{6EE07DEF-8BBD-4ABF-BC3D-A71A8BCCA529}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EE07DEF-8BBD-4ABF-BC3D-A71A8BCCA529}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EE07DEF-8BBD-4ABF-BC3D-A71A8BCCA529}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C9A934-EFE4-4362-A4A5-80EFC39A080E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C9A934-EFE4-4362-A4A5-80EFC39A080E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C9A934-EFE4-4362-A4A5-80EFC39A080E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C9A934-EFE4-4362-A4A5-80EFC39A080E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

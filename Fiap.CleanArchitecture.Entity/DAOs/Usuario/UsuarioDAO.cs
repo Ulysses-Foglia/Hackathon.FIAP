@@ -1,4 +1,4 @@
-﻿namespace Fiap.CleanArchitecture.Entity.DAOs
+﻿namespace Fiap.CleanArchitecture.Entity.DAOs.Usuario
 {
     public class UsuarioDAO
     {

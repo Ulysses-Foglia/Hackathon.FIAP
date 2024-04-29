@@ -12,7 +12,7 @@ var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").B
 // Add services to the container.
 //builder.Services.AddScoped<IDatabaseClient, SQLClient>();
 builder.Services.AddScoped<IDatabaseClient>(provider => { return new SQLDatabaseClient(configuration); });
-builder.Services.AddScoped<ILoginGateway, LoginGateway>();
+builder.Services.AddScoped<IPessoaGateway, PessoaGateway>();
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
 
 builder.Services.AddControllers();

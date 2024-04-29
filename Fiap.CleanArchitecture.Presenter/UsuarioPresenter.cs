@@ -5,15 +5,17 @@ namespace Fiap.CleanArchitecture.Presenter
 {
     public class UsuarioPresenter
     {
+        public int Id { get; set; }
+        public DateTime DataCriacao { get; set; }
         public string Email { get; set; }
-        public string Senha { get; set; }
 
         public static string ToJson(Usuario usuarioEntity)
         {
             var usuarioPresenter = new UsuarioPresenter()
             {
-                Email = usuarioEntity.Email,
-                Senha = usuarioEntity.Senha
+                Id = usuarioEntity.Id,
+                DataCriacao = usuarioEntity.DataCriacao,
+                Email = usuarioEntity.Email
             };
 
             return JsonConvert.SerializeObject(usuarioPresenter);
@@ -27,8 +29,9 @@ namespace Fiap.CleanArchitecture.Presenter
             {
                 var usuarioPresenter = new UsuarioPresenter()
                 {
-                    Email = usuarioEntity.Email,
-                    Senha = usuarioEntity.Senha
+                    Id = usuarioEntity.Id,
+                    DataCriacao = usuarioEntity.DataCriacao,
+                    Email = usuarioEntity.Email
                 };
 
                 usuariosPresenter.Add(usuarioPresenter);

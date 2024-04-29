@@ -8,22 +8,26 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
     public class SQLDatabaseClient : IDatabaseClient
     {
         private readonly IConfiguration _configuration;
-        private readonly SQLLoginRepository _sqlLoginRepository;
-        private readonly SQLUsuarioRepository _sqlUsuarioRepository;
+        //private readonly SQLLoginRepository _sqlLoginRepository;
+        private readonly UsuarioSQLRepository _usuarioSQLRepository;
 
         public SQLDatabaseClient(IConfiguration configuration)
         {
             _configuration = configuration;
-            _sqlLoginRepository = new SQLLoginRepository(_configuration);
-            _sqlUsuarioRepository = new SQLUsuarioRepository(_configuration);
+            //_sqlLoginRepository = new SQLLoginRepository(_configuration);
+            _usuarioSQLRepository = new UsuarioSQLRepository(_configuration);
         }
 
-        #region LoginRepository
-        public string GerarToken(Usuario usuario) => _sqlLoginRepository.GerarToken(usuario);
-        #endregion
+        //#region LoginRepository
+        //#endregion
 
         #region UsuarioRepository
-        public IEnumerable<Usuario> BuscarTodos() => _sqlUsuarioRepository.BuscarTodos();
+        public string GerarToken(Usuario usuario) => _usuarioSQLRepository.GerarToken(usuario);
+        public IEnumerable<Usuario> BuscarTodos() => _usuarioSQLRepository.BuscarTodos();
+        public Usuario BuscarPorId(int id) => _usuarioSQLRepository.BuscarPorId(id);
+        public void Criar(Usuario usuario) => _usuarioSQLRepository.Criar(usuario);
+        public Usuario Alterar(Usuario usuario) => _usuarioSQLRepository.Alterar(usuario);
+        public void Excluir(int id) => _usuarioSQLRepository.Excluir(id);
         #endregion
     }
 }

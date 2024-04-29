@@ -2,8 +2,8 @@
 
 namespace Fiap.CleanArchitecture.Data.Interfaces
 {
-    public interface ILoginRepository
+    public interface IPessoaRepository
     {
-        string GerarToken(Usuario usuario);
+        //string GerarToken(Usuario usuario);
     }
 }
