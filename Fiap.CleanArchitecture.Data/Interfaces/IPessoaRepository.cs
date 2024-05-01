@@ -4,6 +4,10 @@ namespace Fiap.CleanArchitecture.Data.Interfaces
 {
     public interface IPessoaRepository
     {
-        //string GerarToken(Usuario usuario);
+        IEnumerable<Pessoa> BuscarTodasPessoas();
+        Pessoa BuscarPessoaPorId(int id);
+        void CriarPessoa(Pessoa usuario);
+        Pessoa AlterarPessoa(Pessoa usuario);
+        void ExcluirPessoa(int id);
     }
 }

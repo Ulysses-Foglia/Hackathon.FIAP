@@ -13,34 +13,11 @@ namespace Fiap.CleanArchitecture.Gateway
             _database = database;
         }
 
-        public string GerarToken(Usuario usuario)
-        {
-            return _database.GerarToken(usuario);
-        }
-
-        public IEnumerable<Usuario> BuscarTodos()
-        {
-            return _database.BuscarTodos();
-        }
-
-        public Usuario BuscarPorId(int id)
-        {
-            return _database.BuscarPorId(id);
-        }
-
-        public void Criar(Usuario usuario)
-        {
-            _database.Criar(usuario);
-        }
-
-        public Usuario Alterar(Usuario usuario)
-        {
-            return _database.Alterar(usuario);
-        }
-
-        public void Excluir(int id)
-        {
-            _database.Excluir(id);
-        }
+        public string GerarToken(Usuario usuario) => _database.GerarToken(usuario);
+        public IEnumerable<Usuario> BuscarTodos() => _database.BuscarTodosUsuarios();
+        public Usuario BuscarPorId(int id) => _database.BuscarUsuarioPorId(id);
+        public void Criar(Usuario usuario) => _database.CriarUsuario(usuario);
+        public Usuario Alterar(Usuario usuario) => _database.AlterarUsuario(usuario);
+        public void Excluir(int id) => _database.ExcluirUsuario(id);
     }
 }

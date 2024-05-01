@@ -1,6 +1,6 @@
-using Fiap.CleanArchitecture.Controller;
+﻿using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Data.Interfaces;
-using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,35 +8,15 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsuarioController : ControllerBase
+    public class TarefaController : ControllerBase
     {
         private readonly IDatabaseClient _databaseClient;
-        private readonly UsuarioControlador _usuarioControlador;
+        private readonly TarefaControlador _tarefaControlador;
 
-        public UsuarioController(IDatabaseClient databaseClient)
+        public TarefaController(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _usuarioControlador = new(_databaseClient);
-        }
-
-        [HttpPost]
-        [Route("autenticar")]
-        public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
-        {
-            try
-            {
-                var token = _usuarioControlador.GerarToken(usuarioDAO);
-
-                return Ok(new { token });
-            }
-            catch (InvalidDataException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            _tarefaControlador = new TarefaControlador(_databaseClient);
         }
 
         [Authorize]
@@ -45,9 +25,9 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                var usuarios = _usuarioControlador.BuscarTodos();
+                var tarefas = _tarefaControlador.BuscarTodos();
 
-                return Ok(usuarios);
+                return Ok(tarefas);
             }
             catch (Exception ex)
             {
@@ -61,46 +41,46 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                var usuarios = _usuarioControlador.BuscarPorId(id);
+                var tarefa = _tarefaControlador.BuscarPorId(id);
 
-                return Ok(usuarios);
+                return Ok(tarefa);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
 
         [Authorize]
         [HttpPost("criar")]
-        public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
+        public IActionResult Criar([FromBody] TarefaDAO tarefaDAO)
         {
             try
             {
-                _usuarioControlador.Criar(usuarioDAO);
+                _tarefaControlador.Criar(tarefaDAO);
 
                 return Ok();
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
 
         [Authorize]
         [HttpPut("alterar")]
-        public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
+        public IActionResult Alterar([FromBody] TarefaAlterarDAO tarefaAlterarDAO)
         {
             try
             {
-                var novoUsuario = _usuarioControlador.Alterar(usuarioAlterarDAO);
+                var novaTarefa = _tarefaControlador.Alterar(tarefaAlterarDAO);
 
-                return Ok(novoUsuario);
+                return Ok(novaTarefa);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
 
         [Authorize]
@@ -109,14 +89,14 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                _usuarioControlador.Excluir(id);
+                _tarefaControlador.Excluir(id);
 
                 return Ok();
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
     }
 }

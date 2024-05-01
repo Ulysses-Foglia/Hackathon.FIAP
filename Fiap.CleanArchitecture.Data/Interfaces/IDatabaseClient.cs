@@ -1,6 +1,6 @@
 ﻿namespace Fiap.CleanArchitecture.Data.Interfaces
 {
-    public interface IDatabaseClient : /*ILoginRepository,*/ IUsuarioRepository
+    public interface IDatabaseClient : IUsuarioRepository, IPessoaRepository, ITarefaRepository
     {
     }
 }

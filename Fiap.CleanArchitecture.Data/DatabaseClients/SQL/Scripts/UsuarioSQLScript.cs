@@ -2,7 +2,7 @@
 {
     public class UsuarioSQLScript
     {
-        public static string GerarToken => @"
+        public static string VerificarUsuario => @"
 
             SELECT 1 FROM USUARIOS WHERE EMAIL = @EMAIL AND SENHA = @SENHA
 
@@ -33,7 +33,7 @@
 
         public static string Criar => @"
 
-            INSERT INTO USUARIOS VALUES (GETDATE(), @EMAIL, @SENHA)
+            INSERT INTO USUARIOS (DATA_CRIACAO, EMAIL, SENHA) VALUES (GETDATE(), @EMAIL, @SENHA)
 
         ";
 

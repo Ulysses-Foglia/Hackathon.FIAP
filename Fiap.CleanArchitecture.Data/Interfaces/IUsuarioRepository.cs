@@ -5,10 +5,10 @@ namespace Fiap.CleanArchitecture.Data.Interfaces
     public interface IUsuarioRepository
     {
         string GerarToken(Usuario usuario);
-        IEnumerable<Usuario> BuscarTodos();
-        Usuario BuscarPorId(int id);
-        void Criar(Usuario usuario);
-        Usuario Alterar(Usuario usuario);
-        void Excluir(int id);
+        IEnumerable<Usuario> BuscarTodosUsuarios();
+        Usuario BuscarUsuarioPorId(int id);
+        void CriarUsuario(Usuario usuario);
+        Usuario AlterarUsuario(Usuario usuario);
+        void ExcluirUsuario(int id);
     }
 }

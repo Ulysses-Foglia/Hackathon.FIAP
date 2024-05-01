@@ -9,14 +9,16 @@ namespace Fiap.CleanArchitecture.Presenter
         public DateTime DataCriacao { get; set; }
         public string Email { get; set; }
 
+        public UsuarioPresenter(Usuario usuarioEntity)
+        {
+            Id = usuarioEntity.Id;
+            DataCriacao = usuarioEntity.DataCriacao;
+            Email = usuarioEntity.Email;
+        }
+
         public static string ToJson(Usuario usuarioEntity)
         {
-            var usuarioPresenter = new UsuarioPresenter()
-            {
-                Id = usuarioEntity.Id,
-                DataCriacao = usuarioEntity.DataCriacao,
-                Email = usuarioEntity.Email
-            };
+            var usuarioPresenter = new UsuarioPresenter(usuarioEntity);
 
             return JsonConvert.SerializeObject(usuarioPresenter);
         }
@@ -27,15 +29,10 @@ namespace Fiap.CleanArchitecture.Presenter
 
             foreach (var usuarioEntity in usuariosEntity)
             {
-                var usuarioPresenter = new UsuarioPresenter()
-                {
-                    Id = usuarioEntity.Id,
-                    DataCriacao = usuarioEntity.DataCriacao,
-                    Email = usuarioEntity.Email
-                };
+                var usuarioPresenter = new UsuarioPresenter(usuarioEntity);
 
                 usuariosPresenter.Add(usuarioPresenter);
-            }            
+            }
 
             return JsonConvert.SerializeObject(usuariosPresenter);
         }

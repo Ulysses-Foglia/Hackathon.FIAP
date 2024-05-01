@@ -1,4 +1,5 @@
 ﻿using Fiap.CleanArchitecture.Data.Interfaces;
+using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
@@ -17,8 +18,10 @@ namespace Fiap.CleanArchitecture.Controller
             _usuarioGateway = new UsuarioGateway(_databaseClient);
         }
 
-        public string GerarToken(Usuario usuario)
+        public string GerarToken(UsuarioDAO usuarioDAO)
         {
+            var usuario = new Usuario(usuarioDAO.Email, usuarioDAO.Senha);
+
             var token = _usuarioGateway.GerarToken(usuario);
 
             return token;
@@ -38,13 +41,17 @@ namespace Fiap.CleanArchitecture.Controller
             return UsuarioPresenter.ToJson(usuario);
         }
 
-        public void Criar(Usuario usuario)
+        public void Criar(UsuarioDAO usuarioDAO)
         {
+            var usuario = new Usuario(usuarioDAO.Email, usuarioDAO.Senha);
+
             _usuarioGateway.Criar(usuario);
         }
 
-        public string Alterar(Usuario usuario)
+        public string Alterar(UsuarioAlterarDAO usuarioAlterarDAO)
         {
+            var usuario = new Usuario(usuarioAlterarDAO);
+
             var novoUsuario = _usuarioGateway.Alterar(usuario);
 
             return UsuarioPresenter.ToJson(novoUsuario);

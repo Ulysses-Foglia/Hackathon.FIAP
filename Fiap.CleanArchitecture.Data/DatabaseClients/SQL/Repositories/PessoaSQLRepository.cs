@@ -1,70 +1,91 @@
 ﻿using Dapper;
+using Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts;
+using Fiap.CleanArchitecture.Entity.DTO;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Data.SqlClient;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 {
     public class PessoaSQLRepository : Repository
     {
-        //private readonly IConfiguration _configuration;
-
         public PessoaSQLRepository(IConfiguration configuration) : base(configuration)
         {
-            //_configuration = configuration;
         }
 
-        //public string GerarToken(Usuario usuario)
-        //{
-        //    bool autenticado = false;
+        public IEnumerable<Pessoa> BuscarTodos()
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = PessoaSQLScript.BuscarTodos;
 
-        //    using (var conn = new SqlConnection(ConnectionString))
-        //    {
-        //        var sql = "SELECT 1 FROM USUARIOS WHERE EMAIL = @EMAIL AND SENHA = @SENHA";
+                var result = conn.Query<PessoaDTO>(sql, commandTimeout: Timeout);
 
-        //        var param = new DynamicParameters();
+                return PessoaDTO.ToEntity(result);
+            }
+        }
 
-        //        param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
-        //        param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
-        //        autenticado = conn.QuerySingle<bool>(sql, param);
-        //    }
+        public Pessoa BuscarPorId(int id)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = PessoaSQLScript.BuscarPorId;
 
-        //    if (!autenticado)
-        //        throw new Exception("Erro ao autenticar o usuário, por favor, tente novamente!");
+                var param = new DynamicParameters();
 
-        //    var expires = int.Parse(_configuration.GetSection("Authentication:ExpireTimeInHour").Value);
-        //    var secret = _configuration.GetSection("Authentication:Secret").Value;
-        //    var key = Encoding.UTF8.GetBytes(secret);
+                param.Add("@ID", id, DbType.Int32, ParameterDirection.Input);
 
-        //    var claimsInfo = "buscar infos para repassar no token";
+                var result = conn.QueryFirstOrDefault<PessoaDTO>(sql, param, commandTimeout: Timeout);
 
-        //    var claims = new List<Claim>();
+                return PessoaDTO.ToEntity(result);
+            }
+        }
 
-        //    //foreach (var claim in claimsInfo)
-        //    //    claims.Add(new Claim(claimType, claimValue));
+        public void Criar(Pessoa pessoa)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = PessoaSQLScript.Criar;
 
-        //    var tokenDescriptor = new SecurityTokenDescriptor()
-        //    {
-        //        Audience = usuario.Email, //criptografado
-        //        Issuer = "API-Fiap.CleanArchitecture",
-        //        Subject = new ClaimsIdentity(claims, "Custom"),
-        //        Expires = DateTime.UtcNow.AddHours(expires),
-        //        SigningCredentials = new SigningCredentials(
-        //            new SymmetricSecurityKey(key),
-        //            SecurityAlgorithms.HmacSha256Signature,
-        //            SecurityAlgorithms.Sha256Digest)
-        //    };
+                var param = new DynamicParameters();
 
-        //    var tokenHandler = new JwtSecurityTokenHandler();
+                param.Add("@NOME", pessoa.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
 
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+                conn.Execute(sql, param, commandTimeout: Timeout);
+            }
+        }
 
-        //    return tokenHandler.WriteToken(token);
-        //}
+        public Pessoa Alterar(Pessoa pessoa)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = PessoaSQLScript.Alterar;
+
+                var param = new DynamicParameters();
+
+                param.Add("@ID", pessoa.Id, DbType.Int32, ParameterDirection.Input);
+                param.Add("@NOME", pessoa.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@ID_USUARIO", pessoa.Usuario.Id, DbType.Int32, ParameterDirection.Input);
+
+                conn.Execute(sql, param, commandTimeout: Timeout);
+            }
+
+            return BuscarPorId(pessoa.Id);
+        }
+
+        public void Excluir(int id)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = PessoaSQLScript.Excluir;
+
+                var param = new DynamicParameters();
+
+                param.Add("@ID", id, DbType.Int32, ParameterDirection.Input);
+
+                conn.Execute(sql, param, commandTimeout: Timeout);
+            }
+        }
     }
 }

@@ -4,6 +4,10 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
 {
     public interface IPessoaGateway
     {
-        //string GerarToken(Usuario usuario);
+        IEnumerable<Pessoa> BuscarTodos();
+        Pessoa BuscarPorId(int id);
+        void Criar(Pessoa pessoa);
+        Pessoa Alterar(Pessoa pessoa);
+        void Excluir(int id);
     }
 }

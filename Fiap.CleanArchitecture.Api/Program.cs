@@ -10,10 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 // Add services to the container.
-//builder.Services.AddScoped<IDatabaseClient, SQLClient>();
-builder.Services.AddScoped<IDatabaseClient>(provider => { return new SQLDatabaseClient(configuration); });
-builder.Services.AddScoped<IPessoaGateway, PessoaGateway>();
+builder.Services.AddScoped<IDatabaseClient>(provider 
+    => { return new SQLDatabaseClient(configuration); });
+
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
+builder.Services.AddScoped<IPessoaGateway, PessoaGateway>();
+builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

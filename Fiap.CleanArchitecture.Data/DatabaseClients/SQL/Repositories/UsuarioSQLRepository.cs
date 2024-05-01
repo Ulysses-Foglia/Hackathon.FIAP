@@ -23,20 +23,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
         public string GerarToken(Usuario usuario)
         {
-            bool autenticado = false;
-
-            using (var conn = new SqlConnection(ConnectionString))
-            {
-                var sql = UsuarioSQLScript.GerarToken;
-
-                var param = new DynamicParameters();
-
-                param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
-                param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
-                autenticado = conn.QuerySingle<bool>(sql, param);
-            }
-
-            if (!autenticado)
+            if (!UsuarioAutenticado(usuario))
                 throw new Exception("Erro ao autenticar o usuário, por favor, tente novamente!");
 
             var expires = int.Parse(_configuration.GetSection("Authentication:ExpireTimeInHour").Value);
@@ -67,6 +54,25 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        private bool UsuarioAutenticado(Usuario usuario)
+        {
+            bool autenticado = false;
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = UsuarioSQLScript.VerificarUsuario;
+
+                var param = new DynamicParameters();
+
+                param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
+
+                autenticado = conn.QuerySingleOrDefault<bool>(sql, param);
+            }
+
+            return autenticado;
         }
 
         public IEnumerable<Usuario> BuscarTodos()
