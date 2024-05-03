@@ -11,13 +11,11 @@ namespace Fiap.CleanArchitecture.Controller
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly ITarefaGateway _tarefaGateway;
-        private readonly IPessoaGateway _pessoaGateway;
 
         public TarefaControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
             _tarefaGateway = new TarefaGateway(_databaseClient);
-            _pessoaGateway = new PessoaGateway(_databaseClient);
         }
 
         public string BuscarTodos()
@@ -36,9 +34,7 @@ namespace Fiap.CleanArchitecture.Controller
 
         public void Criar(TarefaDAO tarefaDAO)
         {
-            var pessoa = _pessoaGateway.BuscarPorId(tarefaDAO.CriadorId);
-
-            var tarefa = new Tarefa(tarefaDAO, pessoa);
+            var tarefa = new Tarefa(tarefaDAO);
 
             _tarefaGateway.Criar(tarefa);
         }

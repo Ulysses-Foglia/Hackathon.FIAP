@@ -1,5 +1,6 @@
 using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Data.Interfaces;
+using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -72,6 +73,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [Papel("Admin")]
         [HttpPost("criar")]
         public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
         {
@@ -88,6 +90,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [Papel("Admin")]
         [HttpPut("alterar")]
         public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
         {
@@ -104,6 +107,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [Papel("Admin")]
         [HttpDelete("excluir/{id:int}")]
         public IActionResult Excluir(int id)
         {

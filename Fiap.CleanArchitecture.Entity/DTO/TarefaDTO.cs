@@ -21,23 +21,18 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 DataCriacao = tarefaDTO.DataCriacao,
                 Titulo = tarefaDTO.Titulo,
                 DataInicio = tarefaDTO.DataInicio,
-                DataFim = tarefaDTO.DataFim,
-                Criador = new Pessoa(tarefaDTO.CriadorNome)
-                {
-                    Id = tarefaDTO.CriadorId,
-                    DataCriacao = tarefaDTO.CriadorDataCriacao
-                }
+                DataFim = tarefaDTO.DataFim
             };
         }
 
         public static List<Tarefa> ToEntity(IEnumerable<TarefaDTO> tarefasDTO)
         {
-            List<Tarefa> pessoas = [];
+            List<Tarefa> tarefas = [];
 
             foreach (var tarefaDTO in tarefasDTO)
-                pessoas.Add(ToEntity(tarefaDTO));
+                tarefas.Add(ToEntity(tarefaDTO));
 
-            return pessoas;
+            return tarefas;
         }
     }
 }

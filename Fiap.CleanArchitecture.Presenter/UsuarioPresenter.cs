@@ -7,13 +7,17 @@ namespace Fiap.CleanArchitecture.Presenter
     {
         public int Id { get; set; }
         public DateTime DataCriacao { get; set; }
+        public string Nome { get; set; }
         public string Email { get; set; }
+        public string Papel { get; set; }
 
         public UsuarioPresenter(Usuario usuarioEntity)
         {
             Id = usuarioEntity.Id;
             DataCriacao = usuarioEntity.DataCriacao;
+            Nome = usuarioEntity.Nome;
             Email = usuarioEntity.Email;
+            Papel = usuarioEntity.Papel.ToString();
         }
 
         public static string ToJson(Usuario usuarioEntity)

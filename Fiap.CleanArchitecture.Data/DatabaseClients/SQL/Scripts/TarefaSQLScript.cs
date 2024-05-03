@@ -9,12 +9,8 @@
             	T.DATA_CRIACAO AS DataCriacao,
             	T.TITULO AS Titulo,
             	T.DATA_INICIO AS DataInicio,
-            	T.DATA_FIM AS DataFim,
-            	P.ID AS CriadorId,
-            	P.DATA_CRIACAO AS CriadorDataCriacao,
-            	P.NOME AS CriadorNome
+            	T.DATA_FIM AS DataFim
             FROM TAREFAS T WITH (NOLOCK)
-            	INNER JOIN PESSOAS P WITH (NOLOCK) ON P.ID = T.ID_CRIADOR
 
         ";
 
@@ -25,12 +21,8 @@
             	T.DATA_CRIACAO AS DataCriacao,
             	T.TITULO AS Titulo,
             	T.DATA_INICIO AS DataInicio,
-            	T.DATA_FIM AS DataFim,
-            	P.ID AS CriadorId,
-            	P.DATA_CRIACAO AS CriadorDataCriacao,
-            	P.NOME AS CriadorNome
+            	T.DATA_FIM AS DataFim
             FROM TAREFAS T WITH (NOLOCK)
-            	INNER JOIN PESSOAS P WITH (NOLOCK) ON P.ID = T.ID_CRIADOR
             WHERE T.ID = @ID
 
         ";

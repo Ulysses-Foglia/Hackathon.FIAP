@@ -53,7 +53,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 param.Add("@TITULO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@DATA_INICIO", tarefa.DataInicio, DbType.DateTime, ParameterDirection.Input);
                 param.Add("@DATA_FIM", tarefa.DataFim, DbType.DateTime, ParameterDirection.Input);
-                param.Add("@ID_CRIADOR", tarefa.Criador.Id, DbType.Int32, ParameterDirection.Input);
 
                 conn.Execute(sql, param, commandTimeout: Timeout);
             }

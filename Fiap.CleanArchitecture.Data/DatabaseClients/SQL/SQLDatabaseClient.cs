@@ -10,7 +10,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         private readonly IConfiguration _configuration;
 
         private readonly UsuarioSQLRepository _usuarioSQLRepository;
-        private readonly PessoaSQLRepository _pessoaSQLRepository;
         private readonly TarefaSQLRepository _tarefaSQLRepository;
 
         public SQLDatabaseClient(IConfiguration configuration)
@@ -18,7 +17,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
             _configuration = configuration;
 
             _usuarioSQLRepository = new UsuarioSQLRepository(_configuration);
-            _pessoaSQLRepository = new PessoaSQLRepository(_configuration);
             _tarefaSQLRepository = new TarefaSQLRepository(_configuration);
         }
 
@@ -29,14 +27,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public void CriarUsuario(Usuario usuario) => _usuarioSQLRepository.Criar(usuario);
         public Usuario AlterarUsuario(Usuario usuario) => _usuarioSQLRepository.Alterar(usuario);
         public void ExcluirUsuario(int id) => _usuarioSQLRepository.Excluir(id);
-        #endregion
-
-        #region PessoaRepository
-        public IEnumerable<Pessoa> BuscarTodasPessoas() => _pessoaSQLRepository.BuscarTodos();
-        public Pessoa BuscarPessoaPorId(int id) => _pessoaSQLRepository.BuscarPorId(id);
-        public void CriarPessoa(Pessoa usuario) => _pessoaSQLRepository.Criar(usuario);
-        public Pessoa AlterarPessoa(Pessoa usuario) => _pessoaSQLRepository.Alterar(usuario);
-        public void ExcluirPessoa(int id) => _pessoaSQLRepository.Excluir(id);
         #endregion
 
         #region TarefaRepository

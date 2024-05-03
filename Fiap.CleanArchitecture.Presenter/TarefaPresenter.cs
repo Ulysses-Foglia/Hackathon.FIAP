@@ -10,8 +10,6 @@ namespace Fiap.CleanArchitecture.Presenter
         public string Titulo { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
-        public PessoaPresenter Criador { get; set; }
-        //public IEnumerable<PessoaPresenter> Executores { get; set; }
 
         public TarefaPresenter(Tarefa tarefaEntity)
         {
@@ -20,11 +18,6 @@ namespace Fiap.CleanArchitecture.Presenter
             Titulo = tarefaEntity.Titulo;
             DataInicio = tarefaEntity.DataInicio;
             DataFim = tarefaEntity.DataFim;
-
-            if (tarefaEntity.Criador != null)
-                Criador = new PessoaPresenter(tarefaEntity.Criador);
-
-            //Executores
         }
 
         public static string ToJson(Tarefa tarefaEntity)

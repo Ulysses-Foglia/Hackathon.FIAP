@@ -7,8 +7,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         public string Titulo { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
-        public Pessoa Criador { get; set; }
-        public IEnumerable<Pessoa> Executores { get; set; }
 
         private readonly string MensagemCriadorInvalido
             = "Criador(a) da tarefa inválido ou inexistente!";
@@ -24,21 +22,16 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public Tarefa() { }
 
-        public Tarefa(string titulo, Pessoa criador)
+        public Tarefa(string titulo)
         {
             if (!TituloValido(titulo))
                 throw new Exception(MensagemTituloInvalido);
 
             Titulo = titulo;
-            Criador = criador;
-            Executores = [];
         }
 
-        public Tarefa(TarefaDAO tarefaDAO, Pessoa criador)
+        public Tarefa(TarefaDAO tarefaDAO)
         {
-            if (!CriadorValido(criador))
-                throw new Exception(MensagemCriadorInvalido);
-
             if (!TituloValido(tarefaDAO.Titulo))
                 throw new Exception(MensagemTituloInvalido);
 
@@ -51,7 +44,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             Titulo = tarefaDAO.Titulo;
             DataInicio = dataInicio;
             DataFim = dataFim;
-            Criador = criador;
         }
 
         public Tarefa(TarefaAlterarDAO tarefaAlterarDAO)
@@ -70,8 +62,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             DataInicio = dataInicio;
             DataFim = dataFim;
         }
-
-        private bool CriadorValido(Pessoa criador) => criador != null;
 
         private bool TituloValido(string titulo) => titulo.Length <= 100;
 
