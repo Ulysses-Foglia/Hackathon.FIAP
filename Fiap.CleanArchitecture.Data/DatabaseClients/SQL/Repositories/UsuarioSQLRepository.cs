@@ -23,19 +23,17 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
         public string GerarToken(Usuario usuario)
         {
-            if (!UsuarioAutenticado(usuario))
+            if (!UsuarioAutenticado(usuario, out Usuario usuarioAutenticado))
                 throw new Exception("Erro ao autenticar o usuário, por favor, tente novamente!");
 
             var expires = int.Parse(_configuration.GetSection("Authentication:ExpireTimeInHour").Value);
             var secret = _configuration.GetSection("Authentication:Secret").Value;
             var key = Encoding.UTF8.GetBytes(secret);
 
-            //var claimsInfo = "buscar infos para repassar no token";
-
-            var claims = new List<Claim>();
-
-            //foreach (var claim in claimsInfo)
-            //    claims.Add(new Claim(claimType, claimValue));
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Role, usuarioAutenticado.Papel.ToString())
+            };
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -56,7 +54,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             return tokenHandler.WriteToken(token);
         }
 
-        private bool UsuarioAutenticado(Usuario usuario)
+        private bool UsuarioAutenticado(Usuario usuario, out Usuario usuarioAutenticado)
         {
             bool autenticado = false;
 
@@ -69,7 +67,10 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
 
-                autenticado = conn.QuerySingleOrDefault<bool>(sql, param);
+                usuarioAutenticado = conn.QuerySingleOrDefault<Usuario>(sql, param);
+
+                if (usuarioAutenticado != null)
+                    autenticado = true;
             }
 
             return autenticado;
@@ -111,8 +112,10 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 var param = new DynamicParameters();
 
+                param.Add("@NOME", usuario.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
+                param.Add("@PAPEL", usuario.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
 
                 conn.Execute(sql, param, commandTimeout: Timeout);
             }
@@ -127,7 +130,9 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 var param = new DynamicParameters();
 
                 param.Add("@ID", usuario.Id, DbType.Int32, ParameterDirection.Input);
+                param.Add("@NOME", usuario.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@PAPEL", usuario.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
 
                 conn.Execute(sql, param, commandTimeout: Timeout);
             }

@@ -1,6 +1,8 @@
 ﻿using Fiap.CleanArchitecture.Data.Interfaces;
+using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Fiap.CleanArchitecture.Entity.Entities;
+using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
@@ -43,7 +45,7 @@ namespace Fiap.CleanArchitecture.Controller
 
         public void Criar(UsuarioDAO usuarioDAO)
         {
-            var usuario = new Usuario(usuarioDAO.Email, usuarioDAO.Senha);
+            var usuario = new Usuario(usuarioDAO);
 
             _usuarioGateway.Criar(usuario);
         }

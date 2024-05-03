@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Fiap.CleanArchitecture.Util\Fiap.CleanArchitecture.Util.csproj" />
   </ItemGroup>
 

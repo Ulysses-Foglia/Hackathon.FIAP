@@ -6,8 +6,8 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
     {
         IEnumerable<Tarefa> BuscarTodos();
         Tarefa BuscarPorId(int id);
-        void Criar(Tarefa pessoa);
-        Tarefa Alterar(Tarefa pessoa);
+        void Criar(Tarefa tarefa);
+        Tarefa Alterar(Tarefa tarefa);
         void Excluir(int id);
     }
 }

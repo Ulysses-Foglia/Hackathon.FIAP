@@ -14,7 +14,6 @@ builder.Services.AddScoped<IDatabaseClient>(provider
     => { return new SQLDatabaseClient(configuration); });
 
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-builder.Services.AddScoped<IPessoaGateway, PessoaGateway>();
 builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
 
 builder.Services.AddControllers();
