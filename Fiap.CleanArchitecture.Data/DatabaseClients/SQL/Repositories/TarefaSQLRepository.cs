@@ -51,8 +51,13 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 var param = new DynamicParameters();
                 
                 param.Add("@TITULO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@PRAZO_VALOR", tarefa.Prazo.Valor, DbType.Int32, ParameterDirection.Input);
+                param.Add("@PRAZO_UNIDADE", tarefa.Prazo.Unidade.ToString()[0], DbType.AnsiStringFixedLength, ParameterDirection.Input, 1);
+                param.Add("@STATUS", tarefa.Status.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
                 param.Add("@DATA_INICIO", tarefa.DataInicio, DbType.DateTime, ParameterDirection.Input);
                 param.Add("@DATA_FIM", tarefa.DataFim, DbType.DateTime, ParameterDirection.Input);
+                param.Add("@ID_CRIADOR", tarefa.Criador.Id, DbType.Int32, ParameterDirection.Input);
+                param.Add("@ID_RESPONSAVEL", tarefa.Responsavel?.Id, DbType.Int32, ParameterDirection.Input);
 
                 conn.Execute(sql, param, commandTimeout: Timeout);
             }
@@ -68,8 +73,12 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 param.Add("@ID", tarefa.Id, DbType.Int32, ParameterDirection.Input);
                 param.Add("@TITULO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@PRAZO_VALOR", tarefa.Prazo.Valor, DbType.Int32, ParameterDirection.Input);
+                param.Add("@PRAZO_UNIDADE", tarefa.Prazo.Unidade.ToString()[0], DbType.AnsiStringFixedLength, ParameterDirection.Input, 1);
+                param.Add("@STATUS", tarefa.Status.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
                 param.Add("@DATA_INICIO", tarefa.DataInicio, DbType.DateTime, ParameterDirection.Input);
                 param.Add("@DATA_FIM", tarefa.DataFim, DbType.DateTime, ParameterDirection.Input);
+                param.Add("@ID_RESPONSAVEL", tarefa.Responsavel.Id, DbType.Int32, ParameterDirection.Input);
 
                 conn.Execute(sql, param, commandTimeout: Timeout);
             }

@@ -1,69 +1,84 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
+using Fiap.CleanArchitecture.Entity.Enums;
+using Fiap.CleanArchitecture.Entity.Models;
 
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class Tarefa : EntityBase
     {
         public string Titulo { get; set; }
-        public DateTime DataInicio { get; set; }
-        public DateTime DataFim { get; set; }
-
-        private readonly string MensagemCriadorInvalido
-            = "Criador(a) da tarefa inválido ou inexistente!";
-
-        private readonly string MensagemTituloInvalido
-            = "O titulo deve possuir no máximo 100 caracteres!";
-
-        private readonly string MensagemDataInicioInvalida
-            = "A data inicio está em formato incorreto!";
-
-        private readonly string MensagemDataFimInvalida
-            = "A data fim está em formato incorreto!";
+        public Prazo Prazo { get; set; }
+        public TipoStatus Status { get; set; }
+        public DateTime? DataInicio { get; set; }
+        public DateTime? DataFim { get; set; }
+        public Usuario Criador { get; set; }
+        public Usuario Responsavel { get; set; }
 
         public Tarefa() { }
-
-        public Tarefa(string titulo)
-        {
-            if (!TituloValido(titulo))
-                throw new Exception(MensagemTituloInvalido);
-
-            Titulo = titulo;
-        }
 
         public Tarefa(TarefaDAO tarefaDAO)
         {
             if (!TituloValido(tarefaDAO.Titulo))
-                throw new Exception(MensagemTituloInvalido);
+                throw new Exception(MensagensValidacoes.Tarefa_Titulo);
 
-            if (!DataInicioValida(tarefaDAO.DataInicio, out DateTime dataInicio))
-                throw new Exception(MensagemDataInicioInvalida);
+            if (!PrazoValido(tarefaDAO.PrazoValor, tarefaDAO.PrazoUnidade, out Prazo prazo))
+                throw new Exception(MensagensValidacoes.Tarefa_Prazo);
 
-            if (!DataFimValida(tarefaDAO.DataFim, out DateTime dataFim))
-                throw new Exception(MensagemDataFimInvalida);
+            if (!StatusValido(tarefaDAO.Status, out TipoStatus status))
+                throw new Exception(MensagensValidacoes.Tarefa_Prazo);
 
             Titulo = tarefaDAO.Titulo;
-            DataInicio = dataInicio;
-            DataFim = dataFim;
+            Prazo = new Prazo() { Valor = prazo.Valor, Unidade = prazo.Unidade };
+            Status = status;
+            Criador = new Usuario() { Id = tarefaDAO.CriadorId };
         }
 
         public Tarefa(TarefaAlterarDAO tarefaAlterarDAO)
         {
             if (!TituloValido(tarefaAlterarDAO.Titulo))
-                throw new Exception(MensagemTituloInvalido);
+                throw new Exception(MensagensValidacoes.Tarefa_Titulo);
+
+            if (!PrazoValido(tarefaAlterarDAO.PrazoValor, tarefaAlterarDAO.PrazoUnidade, out Prazo prazo))
+                throw new Exception(MensagensValidacoes.Tarefa_Prazo);
+
+            if (!StatusValido(tarefaAlterarDAO.Status, out TipoStatus status))
+                throw new Exception(MensagensValidacoes.Tarefa_Prazo);
 
             if (!DataInicioValida(tarefaAlterarDAO.DataInicio, out DateTime dataInicio))
-                throw new Exception(MensagemDataInicioInvalida);
+                throw new Exception(MensagensValidacoes.Tarefa_DataInicio);
 
             if (!DataFimValida(tarefaAlterarDAO.DataFim, out DateTime dataFim))
-                throw new Exception(MensagemDataFimInvalida);
+                throw new Exception(MensagensValidacoes.Tarefa_DataFim);
 
             Id = tarefaAlterarDAO.Id;
             Titulo = tarefaAlterarDAO.Titulo;
+            Prazo = new Prazo() { Valor = prazo.Valor, Unidade = prazo.Unidade };
+            Status = status;
             DataInicio = dataInicio;
             DataFim = dataFim;
+            Responsavel = new Usuario() { Id = tarefaAlterarDAO.ResponsavelId };
         }
 
         private bool TituloValido(string titulo) => titulo.Length <= 100;
+
+        private bool PrazoValido(int valor, string unidadeString, out Prazo prazo)
+        {
+            bool valido;
+            var unidade = TipoUnidade.m;
+
+            valido = valor > 0 &&
+            Enum.TryParse(unidadeString, out unidade);
+            
+            prazo = new Prazo();
+
+            if (valido)
+                prazo = new Prazo() { Valor = valor, Unidade = unidade };
+
+            return valido;
+        }
+
+        private bool StatusValido(string statusString, out TipoStatus status) 
+            => Enum.TryParse(statusString, out status);
 
         private bool DataInicioValida(string dataInicioString, out DateTime dataInicio)
             => DateTime.TryParse(dataInicioString, out dataInicio);

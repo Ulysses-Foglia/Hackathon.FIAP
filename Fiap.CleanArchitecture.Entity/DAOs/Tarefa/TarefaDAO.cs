@@ -3,8 +3,9 @@
     public class TarefaDAO
     {
         public string Titulo { get; set; }
-        public string DataInicio { get; set; }
-        public string DataFim { get; set; }
+        public int PrazoValor { get; set; }
+        public string PrazoUnidade { get; set; }
+        public string Status { get; set; }
         public int CriadorId { get; set; }
     }
 }

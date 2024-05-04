@@ -1,4 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Entity.Entities;
+using Fiap.CleanArchitecture.Entity.Enums;
+using Fiap.CleanArchitecture.Entity.Models;
 
 namespace Fiap.CleanArchitecture.Entity.DTO
 {
@@ -7,11 +9,17 @@ namespace Fiap.CleanArchitecture.Entity.DTO
         public int Id { get; set; }
         public DateTime DataCriacao { get; set; }
         public string Titulo { get; set; }
-        public DateTime DataInicio { get; set; }
-        public DateTime DataFim { get; set; }
+        public int PrazoValor { get; set; }
+        public string PrazoUnidade { get; set; }
+        public string Status { get; set; }
+        public DateTime? DataInicio { get; set; }
+        public DateTime? DataFim { get; set; }
         public int CriadorId { get; set; }
-        public DateTime CriadorDataCriacao { get; set; }
         public string CriadorNome { get; set; }
+        public string CriadorEmail { get; set; }
+        public int? ResponsavelId { get; set; }
+        public string ResponsavelNome { get; set; }
+        public string ResponsavelEmail { get; set; }
 
         public static Tarefa ToEntity(TarefaDTO tarefaDTO)
         {
@@ -20,8 +28,25 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 Id = tarefaDTO.Id,
                 DataCriacao = tarefaDTO.DataCriacao,
                 Titulo = tarefaDTO.Titulo,
+                Prazo = new Prazo()
+                {
+                    Valor = tarefaDTO.PrazoValor,
+                    Unidade = Enum.Parse<TipoUnidade>(tarefaDTO.PrazoUnidade)
+                },
+                Status = Enum.Parse<TipoStatus>(tarefaDTO.Status),
                 DataInicio = tarefaDTO.DataInicio,
-                DataFim = tarefaDTO.DataFim
+                DataFim = tarefaDTO.DataFim,
+                Criador = new Usuario()
+                {
+                    Nome = tarefaDTO.CriadorNome,
+                    Email = tarefaDTO.CriadorEmail
+                },
+                Responsavel = tarefaDTO.ResponsavelNome != null ? 
+                new Usuario()
+                {
+                    Nome = tarefaDTO.ResponsavelNome,
+                    Email = tarefaDTO.ResponsavelEmail
+                } : null
             };
         }
 
