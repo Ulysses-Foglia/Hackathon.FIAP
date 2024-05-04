@@ -8,16 +8,24 @@ namespace Fiap.CleanArchitecture.Presenter
         public int Id { get; set; }
         public DateTime DataCriacao { get; set; }
         public string Titulo { get; set; }
-        public DateTime DataInicio { get; set; }
-        public DateTime DataFim { get; set; }
+        public PrazoPresenter Prazo { get; set; }
+        public string Status { get; set; }
+        public DateTime? DataInicio { get; set; }
+        public DateTime? DataFim { get; set; }
+        public UsuarioTarefaPresenter Criador { get; set; }
+        public UsuarioTarefaPresenter Responsavel { get; set; }
 
         public TarefaPresenter(Tarefa tarefaEntity)
         {
             Id = tarefaEntity.Id;
             DataCriacao = tarefaEntity.DataCriacao;
             Titulo = tarefaEntity.Titulo;
+            Prazo = new PrazoPresenter(tarefaEntity.Prazo);
+            Status = tarefaEntity.Status.ToString();
             DataInicio = tarefaEntity.DataInicio;
             DataFim = tarefaEntity.DataFim;
+            Criador = new UsuarioTarefaPresenter(tarefaEntity.Criador);
+            Responsavel = new UsuarioTarefaPresenter(tarefaEntity.Responsavel);
         }
 
         public static string ToJson(Tarefa tarefaEntity)

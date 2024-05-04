@@ -1,5 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Fiap.CleanArchitecture.Entity.Enums;
+using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.Util;
 
 namespace Fiap.CleanArchitecture.Entity.Entities
@@ -13,27 +14,15 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public IEnumerable<Tarefa> Tarefas { get; set; }
 
-        private readonly string MensagemNomeInvalido
-            = "Nome deve possuir no máximo 100 caracteres!";
-
-        private readonly string MensagemEmailInvalido
-            = "Email no formato incorreto!";
-
-        private readonly string MensagemSenhaInvalida
-            = "A senha deve possuir entre 6 e 20 caracteres!";
-
-        private readonly string MensagemPapelInvalido
-            = "Papel incorreto! Em caso de dúvida, utilize o valor 'Comum'.";
-
         public Usuario() { }
 
         public Usuario(string email, string senha)
         {
             if (!EmailValido(email))
-                throw new Exception(MensagemEmailInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Email);
 
             if (!SenhaValida(senha))
-                throw new Exception(MensagemSenhaInvalida);
+                throw new Exception(MensagensValidacoes.Usuario_Senha);
 
             Email = email;
             Senha = Crypto.Encode(senha);
@@ -42,16 +31,16 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         public Usuario(UsuarioDAO usuarioDAO) 
         {
             if (!NomeValido(usuarioDAO.Nome))
-                throw new Exception(MensagemNomeInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Nome);
 
             if (!EmailValido(usuarioDAO.Email))
-                throw new Exception(MensagemEmailInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Email);
             
             if (!SenhaValida(usuarioDAO.Senha))
-                throw new Exception(MensagemSenhaInvalida);
+                throw new Exception(MensagensValidacoes.Usuario_Senha);
 
             if (!PapelValido(usuarioDAO.Papel, out TipoPapel papel))
-                throw new Exception(MensagemPapelInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Papel);
 
             Nome = usuarioDAO.Nome;
             Email = usuarioDAO.Email;            
@@ -62,13 +51,13 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         public Usuario(UsuarioAlterarDAO usuarioAlterarDAO)
         {
             if (!NomeValido(usuarioAlterarDAO.Nome))
-                throw new Exception(MensagemNomeInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Nome);
 
             if (!EmailValido(usuarioAlterarDAO.Email))
-                throw new Exception(MensagemEmailInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Email);
 
             if (!PapelValido(usuarioAlterarDAO.Papel, out TipoPapel papel))
-                throw new Exception(MensagemPapelInvalido);
+                throw new Exception(MensagensValidacoes.Usuario_Papel);
 
             Id = usuarioAlterarDAO.Id;
             Nome = usuarioAlterarDAO.Nome;
