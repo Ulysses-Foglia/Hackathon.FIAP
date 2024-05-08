@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fiap.CleanArchitecture.Controller
+namespace Fiap.CleanArchitecture.Controller.Interface
 {
     public interface IUsuarioControlador
     {
@@ -16,7 +16,7 @@ namespace Fiap.CleanArchitecture.Controller
         string BuscarPorId(int id);
         void Criar(UsuarioDAO usuarioDAO);
         string Alterar(UsuarioAlterarDAO usuarioAlterarDAO);
-        void Excluir(int id);       
-        
+        void Excluir(int id);
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using Fiap.CleanArchitecture.Controller;
+﻿using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Microsoft.AspNetCore.Authorization;
@@ -9,14 +9,16 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     public class TarefaController : ControllerBase
-    {
-        private readonly IDatabaseClient _databaseClient;
-        private readonly TarefaControlador _tarefaControlador;
+    {   
+        private readonly IDatabaseClient _databaseClient;        
+        private readonly IControladorFactory<ITarefaControlador> _controladorFactory;
+        private ITarefaControlador _tarefaControlador;
 
-        public TarefaController(IDatabaseClient databaseClient)
+        public TarefaController(IDatabaseClient databaseClient, IControladorFactory<ITarefaControlador> tarefaControladorFactory)
         {
             _databaseClient = databaseClient;
-            _tarefaControlador = new TarefaControlador(_databaseClient);
+            _controladorFactory = tarefaControladorFactory;
+            _tarefaControlador = _controladorFactory.CriarControlador(_databaseClient);
         }
 
         [Authorize]

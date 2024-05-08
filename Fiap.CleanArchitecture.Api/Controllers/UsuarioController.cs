@@ -1,4 +1,4 @@
-using Fiap.CleanArchitecture.Controller;
+using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;

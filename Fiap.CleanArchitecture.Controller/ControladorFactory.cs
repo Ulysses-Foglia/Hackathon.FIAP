@@ -1,4 +1,5 @@
-﻿using Fiap.CleanArchitecture.Data.Interfaces;
+﻿using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Data.Interfaces;
 
 namespace Fiap.CleanArchitecture.Controller
 {

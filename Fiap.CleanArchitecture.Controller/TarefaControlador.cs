@@ -1,4 +1,5 @@
-﻿using Fiap.CleanArchitecture.Data.Interfaces;
+﻿using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
@@ -7,7 +8,7 @@ using Fiap.CleanArchitecture.Presenter;
 
 namespace Fiap.CleanArchitecture.Controller
 {
-    public class TarefaControlador
+    public class TarefaControlador : ITarefaControlador
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly ITarefaGateway _tarefaGateway;

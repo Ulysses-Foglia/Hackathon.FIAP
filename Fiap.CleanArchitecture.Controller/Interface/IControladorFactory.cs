@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fiap.CleanArchitecture.Controller
+namespace Fiap.CleanArchitecture.Controller.Interface
 {
     public interface IControladorFactory<T>
     {

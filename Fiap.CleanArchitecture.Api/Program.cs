@@ -1,4 +1,6 @@
 using Fiap.CleanArchitecture.Api;
+using Fiap.CleanArchitecture.Controller;
+using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.DatabaseClients.SQL;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Gateway;
@@ -15,6 +17,10 @@ builder.Services.AddScoped<IDatabaseClient>(provider
 
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
 builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
+
+builder.Services.AddScoped(typeof(IControladorFactory<>), typeof(ControladorFactory<>));
+builder.Services.AddScoped<IUsuarioControlador, UsuarioControlador>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
