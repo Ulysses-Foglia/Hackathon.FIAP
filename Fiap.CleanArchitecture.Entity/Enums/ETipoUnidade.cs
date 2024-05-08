@@ -1,6 +1,6 @@
 ﻿namespace Fiap.CleanArchitecture.Entity.Enums
 {
-    public enum TipoUnidade
+    public enum ETipoUnidade
     {
         /// <summary>
         /// Minutos

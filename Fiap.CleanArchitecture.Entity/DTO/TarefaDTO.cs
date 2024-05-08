@@ -31,9 +31,9 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 Prazo = new Prazo()
                 {
                     Valor = tarefaDTO.PrazoValor,
-                    Unidade = Enum.Parse<TipoUnidade>(tarefaDTO.PrazoUnidade)
+                    Unidade = Enum.Parse<ETipoUnidade>(tarefaDTO.PrazoUnidade)
                 },
-                Status = Enum.Parse<TipoStatus>(tarefaDTO.Status),
+                Status = Enum.Parse<ETipoStatus>(tarefaDTO.Status),
                 DataInicio = tarefaDTO.DataInicio,
                 DataFim = tarefaDTO.DataFim,
                 Criador = new Usuario()
