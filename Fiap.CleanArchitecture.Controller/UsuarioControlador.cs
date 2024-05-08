@@ -9,7 +9,7 @@ using Fiap.CleanArchitecture.Presenter;
 
 namespace Fiap.CleanArchitecture.Controller
 {
-    public class UsuarioControlador
+    public class UsuarioControlador : IUsuarioControlador
     {
         private readonly IUsuarioGateway _usuarioGateway;
         private readonly IDatabaseClient _databaseClient;

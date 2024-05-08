@@ -5,6 +5,7 @@ using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace Fiap.CleanArchitecture.Api.Controllers
 {
     [ApiController]
@@ -12,12 +13,14 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IDatabaseClient _databaseClient;
-        private readonly UsuarioControlador _usuarioControlador;
+        private readonly IControladorFactory<IUsuarioControlador> _controladorFactory;
+        private IUsuarioControlador _usuarioControlador;
 
-        public UsuarioController(IDatabaseClient databaseClient)
+        public UsuarioController(IDatabaseClient databaseClient, IControladorFactory<IUsuarioControlador> usuarioControladorFactory)
         {
             _databaseClient = databaseClient;
-            _usuarioControlador = new(_databaseClient);
+            _controladorFactory = usuarioControladorFactory;
+            _usuarioControlador = _controladorFactory.CriarControlador(_databaseClient);
         }
 
         [HttpPost]
@@ -26,6 +29,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
+                
                 var token = _usuarioControlador.GerarToken(usuarioDAO);
 
                 return Ok(new { token });
