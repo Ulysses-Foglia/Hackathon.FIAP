@@ -16,5 +16,7 @@ namespace Fiap.CleanArchitecture.Controller.Interface
         public void Criar(TarefaDAO tarefaDAO);
         public string Alterar(TarefaAlterarDAO tarefaAlterarDAO);
         public void Excluir(int id);
+        public string AlterarSituacao(int IdTarefa, string situacao);
+        public string AtribuaUmNovoResponsavel(int IdTarefa, string situacao, int IdResponsavel);
     }
 }

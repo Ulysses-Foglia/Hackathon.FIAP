@@ -59,7 +59,9 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                _tarefaControlador.Criar(tarefaDAO);
+
+
+               _tarefaControlador.Criar(tarefaDAO);
 
                 return Ok();
             }
@@ -76,6 +78,42 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             try
             {
                 var novaTarefa = _tarefaControlador.Alterar(tarefaAlterarDAO);
+
+                return Ok(novaTarefa);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("alterar-situacao")]
+        public IActionResult AlterarSituacao([FromBody] TarefaAlterarSituacaoDAO tarefaAlterarSituacaoDAO)
+        {
+            if (!ModelState.IsValid) { return StatusCode(500); }
+
+            try
+            {
+                var novaTarefa = _tarefaControlador.AlterarSituacao(tarefaAlterarSituacaoDAO.Id, tarefaAlterarSituacaoDAO.Status);
+
+                return Ok(novaTarefa);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("atribuir-responsavel")]
+        public IActionResult AtribuirResponsavel([FromBody] TarefaAtribuirResponsavelDAO tarefaAtribuirResponsavelDAO)
+        {
+            if (!ModelState.IsValid) { return StatusCode(500); }
+
+            try
+            {
+                var novaTarefa = _tarefaControlador.AtribuaUmNovoResponsavel(tarefaAtribuirResponsavelDAO.Id, tarefaAtribuirResponsavelDAO.Status, tarefaAtribuirResponsavelDAO.IdResponsavel);
 
                 return Ok(novaTarefa);
             }

@@ -2,9 +2,12 @@
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Entities;
+using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
+using Fiap.CleanArchitecture.UseCase;
+using Fiap.CleanArchitecture.UseCase.Interfaces;
 
 namespace Fiap.CleanArchitecture.Controller
 {
@@ -12,11 +15,14 @@ namespace Fiap.CleanArchitecture.Controller
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly ITarefaGateway _tarefaGateway;
-
+        private readonly IUsuarioGateway _usuarioGateway;
+        private readonly ITarefaUseCase _tarefaUseCase;
         public TarefaControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
             _tarefaGateway = new TarefaGateway(_databaseClient);
+            _usuarioGateway = new UsuarioGateway(_databaseClient);
+            _tarefaUseCase = new TarefaUseCase(_tarefaGateway, _usuarioGateway);
         }
 
         public string BuscarTodos()
@@ -35,7 +41,8 @@ namespace Fiap.CleanArchitecture.Controller
 
         public void Criar(TarefaDAO tarefaDAO)
         {
-            var tarefa = new Tarefa(tarefaDAO);
+
+            var tarefa = new Tarefa(_tarefaUseCase.RegistreTarefa(tarefaDAO));
 
             _tarefaGateway.Criar(tarefa);
         }
@@ -47,6 +54,30 @@ namespace Fiap.CleanArchitecture.Controller
             var novaTarefa = _tarefaGateway.Alterar(tarefa);
 
             return TarefaPresenter.ToJson(novaTarefa);
+        }
+
+        public string AlterarSituacao(int IdTarefa, string situacao)
+        {
+
+            ETipoStatus enumTipoStatus;
+            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
+
+            var novaTarefa = _tarefaUseCase.AltereSituacao(IdTarefa, enumTipoStatus);
+
+            return TarefaPresenter.ToJson(novaTarefa);
+
+        }
+
+        public string AtribuaUmNovoResponsavel(int IdTarefa, string situacao, int IdResponsavel)
+        {
+
+            ETipoStatus enumTipoStatus;
+            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
+
+            var novaTarefa = _tarefaUseCase.AtribuaUmResponsavel(IdTarefa, enumTipoStatus,IdResponsavel);
+
+            return TarefaPresenter.ToJson(novaTarefa);
+
         }
 
         public void Excluir(int id)

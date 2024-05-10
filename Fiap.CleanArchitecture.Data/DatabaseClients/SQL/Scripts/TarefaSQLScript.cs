@@ -8,6 +8,7 @@
             	T.ID AS Id,
             	T.DATA_CRIACAO AS DataCriacao,
             	T.TITULO AS Titulo,
+                T.DESCRICAO AS Descricao,
             	T.PRAZO_VALOR AS PrazoValor,
             	T.PRAZO_UNIDADE AS PrazoUnidade,
             	T.[STATUS] AS [Status],
@@ -31,14 +32,17 @@
             	T.ID AS Id,
             	T.DATA_CRIACAO AS DataCriacao,
             	T.TITULO AS Titulo,
+                T.DESCRICAO AS Descricao,
             	T.PRAZO_VALOR AS PrazoValor,
             	T.PRAZO_UNIDADE AS PrazoUnidade,
             	T.[STATUS] AS [Status],
             	T.DATA_INICIO AS DataInicio,
             	T.DATA_FIM AS DataFim,
+                U_C.ID AS CriadorId,
             	U_C.NOME AS CriadorNome,
             	U_C.EMAIL AS CriadorEmail,
             	U_C.PAPEL AS CriadorPapel,
+                U_R.ID AS ResponsavelId,
             	U_R.NOME AS ResponsavelNome,
             	U_R.EMAIL AS ResponsavelEmail,
             	U_R.PAPEL AS ResponsavelPapel
@@ -52,10 +56,10 @@
         public static string Criar => @"
 
             INSERT INTO TAREFAS 
-                (DATA_CRIACAO, TITULO, PRAZO_VALOR, PRAZO_UNIDADE, 
+                (DATA_CRIACAO, TITULO, DESCRICAO, PRAZO_VALOR, PRAZO_UNIDADE, 
                 [STATUS], DATA_INICIO, DATA_FIM, ID_CRIADOR, ID_RESPONSAVEL) 
             VALUES 
-                (GETDATE(), @TITULO, @PRAZO_VALOR, @PRAZO_UNIDADE, 
+                (GETDATE(), @TITULO, @DESCRICAO, @PRAZO_VALOR, @PRAZO_UNIDADE, 
                 @STATUS, @DATA_INICIO, @DATA_FIM, @ID_CRIADOR, @ID_RESPONSAVEL)
 
         ";
@@ -64,6 +68,7 @@
 
             UPDATE TAREFAS SET
             	TITULO = @TITULO,
+                DESCRICAO =@DESCRICAO,
             	PRAZO_VALOR = @PRAZO_VALOR,
             	PRAZO_UNIDADE = @PRAZO_UNIDADE,
             	[STATUS] = @STATUS,
