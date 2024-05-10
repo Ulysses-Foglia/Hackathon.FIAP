@@ -28,4 +28,9 @@
     <ProjectReference Include="..\Fiap.CleanArchitecture.Entity\Fiap.CleanArchitecture.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="UseCases\" />
+  </ItemGroup>
+
 </Project>
