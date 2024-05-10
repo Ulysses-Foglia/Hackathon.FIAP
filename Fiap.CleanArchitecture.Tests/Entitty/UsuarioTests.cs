@@ -39,7 +39,7 @@ namespace Fiap.CleanArchitecture.Tests.Entitty
 
             UsuarioDAO usuarioDAO = _faker.Generate();
 
-            //Dado do nome Invalido para teste
+            //Dado do email Invalido para teste
             usuarioDAO.Email = "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
             var domainException = Assert.ThrowsAny<DomainException>(() => new Usuario(usuarioDAO));
@@ -55,7 +55,7 @@ namespace Fiap.CleanArchitecture.Tests.Entitty
 
             UsuarioDAO usuarioDAO = _faker.Generate();
 
-            //Dado do nome Invalido para teste
+            //Dado do senha Invalido para teste
             usuarioDAO.Senha = "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
             var domainException = Assert.ThrowsAny<DomainException>(() => new Usuario(usuarioDAO));
@@ -70,7 +70,7 @@ namespace Fiap.CleanArchitecture.Tests.Entitty
 
             UsuarioDAO usuarioDAO = _faker.Generate();
 
-            //Dado do nome Invalido para teste
+            //Dado do papel Invalido para teste
             usuarioDAO.Papel = "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
             var domainException = Assert.ThrowsAny<DomainException>(() => new Usuario(usuarioDAO));

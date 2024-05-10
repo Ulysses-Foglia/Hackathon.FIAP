@@ -11,24 +11,11 @@ namespace Fiap.CleanArchitecture.Tests.Entitty
         private readonly Faker<TarefaAlterarDAO> _fakerAlteracao; 
         public TarefaTests()
         {
-            _faker = new Faker<TarefaDAO>()
-             .RuleFor(t => t.Titulo, f => f.Lorem.Word())
-             .RuleFor(t => t.PrazoValor, f => f.Random.Number(1, 30)) 
-             .RuleFor(t => t.PrazoUnidade, f => f.PickRandom("d", "m", "h", "M", "S")) 
-             .RuleFor(t => t.Status, f => f.PickRandom("Pendente", "Atribuida", "EmAndamento", "PendenteAprovacao", "Concluida")) 
-             .RuleFor(t => t.CriadorId, f => f.Random.Number(1, 100));
-
-            _fakerAlteracao = new Faker<TarefaAlterarDAO>()
-            .RuleFor(t => t.Id, f => f.Random.Number(1, 1000))
-            .RuleFor(t => t.Titulo, f => f.Lorem.Word())
-            .RuleFor(t => t.PrazoValor, f => f.Random.Number(1, 30))
-            .RuleFor(t => t.PrazoUnidade, f => f.PickRandom("d", "m", "h", "M", "S"))
-            .RuleFor(t => t.Status, f => f.PickRandom("Pendente", "Atribuida", "EmAndamento", "PendenteAprovacao", "Concluida"))
-            .RuleFor(t => t.DataInicio, f => f.Date.Past().ToString("yyyy-MM-dd"))
-            .RuleFor(t => t.DataFim, f => f.Date.Future().ToString("yyyy-MM-dd"))
-            .RuleFor(t => t.ResponsavelId, f => f.Random.Number(1, 100));
-           
+            _faker = RetornarFakerDao();
+            _fakerAlteracao = RetornarTarefaAlterarDAO();
         }
+
+
 
         [Fact]
         public void Tarefa_Validar_Titulo_Tamanho()
@@ -89,12 +76,26 @@ namespace Fiap.CleanArchitecture.Tests.Entitty
             TarefaAlterarDAO tarefaAlterarDAO = _fakerAlteracao.Generate();
             tarefaAlterarDAO.DataFim = "2024-05-15 11:31:01 testeInvalido";
 
-
             var domainException = Assert.ThrowsAny<DomainException>(() => new Tarefa(tarefaAlterarDAO));
 
             Assert.Contains("Data Fim está em formato incorreto!", domainException.Message);
         }
 
+        public Faker<TarefaDAO> RetornarFakerDao() =>  new Faker<TarefaDAO>()
+             .RuleFor(t => t.Titulo, f => f.Lorem.Word())
+             .RuleFor(t => t.PrazoValor, f => f.Random.Number(1, 30))
+             .RuleFor(t => t.PrazoUnidade, f => f.PickRandom("d", "m", "h", "M", "S"))
+             .RuleFor(t => t.Status, f => f.PickRandom("Pendente", "Atribuida", "EmAndamento", "PendenteAprovacao", "Concluida"))
+             .RuleFor(t => t.CriadorId, f => f.Random.Number(1, 100));
 
+        public Faker<TarefaAlterarDAO> RetornarTarefaAlterarDAO() => new Faker<TarefaAlterarDAO>()
+            .RuleFor(t => t.Id, f => f.Random.Number(1, 1000))
+            .RuleFor(t => t.Titulo, f => f.Lorem.Word())
+            .RuleFor(t => t.PrazoValor, f => f.Random.Number(1, 30))
+            .RuleFor(t => t.PrazoUnidade, f => f.PickRandom("d", "m", "h", "M", "S"))
+            .RuleFor(t => t.Status, f => f.PickRandom("Pendente", "Atribuida", "EmAndamento", "PendenteAprovacao", "Concluida"))
+            .RuleFor(t => t.DataInicio, f => f.Date.Past().ToString("yyyy-MM-dd"))
+            .RuleFor(t => t.DataFim, f => f.Date.Future().ToString("yyyy-MM-dd"))
+            .RuleFor(t => t.ResponsavelId, f => f.Random.Number(1, 100));
     }
 }
