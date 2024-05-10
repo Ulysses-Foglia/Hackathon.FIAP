@@ -1,4 +1,6 @@
-﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+﻿using Fiap.CleanArchitecture.Entities;
+using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
+using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.Util;
@@ -30,6 +32,8 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public Usuario(UsuarioDAO usuarioDAO) 
         {
+            ValidarEntity(usuarioDAO);
+
             if (!NomeValido(usuarioDAO.Nome))
                 throw new Exception(MensagensValidacoes.Usuario_Nome);
 
@@ -78,6 +82,14 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         {
             return senha.Length >= 6
                 && senha.Length <= 20;
+        }
+
+        public void ValidarEntity(UsuarioDAO usuarioDAO)
+        {
+            AssertionConcern.AssertArgumentTrue(NomeValido(usuarioDAO.Nome), MensagensValidacoes.Usuario_Nome);
+            AssertionConcern.AssertArgumentTrue(EmailValido(usuarioDAO.Email), MensagensValidacoes.Usuario_Email);
+            AssertionConcern.AssertArgumentTrue(SenhaValida(usuarioDAO.Senha), MensagensValidacoes.Usuario_Senha);
+            AssertionConcern.AssertArgumentTrue(PapelValido(usuarioDAO.Papel, out TipoPapel papel), MensagensValidacoes.Usuario_Papel);
         }
 
         public bool PapelValido(string papel, out TipoPapel tipoPapel) 

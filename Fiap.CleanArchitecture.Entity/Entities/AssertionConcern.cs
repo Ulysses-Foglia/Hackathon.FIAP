@@ -2,7 +2,7 @@
 
 namespace Fiap.CleanArchitecture.Entities
 {
-    public class AssertionConcern
+    public class AssertionConcern 
     {
         /// <summary>
         /// Validação de tamanho máximo de string

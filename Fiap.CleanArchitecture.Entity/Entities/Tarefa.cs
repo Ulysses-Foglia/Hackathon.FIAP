@@ -31,7 +31,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
                 throw new Exception(MensagensValidacoes.Tarefa_Prazo);
 
             if (!StatusValido(tarefaDAO.Status, out ETipoStatus status))
-                throw new Exception(MensagensValidacoes.Tarefa_Prazo);
+                throw new Exception(MensagensValidacoes.Tarefa_Status);
 
             Titulo = tarefaDAO.Titulo;
             Prazo = new Prazo() { Valor = prazo.Valor, Unidade = prazo.Unidade };
@@ -121,6 +121,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             AssertionConcern.AssertArgumentTrue(StatusValido(tarefaAlterarDAO.Status, out ETipoStatus status), MensagensValidacoes.Tarefa_Status);
             AssertionConcern.AssertArgumentTrue(DataInicioValida(tarefaAlterarDAO.DataInicio, out DateTime dataInicio), MensagensValidacoes.Tarefa_DataInicio);
             AssertionConcern.AssertArgumentTrue(DataFimValida(tarefaAlterarDAO.DataFim, out DateTime dataFim), MensagensValidacoes.Tarefa_DataFim);
+
         }
     }
 }
