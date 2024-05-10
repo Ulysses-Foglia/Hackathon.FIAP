@@ -1,7 +1,5 @@
 ﻿using Bogus;
-using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
-using Fiap.CleanArchitecture.Entity.DTO;
 using Fiap.CleanArchitecture.Entity.Entities;
 
 
