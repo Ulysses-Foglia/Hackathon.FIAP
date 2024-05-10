@@ -1,4 +1,5 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
+using Fiap.CleanArchitecture.Entity.DTO;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 
@@ -7,6 +8,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
     public class Tarefa : EntityBase
     {
         public string Titulo { get; set; }
+        public string Descricao { get; set; }
         public Prazo Prazo { get; set; }
         public TipoStatus Status { get; set; }
         public DateTime? DataInicio { get; set; }
@@ -20,23 +22,31 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         {
             if (!TituloValido(tarefaDAO.Titulo))
                 throw new Exception(MensagensValidacoes.Tarefa_Titulo);
+            
+            if (!DescricaoValido(tarefaDAO.Descricao))
+                throw new Exception(MensagensValidacoes.Tarefa_Descricao);
 
             if (!PrazoValido(tarefaDAO.PrazoValor, tarefaDAO.PrazoUnidade, out Prazo prazo))
                 throw new Exception(MensagensValidacoes.Tarefa_Prazo);
 
             if (!StatusValido(tarefaDAO.Status, out TipoStatus status))
                 throw new Exception(MensagensValidacoes.Tarefa_Prazo);
-
+            
+            Descricao = tarefaDAO.Descricao;
             Titulo = tarefaDAO.Titulo;
             Prazo = new Prazo() { Valor = prazo.Valor, Unidade = prazo.Unidade };
             Status = status;
             Criador = new Usuario() { Id = tarefaDAO.CriadorId };
+            DataCriacao = DateTime.Now;
         }
 
         public Tarefa(TarefaAlterarDAO tarefaAlterarDAO)
         {
             if (!TituloValido(tarefaAlterarDAO.Titulo))
                 throw new Exception(MensagensValidacoes.Tarefa_Titulo);
+
+            if (!DescricaoValido(tarefaAlterarDAO.Descricao))
+                throw new Exception(MensagensValidacoes.Tarefa_Descricao);
 
             if (!PrazoValido(tarefaAlterarDAO.PrazoValor, tarefaAlterarDAO.PrazoUnidade, out Prazo prazo))
                 throw new Exception(MensagensValidacoes.Tarefa_Prazo);
@@ -52,6 +62,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
             Id = tarefaAlterarDAO.Id;
             Titulo = tarefaAlterarDAO.Titulo;
+            Descricao = tarefaAlterarDAO.Descricao;
             Prazo = new Prazo() { Valor = prazo.Valor, Unidade = prazo.Unidade };
             Status = status;
             DataInicio = dataInicio;
@@ -60,6 +71,8 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         }
 
         private bool TituloValido(string titulo) => titulo.Length <= 100;
+
+        private bool DescricaoValido(string desc) => desc.Length <= 2000;
 
         private bool PrazoValido(int valor, string unidadeString, out Prazo prazo)
         {

@@ -9,6 +9,7 @@ namespace Fiap.CleanArchitecture.Entity.DTO
         public int Id { get; set; }
         public DateTime DataCriacao { get; set; }
         public string Titulo { get; set; }
+        public string Descricao { get; set; }
         public int PrazoValor { get; set; }
         public string PrazoUnidade { get; set; }
         public string Status { get; set; }
@@ -28,6 +29,7 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 Id = tarefaDTO.Id,
                 DataCriacao = tarefaDTO.DataCriacao,
                 Titulo = tarefaDTO.Titulo,
+                Descricao = tarefaDTO.Descricao,
                 Prazo = new Prazo()
                 {
                     Valor = tarefaDTO.PrazoValor,
@@ -38,12 +40,14 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 DataFim = tarefaDTO.DataFim,
                 Criador = new Usuario()
                 {
+                    Id = tarefaDTO.CriadorId,
                     Nome = tarefaDTO.CriadorNome,
                     Email = tarefaDTO.CriadorEmail
                 },
                 Responsavel = tarefaDTO.ResponsavelNome != null ? 
                 new Usuario()
                 {
+                    Id = tarefaDTO.ResponsavelId.Value,
                     Nome = tarefaDTO.ResponsavelNome,
                     Email = tarefaDTO.ResponsavelEmail
                 } : null

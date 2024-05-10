@@ -51,6 +51,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 var param = new DynamicParameters();
                 
                 param.Add("@TITULO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@DESCRICAO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 2000);
                 param.Add("@PRAZO_VALOR", tarefa.Prazo.Valor, DbType.Int32, ParameterDirection.Input);
                 param.Add("@PRAZO_UNIDADE", tarefa.Prazo.Unidade.ToString()[0], DbType.AnsiStringFixedLength, ParameterDirection.Input, 1);
                 param.Add("@STATUS", tarefa.Status.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
@@ -73,6 +74,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 param.Add("@ID", tarefa.Id, DbType.Int32, ParameterDirection.Input);
                 param.Add("@TITULO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@DESCRICAO", tarefa.Titulo, DbType.AnsiString, ParameterDirection.Input, 2000);
                 param.Add("@PRAZO_VALOR", tarefa.Prazo.Valor, DbType.Int32, ParameterDirection.Input);
                 param.Add("@PRAZO_UNIDADE", tarefa.Prazo.Unidade.ToString()[0], DbType.AnsiStringFixedLength, ParameterDirection.Input, 1);
                 param.Add("@STATUS", tarefa.Status.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
