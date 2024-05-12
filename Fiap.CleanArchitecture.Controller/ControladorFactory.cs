@@ -13,13 +13,13 @@ namespace Fiap.CleanArchitecture.Controller
             foreach (var constructor in constructors)
             {
                 var parameters = constructor.GetParameters();
-                
-                if (parameters.Any(p => p.ParameterType == typeof(IDatabaseClient)))                
-                    return (T)constructor.Invoke(new object[] { databaseClient });  
+
+                if (parameters.Any(p => p.ParameterType == typeof(IDatabaseClient)))
+                    return (T)constructor.Invoke(new object[] { databaseClient });
             }
 
             throw new InvalidOperationException($"O tipo {typeof(T).Name} não tem um construtor que aceita um IDatabaseClient.");
-           
+
         }
     }
 }

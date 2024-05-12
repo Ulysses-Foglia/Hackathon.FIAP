@@ -29,7 +29,7 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 Id = tarefaDTO.Id,
                 DataCriacao = tarefaDTO.DataCriacao,
                 Titulo = tarefaDTO.Titulo,
-                Descricao = tarefaDTO.Descricao,
+                Descricao = tarefaDTO?.Descricao,
                 Prazo = new Prazo()
                 {
                     Valor = tarefaDTO.PrazoValor,
@@ -47,7 +47,7 @@ namespace Fiap.CleanArchitecture.Entity.DTO
                 Responsavel = tarefaDTO.ResponsavelNome != null ? 
                 new Usuario()
                 {
-                    Id = tarefaDTO.ResponsavelId.Value,
+                    Id = tarefaDTO.ResponsavelId.GetValueOrDefault(),
                     Nome = tarefaDTO.ResponsavelNome,
                     Email = tarefaDTO.ResponsavelEmail
                 } : null
@@ -58,9 +58,9 @@ namespace Fiap.CleanArchitecture.Entity.DTO
         {
             List<Tarefa> tarefas = [];
 
-            foreach (var tarefaDTO in tarefasDTO)
-                tarefas.Add(ToEntity(tarefaDTO));
-
+            foreach (var tarefaDTO in tarefasDTO)                
+                    tarefas.Add(ToEntity(tarefaDTO));              
+                 
             return tarefas;
         }
     }
