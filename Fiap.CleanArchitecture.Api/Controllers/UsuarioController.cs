@@ -1,3 +1,4 @@
+using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Attribute;
@@ -13,10 +14,10 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IDatabaseClient _databaseClient;
-        private readonly IControladorFactory<IUsuarioControlador> _controladorFactory;
+        private readonly IControladorFactory<UsuarioControlador> _controladorFactory;
         private IUsuarioControlador _usuarioControlador;
 
-        public UsuarioController(IDatabaseClient databaseClient, IControladorFactory<IUsuarioControlador> usuarioControladorFactory)
+        public UsuarioController(IDatabaseClient databaseClient, IControladorFactory<UsuarioControlador> usuarioControladorFactory)
         {
             _databaseClient = databaseClient;
             _controladorFactory = usuarioControladorFactory;

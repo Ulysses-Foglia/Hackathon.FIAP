@@ -1,5 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
+using Newtonsoft.Json.Linq;
 
 namespace Fiap.CleanArchitecture.Controller
 {
@@ -7,12 +8,18 @@ namespace Fiap.CleanArchitecture.Controller
     {
         public T CriarControlador(IDatabaseClient databaseClient)
         {
-            var constructor = typeof(T).GetConstructor(new[] { typeof(IDatabaseClient) });
+            var constructors = typeof(T).GetConstructors();
 
-            if (constructor == null)
-                throw new InvalidOperationException($"O tipo {typeof(T).Name} não tem um construtor que aceita um IDatabaseClient.");
+            foreach (var constructor in constructors)
+            {
+                var parameters = constructor.GetParameters();
+                
+                if (parameters.Any(p => p.ParameterType == typeof(IDatabaseClient)))                
+                    return (T)constructor.Invoke(new object[] { databaseClient });  
+            }
 
-            return (T)constructor.Invoke(new object[] { databaseClient });
+            throw new InvalidOperationException($"O tipo {typeof(T).Name} não tem um construtor que aceita um IDatabaseClient.");
+           
         }
     }
 }
