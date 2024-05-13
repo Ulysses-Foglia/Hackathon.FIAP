@@ -1,5 +1,4 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
-using Fiap.CleanArchitecture.Entity.DTO;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 

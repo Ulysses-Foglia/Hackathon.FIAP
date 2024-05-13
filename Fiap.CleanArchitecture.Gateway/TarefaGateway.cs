@@ -18,5 +18,7 @@ namespace Fiap.CleanArchitecture.Gateway
         public void Criar(Tarefa tarefa) => _database.CriarTarefa(tarefa);
         public Tarefa Alterar(Tarefa tarefa) => _database.AlterarTarefa(tarefa);
         public void Excluir(int id) => _database.ExcluirTarefa(id);
+
+        public void Aprovar(int id) => _database.Aprovar(id);
     }
 }
