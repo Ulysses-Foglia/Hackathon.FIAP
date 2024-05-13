@@ -1,3 +1,4 @@
+using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
@@ -12,17 +13,20 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : ControllerBase, IUsuarioController
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly IControladorFactory<UsuarioControlador> _controladorFactory;
         private IUsuarioControlador _usuarioControlador;
 
-        public UsuarioController(IDatabaseClient databaseClient, IControladorFactory<UsuarioControlador> usuarioControladorFactory)
+        public UsuarioController(IDatabaseClient databaseClient, IControladorFactory<UsuarioControlador> usuarioControladorFactory, IUsuarioControlador usuarioControlador)
         {
             _databaseClient = databaseClient;
-            _controladorFactory = usuarioControladorFactory;
-            _usuarioControlador = _controladorFactory.CriarControlador(_databaseClient);
+            _controladorFactory = usuarioControladorFactory;         
+            //var retorno = _controladorFactory.CriarControlador(_databaseClient);
+            //var retornoControl = usuarioControlador;
+            //_usuarioControlador = _controladorFactory.CriarControlador(_databaseClient);
+            _usuarioControlador = new UsuarioControlador(_databaseClient) ; 
         }
 
         [HttpPost]
@@ -31,8 +35,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
         {
             try
-            {
-                
+            {                
                 var token = _usuarioControlador.GerarToken(usuarioDAO);
 
                 return Ok(new { token });

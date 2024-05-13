@@ -1,4 +1,6 @@
 using Fiap.CleanArchitecture.Api;
+using Fiap.CleanArchitecture.Api.Controllers;
+using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.DatabaseClients.SQL;
@@ -21,10 +23,10 @@ builder.Services.AddScoped<IDatabaseClient>(provider
 
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
 builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
-
 builder.Services.AddScoped(typeof(IControladorFactory<>), typeof(ControladorFactory<>));
 builder.Services.AddScoped<IUsuarioControlador, UsuarioControlador>();
-
+builder.Services.AddScoped(typeof(IControladorFactory<UsuarioControlador>), typeof(ControladorFactory<UsuarioControlador>));
+builder.Services.AddScoped<IUsuarioController, UsuarioController>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -52,6 +54,7 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT",
 
     });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {

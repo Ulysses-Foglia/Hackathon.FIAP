@@ -18,7 +18,7 @@ namespace Fiap.CleanArchitecture.Controller
         public UsuarioControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _usuarioGateway = new UsuarioGateway(_databaseClient);
+            _usuarioGateway = new UsuarioGateway(_databaseClient);           
         }
 
         public string GerarToken(UsuarioDAO usuarioDAO)
@@ -29,6 +29,7 @@ namespace Fiap.CleanArchitecture.Controller
 
             return token;
         }
+               
 
         public string BuscarTodos()
         {
@@ -64,5 +65,7 @@ namespace Fiap.CleanArchitecture.Controller
         {
             _usuarioGateway.Excluir(id);
         }
+
+     
     }
 }
