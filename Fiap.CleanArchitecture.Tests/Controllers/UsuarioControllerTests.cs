@@ -12,6 +12,7 @@ using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Microsoft.AspNetCore.Mvc;
 using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Microsoft.IdentityModel.Tokens;
+using Fiap.CleanArchitecture.Entity.Entities;
 
 namespace Fiap.CleanArchitecture.Tests.Controllers
 {
@@ -192,29 +193,45 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         [Fact]
         public void Usuario_Validar_Alterar_ReturnOkComDados()
         {
-           // //Arrage
-           
-           // UsuarioDAO usuario = new UsuarioDAO
-           // {
-           //     Nome = "UsuTeste1",
-           //     Email = "usuTeste1@email.com.br",
-           //     Senha = "123456",
-           //     Papel = "Admin"
-           // };
+            //Arrage
+            var resultadoEsperado =
+                 new
+                 {
+                     Id = 1,
+                     Nome = "teste123",
+                     Email = "usuTeste1@email.com.br",
+                     Papel = "Admin"
+                 };
 
-           // _mockUsuarioController
-           //.Setup(x => x.Criar(usuario))
-           //.Returns(new OkResult());
+            var usuarioAlterarDao = new UsuarioAlterarDAO
+            {
+                Id = 1,
+                Nome = "UsuTeste1",
+                Email = "usuTeste1@email.com.br",
+                Papel = "Admin"
+            };
 
-           // var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
 
-           // // Act
-           // var result = usuarioControllerLazy.Value.Criar(usuario);
+            _mockUsuarioController.Setup(s => s.Alterar(It.IsAny<UsuarioAlterarDAO>())).Returns((UsuarioAlterarDAO usuarioAlterarDAO) =>
+            {
+                if (usuarioAlterarDAO == null) return new BadRequestObjectResult("Usuário inválido.");
 
-           // // Assert
-           // Assert.NotNull(result);
-           // Assert.IsType<OkResult>(result); 
-        
+                else return new OkObjectResult( resultadoEsperado);
+
+            });
+
+            var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
+
+            // Act
+            var result = usuarioControllerLazy.Value.Alterar(usuarioAlterarDao);
+
+            // Assert
+            Assert.NotNull(result); //Olha se o dado não é null
+            Assert.IsType<OkObjectResult>(result); // Se o retorno é um Ok result
+            var okResult = (OkObjectResult)result;
+            var resultadoAtual = okResult?.Value;
+
+            Assert.Equal(resultadoEsperado, resultadoAtual);
         }
 
     }
