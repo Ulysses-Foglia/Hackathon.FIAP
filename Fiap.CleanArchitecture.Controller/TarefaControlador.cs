@@ -1,7 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Entities;
-using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
@@ -16,6 +15,7 @@ namespace Fiap.CleanArchitecture.Controller
         private readonly ITarefaGateway _tarefaGateway;
         private readonly IUsuarioGateway _usuarioGateway;
         private readonly ITarefaUseCase _tarefaUseCase;
+
         public TarefaControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
@@ -40,7 +40,6 @@ namespace Fiap.CleanArchitecture.Controller
 
         public void Criar(TarefaDAO tarefaDAO)
         {
-
             var tarefa = new Tarefa(_tarefaUseCase.RegistreTarefa(tarefaDAO));
 
             _tarefaGateway.Criar(tarefa);
@@ -55,28 +54,25 @@ namespace Fiap.CleanArchitecture.Controller
             return TarefaPresenter.ToJson(novaTarefa);
         }
 
-        public string AlterarSituacao(int IdTarefa, string situacao)
+        public string AlterarSituacao(int idTarefa, string situacao)
         {
-
-            TipoStatus enumTipoStatus;
-            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
-
-            var novaTarefa = _tarefaUseCase.AltereSituacao(IdTarefa, enumTipoStatus);
+            var novaTarefa = _tarefaUseCase.AltereSituacao(idTarefa, situacao);
 
             return TarefaPresenter.ToJson(novaTarefa);
-
         }
 
-        public string AtribuaUmNovoResponsavel(int IdTarefa, string situacao, int IdResponsavel)
+        public string AtribuaUmNovoResponsavel(int idTarefa, string situacao, int idResponsavel)
         {
-
-            TipoStatus enumTipoStatus;
-            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
-
-            var novaTarefa = _tarefaUseCase.AtribuaUmResponsavel(IdTarefa, enumTipoStatus,IdResponsavel);
+            var novaTarefa = _tarefaUseCase.AtribuaUmResponsavel(idTarefa, situacao, idResponsavel);
 
             return TarefaPresenter.ToJson(novaTarefa);
+        }
 
+        public string Aprovar(int id)
+        {
+            var tarefaAprovada = _tarefaUseCase.Aprovar(id);
+
+            return TarefaPresenter.ToJson(tarefaAprovada);
         }
 
         public void Excluir(int id)

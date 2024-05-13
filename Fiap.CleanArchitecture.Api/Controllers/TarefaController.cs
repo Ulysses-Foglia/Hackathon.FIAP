@@ -1,5 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Data.Interfaces;
+using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -114,6 +115,23 @@ namespace Fiap.CleanArchitecture.Api.Controllers
                 var novaTarefa = _tarefaControlador.AtribuaUmNovoResponsavel(tarefaAtribuirResponsavelDAO.Id, tarefaAtribuirResponsavelDAO.Status, tarefaAtribuirResponsavelDAO.IdResponsavel);
 
                 return Ok(novaTarefa);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize]
+        [Papel("Admin")]
+        [HttpPut("aprovar/{id:int}")]
+        public IActionResult AprovarTarefaFinalizada(int id)
+        {
+            try
+            {
+                var tarefaAprovada = _tarefaControlador.Aprovar(id);
+
+                return Ok(tarefaAprovada);
             }
             catch (Exception ex)
             {

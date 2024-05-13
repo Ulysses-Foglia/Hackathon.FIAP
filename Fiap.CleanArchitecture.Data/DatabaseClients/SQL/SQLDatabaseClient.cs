@@ -35,6 +35,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public void CriarTarefa(Tarefa tarefa) => _tarefaSQLRepository.Criar(tarefa);
         public Tarefa AlterarTarefa(Tarefa tarefa) => _tarefaSQLRepository.Alterar(tarefa);
         public void ExcluirTarefa(int id) => _tarefaSQLRepository.Excluir(id);
+
+        public void Aprovar(int id) => _tarefaSQLRepository.Aprovar(id);
         #endregion
     }
 }

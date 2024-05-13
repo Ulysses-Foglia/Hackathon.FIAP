@@ -84,5 +84,11 @@
             DELETE FROM TAREFAS WHERE ID = @ID
         
         ";
+
+        public static string Aprovar => @"
+
+            UPDATE TAREFAS SET [STATUS] = @STATUS WHERE ID = @ID
+        
+        ";
     }
 }

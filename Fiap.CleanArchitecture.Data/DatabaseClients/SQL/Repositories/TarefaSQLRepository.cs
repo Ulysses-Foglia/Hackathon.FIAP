@@ -2,6 +2,7 @@
 using Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts;
 using Fiap.CleanArchitecture.Entity.DTO;
 using Fiap.CleanArchitecture.Entity.Entities;
+using Fiap.CleanArchitecture.Entity.Enums;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -86,6 +87,21 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             }
 
             return BuscarPorId(tarefa.Id);
+        }
+
+        public void Aprovar(int id)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = TarefaSQLScript.Aprovar;
+
+                var param = new DynamicParameters();
+
+                param.Add("@ID", id, DbType.Int32, ParameterDirection.Input);
+                param.Add("@STATUS", TipoStatus.Concluida.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
+
+                conn.Execute(sql, param, commandTimeout: Timeout);
+            }
         }
 
         public void Excluir(int id)

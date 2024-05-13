@@ -9,5 +9,7 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
         void Criar(Tarefa tarefa);
         Tarefa Alterar(Tarefa tarefa);
         void Excluir(int id);
+
+        void Aprovar(int id);
     }
 }
