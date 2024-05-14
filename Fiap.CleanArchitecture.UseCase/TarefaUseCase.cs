@@ -95,5 +95,10 @@ namespace Fiap.CleanArchitecture.UseCase
         {
             return _usuarioGateway.BuscarPorId(idUsuario) != null;
         }
+
+        public void ExcluirTarefa(int id)
+        {
+            _tarefaGateway.Excluir(id);
+        }
     }
 }

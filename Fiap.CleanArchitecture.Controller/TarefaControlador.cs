@@ -77,7 +77,7 @@ namespace Fiap.CleanArchitecture.Controller
 
         public void Excluir(int id)
         {
-            _tarefaGateway.Excluir(id);
+            _tarefaUseCase.ExcluirTarefa(id);
         }
     }
 }

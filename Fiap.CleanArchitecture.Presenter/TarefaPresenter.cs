@@ -8,6 +8,7 @@ namespace Fiap.CleanArchitecture.Presenter
         public int Id { get; set; }
         public DateTime DataCriacao { get; set; }
         public string Titulo { get; set; }
+        public string Descricao { get; set; }
         public PrazoPresenter Prazo { get; set; }
         public string Status { get; set; }
         public DateTime? DataInicio { get; set; }
@@ -20,6 +21,7 @@ namespace Fiap.CleanArchitecture.Presenter
             Id = tarefaEntity.Id;
             DataCriacao = tarefaEntity.DataCriacao;
             Titulo = tarefaEntity.Titulo;
+            Descricao = tarefaEntity.Descricao;
             Prazo = new PrazoPresenter(tarefaEntity.Prazo);
             Status = tarefaEntity.Status.ToString();
             DataInicio = tarefaEntity.DataInicio;

@@ -9,5 +9,6 @@ namespace Fiap.CleanArchitecture.UseCase.Interfaces
         Tarefa AltereSituacao(int IdTarefa, string situacao);
         Tarefa AtribuaUmResponsavel(int idTarefa, string situacao, int idResponsavel);
         Tarefa Aprovar(int id);
+        void ExcluirTarefa(int id);
     }
 }
