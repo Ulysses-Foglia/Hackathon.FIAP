@@ -12,15 +12,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     [Route("[controller]")]
     public class TarefaController : ControllerBase
     {   
-        private readonly IDatabaseClient _databaseClient;        
-        private readonly IControladorFactory<TarefaControlador> _controladorFactory;
+        private readonly IDatabaseClient _databaseClient;  
         private ITarefaControlador _tarefaControlador;
 
-        public TarefaController(IDatabaseClient databaseClient, IControladorFactory<TarefaControlador> tarefaControladorFactory)
+        public TarefaController(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _controladorFactory = tarefaControladorFactory;
-            _tarefaControlador = _controladorFactory.CriarControlador(_databaseClient);
+            _tarefaControlador = new TarefaControlador(_databaseClient); 
         }
 
         [Authorize]

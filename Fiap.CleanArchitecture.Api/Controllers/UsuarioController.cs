@@ -15,17 +15,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     [Route("[controller]")]
     public class UsuarioController : ControllerBase, IUsuarioController
     {
-        private readonly IDatabaseClient _databaseClient;
-        private readonly IControladorFactory<UsuarioControlador> _controladorFactory;
+        private readonly IDatabaseClient _databaseClient;       
         private IUsuarioControlador _usuarioControlador;
 
-        public UsuarioController(IDatabaseClient databaseClient, IControladorFactory<UsuarioControlador> usuarioControladorFactory, IUsuarioControlador usuarioControlador)
+        public UsuarioController(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _controladorFactory = usuarioControladorFactory;         
-            //var retorno = _controladorFactory.CriarControlador(_databaseClient);
-            //var retornoControl = usuarioControlador;
-            //_usuarioControlador = _controladorFactory.CriarControlador(_databaseClient);
+     
             _usuarioControlador = new UsuarioControlador(_databaseClient) ; 
         }
 

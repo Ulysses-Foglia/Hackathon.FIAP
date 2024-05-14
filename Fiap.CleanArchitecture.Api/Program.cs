@@ -23,9 +23,7 @@ builder.Services.AddScoped<IDatabaseClient>(provider
 
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
 builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
-builder.Services.AddScoped(typeof(IControladorFactory<>), typeof(ControladorFactory<>));
 builder.Services.AddScoped<IUsuarioControlador, UsuarioControlador>();
-builder.Services.AddScoped(typeof(IControladorFactory<UsuarioControlador>), typeof(ControladorFactory<UsuarioControlador>));
 builder.Services.AddScoped<IUsuarioController, UsuarioController>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

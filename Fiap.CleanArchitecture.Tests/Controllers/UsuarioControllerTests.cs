@@ -1,56 +1,29 @@
-﻿using Fiap.CleanArchitecture.Api.Controllers;
-using Fiap.CleanArchitecture.Controller.Interface;
-using Fiap.CleanArchitecture.Controller;
-using Fiap.CleanArchitecture.Data.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Microsoft.AspNetCore.Mvc;
 using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
-using Microsoft.IdentityModel.Tokens;
-using Fiap.CleanArchitecture.Entity.Entities;
+
 
 namespace Fiap.CleanArchitecture.Tests.Controllers
 {
     
     public class UsuarioControllerTests
-    {
-        private UsuarioController _usuarioController;       
-        private Mock<IControladorFactory<UsuarioControlador>> _mockControladorFactoryUsuario;
-        private Mock<IDatabaseClient> _mockDataBaseClient;
-        private Mock<IUsuarioControlador> _mockControlador;
+    {        
         private Mock<IUsuarioController> _mockUsuarioController;
-
+        private Provider _provider;
 
         public UsuarioControllerTests()
         {
             _mockUsuarioController = new Mock<IUsuarioController>();
-
-            _mockControlador = new Mock<IUsuarioControlador>();
-            
-            _mockDataBaseClient = new Mock<IDatabaseClient>();
-
-            _mockControladorFactoryUsuario = new Mock<IControladorFactory<UsuarioControlador>>();
-
-            _usuarioController = new UsuarioController(_mockDataBaseClient.Object, _mockControladorFactoryUsuario.Object, _mockControlador.Object);
-            
+            _provider = new Provider();
         }
 
         [Fact]
         public void Usuario_Validar_Autenticar_ReturnOkComDados() 
-        {
-            //Provider provider = new Provider();
-
-            //var usuarioControladorInject = provider.GetRequiredService<IUsuarioControlador>();
-
-            //var ControllerUsuario = provider.GetRequiredService<IUsuarioController>();
-
+        {                   
+           
             //Arrange
-            var resultadoEsperado = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU1NTc5MDAsImV4cCI6MTcxNTU2MTUwMCwiaWF0IjoxNzE1NTU3OTAwLCJpc3MiOiJBUEktRmlhcC5DbGVhbkFyY2hpdGVjdHVyZSIsImF1ZCI6ImRYTjFWR1Z6ZEdVeFFHVnRZV2xzTG1OdmJTNWljZz09In0.wJP9Dw3j2WhuvPie-6iepDjlWqbO8gWJToPoMxajfSs";
+            var resultadoEsperado = new { token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU2NDQ0NzksImV4cCI6MTcxNTY0ODA3OSwiaWF0IjoxNzE1NjQ0NDc5LCJpc3MiOiJBUEktRmlhcC5DbGVhbkFyY2hpdGVjdHVyZSIsImF1ZCI6ImRYTjFWR1Z6ZEdVeFFHVnRZV2xzTG1OdmJTNWljZz09In0.4ulEKcfcgvqNI1-6czZUQp5nrOl8D-p9uFgG9WgI5EU" };
 
             UsuarioDAO usuario = new UsuarioDAO
             {
@@ -59,13 +32,15 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
                 Senha = "123456",
                 Papel = "Admin"
             };
+                        
 
-            
+            //var retornoToken = _provider.GetRequiredService<IUsuarioController>().Autenticar(usuario);
+
             _mockUsuarioController.Setup(s => s.Autenticar(It.IsAny<UsuarioDAO>())).Returns((UsuarioDAO usuario) =>
             {
                 if(usuario == null) return new BadRequestObjectResult("Usuário inválido.");
                 
-                else return new OkObjectResult(new { resultadoEsperado });
+                else return new OkObjectResult(resultadoEsperado);
 
             });
 
@@ -73,16 +48,12 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
             //Act
             var result = usuarioControllerLazy.Value.Autenticar(usuario);
-           
-            
+                       
             //Assert 
             Assert.IsType<OkObjectResult>(result);
-
             var okResult = (OkObjectResult)result;
-            var resultado = okResult?.Value?.GetType()?.GetProperty("resultadoEsperado")?.GetValue(okResult.Value, null);
-           
-            Assert.Equal(resultadoEsperado, resultado);
-
+            var token = okResult.Value;            
+            Assert.Equal(resultadoEsperado, token);
         }
 
 
@@ -91,9 +62,12 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         {
 
             //Arrange
+
+            var retorno = _provider.GetRequiredService<IUsuarioController>().BuscarTodos();
+
             _mockUsuarioController.Setup(x => x.BuscarTodos()).Returns(() =>
             {              
-                return new OkObjectResult(new object());
+                return retorno;
             });
 
             var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
@@ -103,8 +77,8 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
 
             //Assert 
-            Assert.NotNull(result); //Olha se o dado não é null
-            Assert.IsType<OkObjectResult>(result); // Se o retorno é um Ok result
+            Assert.NotNull(result); 
+            Assert.IsType<OkObjectResult>(result); 
         }
 
         [Fact]
@@ -112,39 +86,13 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         {
             //Arrage
             int parametro = 1;
+            var resultadoEsperado = "{\"Id\":1,\"DataCriacao\":\"2024-05-12T11:11:27.83\",\"Nome\":\"UsuTeste1\",\"Email\":\"usuTeste1@email.com.br\",\"Papel\":\"Admin\"}";
 
-            var resultadoEsperado =
-                 new
-                 {
-                     Id = 1,
-                     DataCriacao = DateTime.Parse("2024-05-12T11:11:27.833"),
-                     Titulo = "Criar aplicação",
-                     Prazo = new
-                     {
-                         Valor = 4,
-                         Unidade = "d"
-                     },
-                     Status = "EmAndamento",
-                     DataInicio = DateTime.Parse("2024-04-26T10:00:00"),
-                     DataFim = DateTime.Parse("2024-04-30T10:00:00"),
-                     Criador = new
-                     {
-                         Nome = "UsuTeste1",
-                         Email = "usuTeste1@email.com.br",
-                         Papel = "Admin"
-                     },
-                     Responsavel = new
-                     {
-                         Nome = "UsuTeste2",
-                         Email = "usuTeste2@email.com.br",
-                         Papel = "Admin"
-                     }
-                 };
-                       
+            var retorno = _provider.GetRequiredService<IUsuarioController>().BuscarPorId(parametro);
 
             _mockUsuarioController.Setup(x => x.BuscarPorId(parametro)).Returns(() =>
             {
-                return new OkObjectResult(resultadoEsperado);
+                return retorno;
             });
 
             var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
@@ -152,21 +100,17 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             //Act
             var result = usuarioControllerLazy.Value.BuscarPorId(parametro);
 
-
             //Assert 
-            Assert.NotNull(result); //Olha se o dado não é null
-            Assert.IsType<OkObjectResult>(result); // Se o retorno é um Ok result
-            var okResult = (OkObjectResult)result;
-            var resultadoAtual = okResult?.Value;
-
-            Assert.Equal(resultadoEsperado, resultadoAtual);
+            var okResult = Assert.IsType<OkObjectResult>(result)?.Value?.ToString();
+            
+            Assert.Equal(resultadoEsperado, okResult);
         }
 
         [Fact]
         public void Usuario_Validar_Criar_ReturnOkComDados()
         {
             //Arrage
-           
+            
             UsuarioDAO usuario = new UsuarioDAO
             {
                 Nome = "UsuTeste1",
@@ -175,9 +119,11 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
                 Papel = "Admin"
             };
 
+            var retorno = _provider.GetRequiredService<IUsuarioController>().Criar(usuario);
+
             _mockUsuarioController
            .Setup(x => x.Criar(usuario))
-           .Returns(new OkResult());
+           .Returns(retorno);
 
             var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
 
@@ -194,29 +140,23 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         public void Usuario_Validar_Alterar_ReturnOkComDados()
         {
             //Arrage
-            var resultadoEsperado =
-                 new
-                 {
-                     Id = 1,
-                     Nome = "teste123",
-                     Email = "usuTeste1@email.com.br",
-                     Papel = "Admin"
-                 };
+            var resultadoEsperado = "{\"Id\":2,\"DataCriacao\":\"2024-05-12T11:11:27.83\",\"Nome\":\"teste123\",\"Email\":\"usuTeste1@email.com.br\",\"Papel\":\"Admin\"}";
 
-            var usuarioAlterarDao = new UsuarioAlterarDAO
-            {
-                Id = 1,
-                Nome = "UsuTeste1",
-                Email = "usuTeste1@email.com.br",
-                Papel = "Admin"
-            };
+                var usuarioAlterarDao = new UsuarioAlterarDAO
+                {
+                    Id = 2,
+                    Nome = "teste123",
+                    Email = "usuTeste1@email.com.br",
+                    Papel = "Admin"
+                };
 
+            var retorno = _provider.GetRequiredService<IUsuarioController>().Alterar(usuarioAlterarDao);
 
             _mockUsuarioController.Setup(s => s.Alterar(It.IsAny<UsuarioAlterarDAO>())).Returns((UsuarioAlterarDAO usuarioAlterarDAO) =>
             {
                 if (usuarioAlterarDAO == null) return new BadRequestObjectResult("Usuário inválido.");
 
-                else return new OkObjectResult( resultadoEsperado);
+                else return retorno;
 
             });
 
@@ -226,13 +166,34 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             var result = usuarioControllerLazy.Value.Alterar(usuarioAlterarDao);
 
             // Assert
-            Assert.NotNull(result); //Olha se o dado não é null
-            Assert.IsType<OkObjectResult>(result); // Se o retorno é um Ok result
+            Assert.NotNull(result); 
+            Assert.IsType<OkObjectResult>(result); 
             var okResult = (OkObjectResult)result;
             var resultadoAtual = okResult?.Value;
 
             Assert.Equal(resultadoEsperado, resultadoAtual);
         }
 
+        [Fact]
+        public void Usuario_Validar_Excluir_ReturnOkComDados()
+        {
+            //Arrage
+            var parametro = 4;
+
+            var retorno = _provider.GetRequiredService<IUsuarioController>().Excluir(parametro);
+
+            _mockUsuarioController
+           .Setup(x => x.Excluir(parametro))
+           .Returns(retorno);
+
+            var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
+   
+            // Act
+            var result = usuarioControllerLazy.Value.Excluir(parametro);
+                      
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+        }
     }
 }

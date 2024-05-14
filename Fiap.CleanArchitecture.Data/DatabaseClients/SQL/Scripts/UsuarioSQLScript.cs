@@ -5,9 +5,9 @@
 
 
         public static string VerificarUsuario => @"
-        SELECT NOME, EMAIL, SENHA, PAPEL 
+        SELECT  top 1  NOME, EMAIL, SENHA, PAPEL 
         FROM USUARIOS WITH (NOLOCK)
-        WHERE EMAIL = @EMAIL AND SENHA = @SENHA";
+        WHERE EMAIL = @EMAIL AND SENHA = @SENHA order by 1 asc";
 
         
 
