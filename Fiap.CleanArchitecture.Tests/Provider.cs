@@ -24,8 +24,7 @@ namespace Fiap.CleanArchitecture.Tests
 
             services.AddScoped<IUsuarioController, UsuarioController>();
             services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-            services.AddScoped<ITarefaGateway, TarefaGateway>();
-            services.AddScoped(typeof(IControladorFactory<>), typeof(ControladorFactory<>));           
+            services.AddScoped<ITarefaGateway, TarefaGateway>();                   
             services.AddScoped<IDatabaseClient>(provider =>
             { return new SQLDatabaseClient(Configuration); });
             services.AddScoped<IUsuarioControlador, UsuarioControlador>();
