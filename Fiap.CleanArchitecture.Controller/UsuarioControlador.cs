@@ -4,27 +4,29 @@ using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
+using Fiap.CleanArchitecture.UseCase;
+using Fiap.CleanArchitecture.UseCase.Interfaces;
 
 namespace Fiap.CleanArchitecture.Controller
 {
     public class UsuarioControlador
     {
         private readonly IUsuarioGateway _usuarioGateway;
+        private readonly ITarefaGateway _tarefaGateway;
         private readonly IDatabaseClient _databaseClient;
+        private readonly IUsuarioUseCase _usuarioUserCase;
 
         public UsuarioControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
             _usuarioGateway = new UsuarioGateway(_databaseClient);
+            _tarefaGateway = new TarefaGateway(_databaseClient);
+            _usuarioUserCase = new UsuarioUseCase(_usuarioGateway, _tarefaGateway);
         }
 
         public string GerarToken(UsuarioDAO usuarioDAO)
         {
-            var usuario = new Usuario(usuarioDAO.Email, usuarioDAO.Senha);
-
-            var token = _usuarioGateway.GerarToken(usuario);
-
-            return token;
+            return _usuarioUserCase.AutentiqueUsuario(usuarioDAO);
         }
 
         public string BuscarTodos()
@@ -43,23 +45,19 @@ namespace Fiap.CleanArchitecture.Controller
 
         public void Criar(UsuarioDAO usuarioDAO)
         {
-            var usuario = new Usuario(usuarioDAO);
-
-            _usuarioGateway.Criar(usuario);
+            _usuarioUserCase.CadastreNovoUsuario(usuarioDAO);
         }
 
         public string Alterar(UsuarioAlterarDAO usuarioAlterarDAO)
         {
-            var usuario = new Usuario(usuarioAlterarDAO);
-
-            var novoUsuario = _usuarioGateway.Alterar(usuario);
+            var novoUsuario = _usuarioUserCase.AltereUsuaio(usuarioAlterarDAO);
 
             return UsuarioPresenter.ToJson(novoUsuario);
         }
 
         public void Excluir(int id)
         {
-            _usuarioGateway.Excluir(id);
+            _usuarioUserCase.ExcluaUsuario(id);
         }
     }
 }
