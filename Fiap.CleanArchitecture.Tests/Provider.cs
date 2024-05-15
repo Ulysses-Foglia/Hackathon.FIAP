@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Api.Controllers;
+using Fiap.CleanArchitecture.UseCase.Interfaces;
+using Fiap.CleanArchitecture.UseCase;
 
 namespace Fiap.CleanArchitecture.Tests
 {
@@ -24,7 +26,8 @@ namespace Fiap.CleanArchitecture.Tests
 
             services.AddScoped<IUsuarioController, UsuarioController>();
             services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-            services.AddScoped<ITarefaGateway, TarefaGateway>();                   
+            services.AddScoped<ITarefaGateway, TarefaGateway>();
+            services.AddScoped<ITarefaUseCase, TarefaUseCase>();
             services.AddScoped<IDatabaseClient>(provider =>
             { return new SQLDatabaseClient(Configuration); });
             services.AddScoped<IUsuarioControlador, UsuarioControlador>();

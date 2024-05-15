@@ -97,5 +97,6 @@ namespace Fiap.CleanArchitecture.Tests.Entitty
             .RuleFor(t => t.DataInicio, f => f.Date.Past().ToString("yyyy-MM-dd"))
             .RuleFor(t => t.DataFim, f => f.Date.Future().ToString("yyyy-MM-dd"))
             .RuleFor(t => t.ResponsavelId, f => f.Random.Number(1, 100));
+
     }
 }
