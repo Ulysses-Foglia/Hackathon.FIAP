@@ -2,26 +2,39 @@
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Microsoft.AspNetCore.Mvc;
 using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
+using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Data.Interfaces;
+using Fiap.CleanArchitecture.Api.Controllers;
+using Bogus;
+
 
 
 namespace Fiap.CleanArchitecture.Tests.Controllers
 {
-    
+
     public class UsuarioControllerTests
-    {        
-        private Mock<IUsuarioController> _mockUsuarioController;
+    {
+        private UsuarioController _controller;
+        private Mock<IUsuarioControlador> _mockUsuarioControlador;
+        private Mock<IDatabaseClient> _mockDatabaseClient;      
         private Provider _provider;
+        private readonly Faker<UsuarioDAO> _fakerUsuario;
+        private Mock<IUsuarioController> _mockUsuarioController;
 
         public UsuarioControllerTests()
         {
             _mockUsuarioController = new Mock<IUsuarioController>();
+            _mockUsuarioControlador = new Mock<IUsuarioControlador>();          
+            _mockDatabaseClient = new Mock<IDatabaseClient>();
+            _controller = new UsuarioController(_mockDatabaseClient.Object);
             _provider = new Provider();
+            _fakerUsuario = RetornarFakerUsuario();
         }
 
         [Fact]
-        public void Usuario_Validar_Autenticar_ReturnOkComDados() 
-        {                   
-           
+        public void Usuario_Validar_Autenticar_ReturnOkComDados()
+        {
+
             //Arrange
             var resultadoEsperado = new { token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU2NDQ0NzksImV4cCI6MTcxNTY0ODA3OSwiaWF0IjoxNzE1NjQ0NDc5LCJpc3MiOiJBUEktRmlhcC5DbGVhbkFyY2hpdGVjdHVyZSIsImF1ZCI6ImRYTjFWR1Z6ZEdVeFFHVnRZV2xzTG1OdmJTNWljZz09In0.4ulEKcfcgvqNI1-6czZUQp5nrOl8D-p9uFgG9WgI5EU" };
 
@@ -32,14 +45,11 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
                 Senha = "123456",
                 Papel = "Admin"
             };
-                        
-
-            //var retornoToken = _provider.GetRequiredService<IUsuarioController>().Autenticar(usuario);
 
             _mockUsuarioController.Setup(s => s.Autenticar(It.IsAny<UsuarioDAO>())).Returns((UsuarioDAO usuario) =>
             {
-                if(usuario == null) return new BadRequestObjectResult("Usuário inválido.");
-                
+                if (usuario == null) return new BadRequestObjectResult("Usuário inválido.");
+
                 else return new OkObjectResult(resultadoEsperado);
 
             });
@@ -48,11 +58,11 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
             //Act
             var result = usuarioControllerLazy.Value.Autenticar(usuario);
-                       
+
             //Assert 
             Assert.IsType<OkObjectResult>(result);
             var okResult = (OkObjectResult)result;
-            var token = okResult.Value;            
+            var token = okResult.Value;
             Assert.Equal(resultadoEsperado, token);
         }
 
@@ -66,7 +76,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             var retorno = _provider.GetRequiredService<IUsuarioController>().BuscarTodos();
 
             _mockUsuarioController.Setup(x => x.BuscarTodos()).Returns(() =>
-            {              
+            {
                 return retorno;
             });
 
@@ -77,8 +87,8 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
 
             //Assert 
-            Assert.NotNull(result); 
-            Assert.IsType<OkObjectResult>(result); 
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -102,7 +112,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
             //Assert 
             var okResult = Assert.IsType<OkObjectResult>(result)?.Value?.ToString();
-            
+
             Assert.Equal(resultadoEsperado, okResult);
         }
 
@@ -110,30 +120,20 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         public void Usuario_Validar_Criar_ReturnOkComDados()
         {
             //Arrage
-            
-            UsuarioDAO usuario = new UsuarioDAO
-            {
-                Nome = "UsuTeste1",
-                Email = "usuTeste1@email.com.br",
-                Senha = "123456",
-                Papel = "Admin"
-            };
 
-            var retorno = _provider.GetRequiredService<IUsuarioController>().Criar(usuario);
+            UsuarioDAO usuario = _fakerUsuario.Generate();
 
-            _mockUsuarioController
-           .Setup(x => x.Criar(usuario))
-           .Returns(retorno);
 
-            var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
+            _mockUsuarioControlador.Setup(x => x.Criar(usuario));
+
 
             // Act
-            var result = usuarioControllerLazy.Value.Criar(usuario);
+            var result = _controller.Criar(usuario);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<OkResult>(result); 
-        
+            Assert.IsType<OkResult>(result);
+
         }
 
         [Fact]
@@ -142,13 +142,13 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             //Arrage
             var resultadoEsperado = "{\"Id\":2,\"DataCriacao\":\"2024-05-12T11:11:27.83\",\"Nome\":\"teste123\",\"Email\":\"usuTeste1@email.com.br\",\"Papel\":\"Admin\"}";
 
-                var usuarioAlterarDao = new UsuarioAlterarDAO
-                {
-                    Id = 2,
-                    Nome = "teste123",
-                    Email = "usuTeste1@email.com.br",
-                    Papel = "Admin"
-                };
+            var usuarioAlterarDao = new UsuarioAlterarDAO
+            {
+                Id = 2,
+                Nome = "teste123",
+                Email = "usuTeste1@email.com.br",
+                Papel = "Admin"
+            };
 
             var retorno = _provider.GetRequiredService<IUsuarioController>().Alterar(usuarioAlterarDao);
 
@@ -166,8 +166,8 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             var result = usuarioControllerLazy.Value.Alterar(usuarioAlterarDao);
 
             // Assert
-            Assert.NotNull(result); 
-            Assert.IsType<OkObjectResult>(result); 
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
             var okResult = (OkObjectResult)result;
             var resultadoAtual = okResult?.Value;
 
@@ -180,20 +180,21 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             //Arrage
             var parametro = 4;
 
-            var retorno = _provider.GetRequiredService<IUsuarioController>().Excluir(parametro);
+            _mockUsuarioControlador.Setup(x => x.Excluir(parametro));
 
-            _mockUsuarioController
-           .Setup(x => x.Excluir(parametro))
-           .Returns(retorno);
-
-            var usuarioControllerLazy = new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
-   
             // Act
-            var result = usuarioControllerLazy.Value.Excluir(parametro);
-                      
+            var result = _controller.Excluir(parametro);
+
             // Assert
             Assert.NotNull(result);
             Assert.IsType<OkResult>(result);
         }
+
+
+        public Faker<UsuarioDAO> RetornarFakerUsuario() => new Faker<UsuarioDAO>()
+            .RuleFor(u => u.Nome, f => f.Name.FirstName())
+            .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Nome))
+            .RuleFor(u => u.Senha, f => f.Internet.Password())
+            .RuleFor(u => u.Papel, f => f.PickRandom("Admin", "Comum"));
     }
 }
