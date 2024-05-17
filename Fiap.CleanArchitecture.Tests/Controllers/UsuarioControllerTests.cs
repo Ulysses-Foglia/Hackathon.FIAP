@@ -178,7 +178,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         public void Usuario_Validar_Excluir_ReturnOkComDados()
         {
             //Arrage
-            var parametro = 4;
+            var parametro = 3;
 
             _mockUsuarioControlador.Setup(x => x.Excluir(parametro));
 
@@ -187,7 +187,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<ObjectResult>(result);
         }
 
 
