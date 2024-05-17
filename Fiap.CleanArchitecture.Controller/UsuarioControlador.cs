@@ -1,4 +1,5 @@
-﻿using Fiap.CleanArchitecture.Data.Interfaces;
+﻿using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
@@ -9,7 +10,7 @@ using Fiap.CleanArchitecture.UseCase.Interfaces;
 
 namespace Fiap.CleanArchitecture.Controller
 {
-    public class UsuarioControlador
+    public class UsuarioControlador : IUsuarioControlador
     {
         private readonly IUsuarioGateway _usuarioGateway;
         private readonly ITarefaGateway _tarefaGateway;
@@ -19,7 +20,7 @@ namespace Fiap.CleanArchitecture.Controller
         public UsuarioControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _usuarioGateway = new UsuarioGateway(_databaseClient);
+            _usuarioGateway = new UsuarioGateway(_databaseClient);           
             _tarefaGateway = new TarefaGateway(_databaseClient);
             _usuarioUserCase = new UsuarioUseCase(_usuarioGateway, _tarefaGateway);
         }
@@ -28,6 +29,7 @@ namespace Fiap.CleanArchitecture.Controller
         {
             return _usuarioUserCase.AutentiqueUsuario(usuarioDAO);
         }
+               
 
         public string BuscarTodos()
         {
@@ -59,5 +61,7 @@ namespace Fiap.CleanArchitecture.Controller
         {
             _usuarioUserCase.ExcluaUsuario(id);
         }
+
+     
     }
 }

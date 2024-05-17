@@ -1,7 +1,9 @@
 ﻿using Fiap.CleanArchitecture.Controller;
+using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
+using Fiap.CleanArchitecture.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +12,19 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     public class TarefaController : ControllerBase
-    {
-        private readonly IDatabaseClient _databaseClient;
-        private readonly TarefaControlador _tarefaControlador;
+    {   
+        private readonly IDatabaseClient _databaseClient;  
+        private ITarefaControlador _tarefaControlador;
 
         public TarefaController(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _tarefaControlador = new TarefaControlador(_databaseClient);
+            _tarefaControlador = new TarefaControlador(_databaseClient); 
         }
 
         [Authorize]
         [HttpGet("buscar-todos")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarTodos()
         {
             try
@@ -38,6 +41,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpGet("buscar-por-id/{id:int}")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarPorId(int id)
         {
             try
@@ -54,6 +58,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpPost("criar")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Criar([FromBody] TarefaDAO tarefaDAO)
         {
             try
@@ -72,6 +77,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpPut("alterar")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Alterar([FromBody] TarefaAlterarDAO tarefaAlterarDAO)
         {
             try
@@ -88,6 +94,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpPost("alterar-situacao")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult AlterarSituacao([FromBody] TarefaAlterarSituacaoDAO tarefaAlterarSituacaoDAO)
         {
             if (!ModelState.IsValid) { return StatusCode(500); }
@@ -106,6 +113,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpPost("atribuir-responsavel")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult AtribuirResponsavel([FromBody] TarefaAtribuirResponsavelDAO tarefaAtribuirResponsavelDAO)
         {
             if (!ModelState.IsValid) { return StatusCode(500); }
@@ -141,6 +149,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpDelete("excluir/{id:int}")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Excluir(int id)
         {
             try

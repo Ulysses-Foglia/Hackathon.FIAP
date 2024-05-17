@@ -1,8 +1,16 @@
 using Fiap.CleanArchitecture.Api;
+using Fiap.CleanArchitecture.Api.Controllers;
+using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
+using Fiap.CleanArchitecture.Controller;
+using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.DatabaseClients.SQL;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,17 +23,68 @@ builder.Services.AddScoped<IDatabaseClient>(provider
 
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
 builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
-
+builder.Services.AddScoped<IUsuarioControlador, UsuarioControlador>();
+builder.Services.AddScoped<IUsuarioController, UsuarioController>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(s => ApiConfig.Swagger(s));
 
 var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Authentication:Secret"));
+builder.Services.AddSwaggerGen(c =>
+{
+    var nomeXml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var caminhoArquivo = Path.Combine(AppContext.BaseDirectory, nomeXml);
 
-builder.Services
-    .AddAuthentication(a => ApiConfig.Authentication(a))
-    .AddJwtBearer(j => ApiConfig.JwtBearer(j, key));
+
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fiap CleanArchitecture", Version = "v1.0" });
+  
+    c.IncludeXmlComments(caminhoArquivo);
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description =
+            "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
+            "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
+            "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 var app = builder.Build();
 

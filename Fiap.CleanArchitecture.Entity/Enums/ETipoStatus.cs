@@ -1,6 +1,6 @@
 ﻿namespace Fiap.CleanArchitecture.Entity.Enums
 {
-    public enum TipoStatus
+    public enum ETipoStatus
     {
         Pendente,
         Atribuida,

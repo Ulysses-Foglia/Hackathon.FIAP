@@ -6,8 +6,8 @@ namespace Fiap.CleanArchitecture.UseCase.Interfaces
     public interface ITarefaUseCase
     {
         TarefaDAO RegistreTarefa(TarefaDAO tarefa);
-        Tarefa AltereSituacao(int IdTarefa, string situacao);
-        Tarefa AtribuaUmResponsavel(int idTarefa, string situacao, int idResponsavel);
+        Tarefa AltereSituacao(int IdTarefa, ETipoStatus? status);
+        Tarefa AtribuaUmResponsavel(int IdTarefa, ETipoStatus? status, int IdResponsavel);
         Tarefa Aprovar(int id);
         void ExcluirTarefa(int id);
     }

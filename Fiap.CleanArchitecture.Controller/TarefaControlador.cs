@@ -1,4 +1,5 @@
-﻿using Fiap.CleanArchitecture.Data.Interfaces;
+﻿using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
@@ -9,7 +10,7 @@ using Fiap.CleanArchitecture.UseCase.Interfaces;
 
 namespace Fiap.CleanArchitecture.Controller
 {
-    public class TarefaControlador
+    public class TarefaControlador : ITarefaControlador
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly ITarefaGateway _tarefaGateway;
@@ -56,14 +57,20 @@ namespace Fiap.CleanArchitecture.Controller
 
         public string AlterarSituacao(int idTarefa, string situacao)
         {
-            var novaTarefa = _tarefaUseCase.AltereSituacao(idTarefa, situacao);
+            ETipoStatus enumTipoStatus;
+            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
+
+            var novaTarefa = _tarefaUseCase.AltereSituacao(IdTarefa, enumTipoStatus);
 
             return TarefaPresenter.ToJson(novaTarefa);
         }
 
         public string AtribuaUmNovoResponsavel(int idTarefa, string situacao, int idResponsavel)
         {
-            var novaTarefa = _tarefaUseCase.AtribuaUmResponsavel(idTarefa, situacao, idResponsavel);
+            ETipoStatus enumTipoStatus;
+            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
+
+            var novaTarefa = _tarefaUseCase.AtribuaUmResponsavel(IdTarefa, enumTipoStatus, IdResponsavel);
 
             return TarefaPresenter.ToJson(novaTarefa);
         }

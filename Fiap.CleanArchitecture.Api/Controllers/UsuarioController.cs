@@ -1,31 +1,37 @@
+using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller;
+using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+using Fiap.CleanArchitecture.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Fiap.CleanArchitecture.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : ControllerBase, IUsuarioController
     {
-        private readonly IDatabaseClient _databaseClient;
-        private readonly UsuarioControlador _usuarioControlador;
+        private readonly IDatabaseClient _databaseClient;       
+        private IUsuarioControlador _usuarioControlador;
 
         public UsuarioController(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _usuarioControlador = new(_databaseClient);
+     
+            _usuarioControlador = new UsuarioControlador(_databaseClient) ; 
         }
 
         [HttpPost]
         [Route("autenticar")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
         {
             try
-            {
+            {                
                 var token = _usuarioControlador.GerarToken(usuarioDAO);
 
                 return Ok(new { token });
@@ -42,6 +48,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpGet("buscar-todos")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarTodos()
         {
             try
@@ -58,6 +65,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [HttpGet("buscar-por-id/{id:int}")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarPorId(int id)
         {
             try
@@ -75,6 +83,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [Papel("Admin")]
         [HttpPost("criar")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
         {
             try
@@ -92,6 +101,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [Papel("Admin")]
         [HttpPut("alterar")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
         {
             try
@@ -109,6 +119,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [Papel("Admin")]
         [HttpDelete("excluir/{id:int}")]
+        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Excluir(int id)
         {
             try

@@ -18,7 +18,7 @@ namespace Fiap.CleanArchitecture.UseCase
             this._usuarioGateway = usuarioGateway;
         }
 
-        public Tarefa AltereSituacao(int idTarefa, string situacao)
+        public Tarefa AltereSituacao(int IdTarefa, ETipoStatus? status)
         {
             if (idTarefa == 0)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_IdNulo);
@@ -39,7 +39,7 @@ namespace Fiap.CleanArchitecture.UseCase
             return _tarefaGateway.Alterar(tarefaAtual);
         }
 
-        public Tarefa AtribuaUmResponsavel(int idTarefa, string situacao, int idResponsavel)
+        public Tarefa AtribuaUmResponsavel(int IdTarefa, ETipoStatus? status, int IdResponsavel)
         {
             if (idTarefa == 0)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_IdNulo);

@@ -2,12 +2,14 @@
 {
     public class UsuarioSQLScript
     {
+
+
         public static string VerificarUsuario => @"
+        SELECT  top 1  NOME, EMAIL, SENHA, PAPEL 
+        FROM USUARIOS WITH (NOLOCK)
+        WHERE EMAIL = @EMAIL AND SENHA = @SENHA order by 1 asc";
 
-            SELECT PAPEL AS Papel FROM USUARIOS WITH (NOLOCK)
-            WHERE EMAIL = @EMAIL AND SENHA = @SENHA
-
-        ";
+        
 
         public static string BuscarTodos => @"
 
