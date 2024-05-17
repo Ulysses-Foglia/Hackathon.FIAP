@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 
 namespace Fiap.CleanArchitecture.Util
@@ -9,6 +8,7 @@ namespace Fiap.CleanArchitecture.Util
         public static T GenericEnumTryParse<T>(string statusString, out T status) where T : struct, Enum
         {
             Enum.TryParse(statusString, out status);
+
             return status;
         }
 
@@ -19,11 +19,11 @@ namespace Fiap.CleanArchitecture.Util
             return dataInicio;
         }
 
-        public static string GetGenericEnumDescription<TEnum>(TEnum value) where TEnum : Enum
+        public static string? GetGenericEnumDescription<TEnum>(TEnum value) where TEnum : Enum
         {
             var attribute = value?.GetType()?.GetField(value.ToString())?.GetCustomAttribute<DescriptionAttribute>();
 
-            return attribute != null ? attribute.Description : value.ToString();
+            return attribute != null ? attribute.Description : value?.ToString();
         }
     }
 }

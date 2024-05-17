@@ -3,7 +3,6 @@ using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.Util;
-using System.Net.NetworkInformation;
 
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
@@ -132,7 +131,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             AssertionConcern.AssertArgumentTrue(StatusValido(tarefaAlterarDAO.Status, out ETipoStatus status), MensagensValidacoes.Tarefa_Status);
             AssertionConcern.AssertArgumentTrue(DataInicioValida(tarefaAlterarDAO.DataInicio, out DateTime dataInicio), MensagensValidacoes.Tarefa_DataInicio);
             AssertionConcern.AssertArgumentTrue(DataFimValida(tarefaAlterarDAO.DataFim, out DateTime dataFim), MensagensValidacoes.Tarefa_DataFim);
-
         }
     }
 }

@@ -14,41 +14,35 @@ namespace Fiap.CleanArchitecture.UseCase
 
         public TarefaUseCase(ITarefaGateway gatewayTarefa, IUsuarioGateway usuarioGateway)
         {
-            this._tarefaGateway = gatewayTarefa;
-            this._usuarioGateway = usuarioGateway;
+            _tarefaGateway = gatewayTarefa;
+            _usuarioGateway = usuarioGateway;
         }
 
-        public Tarefa AltereSituacao(int IdTarefa, ETipoStatus? status)
+        public Tarefa AltereSituacao(int idTarefa, ETipoStatus? status)
         {
             if (idTarefa == 0)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_IdNulo);
 
-            if (string.IsNullOrEmpty(situacao))
+            if (!status.HasValue)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_Nula);
-
-            if (!Enum.TryParse(situacao, out TipoStatus enumTipoStatus))
-                throw new Exception(MensagensValidacoes.Tarefa_Situacao_Invalida);
 
             var tarefaAtual = _tarefaGateway.BuscarPorId(idTarefa);
 
             if (tarefaAtual == null)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_NaoEncontrada);
 
-            tarefaAtual.Status = enumTipoStatus;
+            tarefaAtual.Status = status.Value;
 
             return _tarefaGateway.Alterar(tarefaAtual);
         }
 
-        public Tarefa AtribuaUmResponsavel(int IdTarefa, ETipoStatus? status, int IdResponsavel)
+        public Tarefa AtribuaUmResponsavel(int idTarefa, ETipoStatus? status, int idResponsavel)
         {
             if (idTarefa == 0)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_IdNulo);
 
-            if (string.IsNullOrEmpty(situacao))
+            if (!status.HasValue)
                 throw new Exception(MensagensValidacoes.Tarefa_Situacao_Nula);
-
-            if (!Enum.TryParse(situacao, out TipoStatus enumTipoStatus))
-                throw new Exception(MensagensValidacoes.Tarefa_Situacao_Invalida);
 
             if (idResponsavel == 0)
                 throw new Exception(MensagensValidacoes.Tarefa_Responsavel_IdNulo);
@@ -62,7 +56,7 @@ namespace Fiap.CleanArchitecture.UseCase
             if (responsavel == null)
                 throw new Exception(MensagensValidacoes.Tarefa_Responsavel_NaoEncontrado);
 
-            tarefaAtual.Status = enumTipoStatus;
+            tarefaAtual.Status = status.Value;
             tarefaAtual.Responsavel = responsavel;
 
             return _tarefaGateway.Alterar(tarefaAtual);
@@ -83,7 +77,7 @@ namespace Fiap.CleanArchitecture.UseCase
         {
             var tarefa = _tarefaGateway.BuscarPorId(id);
 
-            if (tarefa.Status != TipoStatus.PendenteAprovacao)
+            if (tarefa.Status != ETipoStatus.PendenteAprovacao)
                 throw new Exception(MensagensValidacoes.Tarefa_Status_Aprovacao);
 
             _tarefaGateway.Aprovar(id);

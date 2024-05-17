@@ -23,8 +23,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpGet("buscar-todos")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarTodos()
         {
             try
@@ -40,8 +40,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpGet("buscar-por-id/{id:int}")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarPorId(int id)
         {
             try
@@ -57,14 +57,12 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpPost("criar")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Criar([FromBody] TarefaDAO tarefaDAO)
         {
             try
             {
-
-
                _tarefaControlador.Criar(tarefaDAO);
 
                 return Ok();
@@ -76,8 +74,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpPut("alterar")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Alterar([FromBody] TarefaAlterarDAO tarefaAlterarDAO)
         {
             try
@@ -93,15 +91,16 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpPost("alterar-situacao")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult AlterarSituacao([FromBody] TarefaAlterarSituacaoDAO tarefaAlterarSituacaoDAO)
         {
-            if (!ModelState.IsValid) { return StatusCode(500); }
+            if (!ModelState.IsValid)
+                return StatusCode(500);
 
             try
             {
-                var novaTarefa = _tarefaControlador.AlterarSituacao(tarefaAlterarSituacaoDAO.Id, tarefaAlterarSituacaoDAO.Status);
+                var novaTarefa = _tarefaControlador.AlterarSituacao(tarefaAlterarSituacaoDAO);
 
                 return Ok(novaTarefa);
             }
@@ -112,15 +111,16 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpPost("atribuir-responsavel")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult AtribuirResponsavel([FromBody] TarefaAtribuirResponsavelDAO tarefaAtribuirResponsavelDAO)
         {
-            if (!ModelState.IsValid) { return StatusCode(500); }
+            if (!ModelState.IsValid)
+                return StatusCode(500);
 
             try
             {
-                var novaTarefa = _tarefaControlador.AtribuaUmNovoResponsavel(tarefaAtribuirResponsavelDAO.Id, tarefaAtribuirResponsavelDAO.Status, tarefaAtribuirResponsavelDAO.IdResponsavel);
+                var novaTarefa = _tarefaControlador.AtribuaUmNovoResponsavel(tarefaAtribuirResponsavelDAO);
 
                 return Ok(novaTarefa);
             }
@@ -132,6 +132,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [Papel("Admin")]
+        [VersaoApi("V1.0")]
         [HttpPut("aprovar/{id:int}")]
         public IActionResult AprovarTarefaFinalizada(int id)
         {
@@ -148,8 +149,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpDelete("excluir/{id:int}")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Excluir(int id)
         {
             try

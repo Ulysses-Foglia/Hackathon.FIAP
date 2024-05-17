@@ -5,25 +5,25 @@ using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 using Microsoft.Extensions.Configuration;
-
 using System.Data.SqlClient;
-
 
 namespace Fiap.CleanArchitecture.Tests.Data
 {
-    public class TarefaRepository 
+    public class TarefaRepository
     {
         private TarefaSQLRepository _tarefaSQLRepository;
         private readonly Faker<Tarefa> _fakerTarefa;
         private Provider _provider;
-        
         private string _connectionString;
-        public TarefaRepository() 
+
+        public TarefaRepository()
         {
             _provider = new Provider();
 
-           var configuration = _provider.Configuration;
-            _connectionString  = configuration.GetConnectionString("DefaultConnection") ?? throw new ("String de conexão inválida");
+            var configuration = _provider.Configuration;
+            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? 
+                throw new("String de conexão inválida");
+
             _tarefaSQLRepository = new TarefaSQLRepository(configuration);
             _fakerTarefa = RetornarTarefaFaker();
 
@@ -31,15 +31,13 @@ namespace Fiap.CleanArchitecture.Tests.Data
         }
 
         [Fact]
-        public  void Deve_Inserir_Tarefa_Com_Successo()
+        public void Deve_Inserir_Tarefa_Com_Successo()
         {
-          
             Tarefa tarefa = _fakerTarefa.Generate();
 
             tarefa.Criador.Id = 1;
 
             _tarefaSQLRepository.Criar(tarefa);
-
         }
 
         private Faker<Tarefa> RetornarTarefaFaker()
@@ -49,12 +47,10 @@ namespace Fiap.CleanArchitecture.Tests.Data
              .RuleFor(u => u.Nome, f => f.Person.FullName)
              .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Nome));
 
-           
             var prazoFaker = new Faker<Prazo>()
                 .RuleFor(p => p.Valor, f => f.Random.Number(1, 30))
                 .RuleFor(p => p.Unidade, f => f.PickRandom<ETipoUnidade>());
 
-        
             var tarefaFaker = new Faker<Tarefa>()
                 .RuleFor(t => t.Id, f => f.IndexFaker)
                 .RuleFor(t => t.Titulo, f => f.Lorem.Sentence())
@@ -73,16 +69,19 @@ namespace Fiap.CleanArchitecture.Tests.Data
         {
             using (var conn = new SqlConnection(_connectionString))
             {
+                string criarTabelaScript = @"
 
-                string criarTabelaScript = @"IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TabelaTeste')
-                                                BEGIN
-                                                    CREATE TABLE TabelaTeste (
-                                                        IDTarefa INT PRIMARY KEY,
-                                                        Titulo NVARCHAR(255),
-                                                        Descricao NVARCHAR(MAX),
-                                                        DataVencimento DATE
-                                                    );
-                                                END;";
+                    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TabelaTeste')
+                    BEGIN
+                        CREATE TABLE TabelaTeste (
+                            IDTarefa INT PRIMARY KEY,
+                            Titulo NVARCHAR(255),
+                            Descricao NVARCHAR(MAX),
+                            DataVencimento DATE
+                        );
+                    END;
+
+                ";
 
                 conn.Execute(criarTabelaScript);
             }

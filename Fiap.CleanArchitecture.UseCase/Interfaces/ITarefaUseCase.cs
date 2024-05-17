@@ -1,5 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Entities;
+using Fiap.CleanArchitecture.Entity.Enums;
 
 namespace Fiap.CleanArchitecture.UseCase.Interfaces
 {

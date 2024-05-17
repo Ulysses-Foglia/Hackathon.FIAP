@@ -98,7 +98,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 var param = new DynamicParameters();
 
                 param.Add("@ID", id, DbType.Int32, ParameterDirection.Input);
-                param.Add("@STATUS", TipoStatus.Concluida.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
+                param.Add("@STATUS", ETipoStatus.Concluida.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
 
                 conn.Execute(sql, param, commandTimeout: Timeout);
             }
