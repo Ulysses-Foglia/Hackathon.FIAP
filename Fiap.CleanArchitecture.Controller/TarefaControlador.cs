@@ -2,6 +2,7 @@
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Tarefa;
 using Fiap.CleanArchitecture.Entity.Entities;
+using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
@@ -55,22 +56,23 @@ namespace Fiap.CleanArchitecture.Controller
             return TarefaPresenter.ToJson(novaTarefa);
         }
 
-        public string AlterarSituacao(int idTarefa, string situacao)
+        public string AlterarSituacao(TarefaAlterarSituacaoDAO tarefaAlterarSituacaoDAO)
         {
-            ETipoStatus enumTipoStatus;
-            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
+            if (!Enum.TryParse(tarefaAlterarSituacaoDAO.Status, out ETipoStatus enumTipoStatus))
+                throw new Exception("Situação informada não é válida");
 
-            var novaTarefa = _tarefaUseCase.AltereSituacao(IdTarefa, enumTipoStatus);
+            var novaTarefa = _tarefaUseCase.AltereSituacao(tarefaAlterarSituacaoDAO.Id, enumTipoStatus);
 
             return TarefaPresenter.ToJson(novaTarefa);
         }
 
-        public string AtribuaUmNovoResponsavel(int idTarefa, string situacao, int idResponsavel)
+        public string AtribuaUmNovoResponsavel(TarefaAtribuirResponsavelDAO tarefaAtribuirResponsavelDAO)
         {
-            ETipoStatus enumTipoStatus;
-            if (!Enum.TryParse(situacao, out enumTipoStatus)) { throw new Exception("Situação informada não é válida"); }
+            if (!Enum.TryParse(tarefaAtribuirResponsavelDAO.Status, out ETipoStatus enumTipoStatus))
+                throw new Exception("Situação informada não é válida");
 
-            var novaTarefa = _tarefaUseCase.AtribuaUmResponsavel(IdTarefa, enumTipoStatus, IdResponsavel);
+            var novaTarefa = _tarefaUseCase
+                .AtribuaUmResponsavel(tarefaAtribuirResponsavelDAO.Id, enumTipoStatus, tarefaAtribuirResponsavelDAO.IdResponsavel);
 
             return TarefaPresenter.ToJson(novaTarefa);
         }

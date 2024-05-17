@@ -1,7 +1,6 @@
 ﻿using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
-using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
@@ -28,8 +27,7 @@ namespace Fiap.CleanArchitecture.Controller
         public string GerarToken(UsuarioDAO usuarioDAO)
         {
             return _usuarioUserCase.AutentiqueUsuario(usuarioDAO);
-        }
-               
+        }               
 
         public string BuscarTodos()
         {
@@ -60,8 +58,6 @@ namespace Fiap.CleanArchitecture.Controller
         public void Excluir(int id)
         {
             _usuarioUserCase.ExcluaUsuario(id);
-        }
-
-     
+        }     
     }
 }

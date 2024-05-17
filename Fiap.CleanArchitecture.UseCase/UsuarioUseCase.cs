@@ -1,17 +1,16 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
 using Fiap.CleanArchitecture.Entity.Entities;
-using Fiap.CleanArchitecture.Gateway;
+using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace Fiap.CleanArchitecture.UseCase
 {
     public class UsuarioUseCase : IUsuarioUseCase
     {
-
         private readonly IUsuarioGateway _usuarioGateway;
         private readonly ITarefaGateway _tarefaGateway;
+
         public UsuarioUseCase(IUsuarioGateway usuarioGatway, ITarefaGateway tarefaGateway)
         {
             _usuarioGateway = usuarioGatway;
@@ -23,7 +22,6 @@ namespace Fiap.CleanArchitecture.UseCase
             var novoUsuario = new Usuario(usuario);
 
             return _usuarioGateway.Alterar(novoUsuario);
-
         }
 
         public string AutentiqueUsuario(UsuarioDAO usuario)
@@ -44,16 +42,13 @@ namespace Fiap.CleanArchitecture.UseCase
 
         public void ExcluaUsuario(int IdUsuario)
         {
-            var tarefas = _tarefaGateway.BuscarTodos().Where(x => x.Responsavel.Id == IdUsuario || x.Criador.Id == IdUsuario);
-            if (tarefas.Count() == 0) 
-            {
-                _usuarioGateway.Excluir(IdUsuario);
-            }
-            else
-            {
-                throw new Exception("Usuario possui relação com tarefas, não é possivel excluir.");
-            }
+            var tarefas = _tarefaGateway.BuscarTodos()
+                .Where(x => x.Responsavel.Id == IdUsuario || x.Criador.Id == IdUsuario);
 
+            if (tarefas.Any())
+                _usuarioGateway.Excluir(IdUsuario);
+            else
+                throw new Exception(MensagensValidacoes.Usuario_RelacaoTarefas);
         }
     }
 }

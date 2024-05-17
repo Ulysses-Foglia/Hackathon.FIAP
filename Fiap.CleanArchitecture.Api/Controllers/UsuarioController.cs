@@ -8,7 +8,6 @@ using Fiap.CleanArchitecture.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Fiap.CleanArchitecture.Api.Controllers
 {
     [ApiController]
@@ -20,14 +19,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         public UsuarioController(IDatabaseClient databaseClient)
         {
-            _databaseClient = databaseClient;
-     
+            _databaseClient = databaseClient;     
             _usuarioControlador = new UsuarioControlador(_databaseClient) ; 
         }
 
         [HttpPost]
+        [VersaoApi("V1.0")]
         [Route("autenticar")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
         {
             try
@@ -47,8 +45,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpGet("buscar-todos")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarTodos()
         {
             try
@@ -64,8 +62,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
+        [VersaoApi("V1.0")]
         [HttpGet("buscar-por-id/{id:int}")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult BuscarPorId(int id)
         {
             try
@@ -82,8 +80,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [Papel("Admin")]
+        [VersaoApi("V1.0")]
         [HttpPost("criar")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
         {
             try
@@ -100,8 +98,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [Papel("Admin")]
+        [VersaoApi("V1.0")]
         [HttpPut("alterar")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
         {
             try
@@ -118,8 +116,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [Papel("Admin")]
+        [VersaoApi("V1.0")]
         [HttpDelete("excluir/{id:int}")]
-        [VersaoApi(VersaoDaApi = "V1.0")]
         public IActionResult Excluir(int id)
         {
             try

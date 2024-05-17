@@ -6,7 +6,6 @@ using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
 using FluentAssertions;
 
-
 namespace Fiap.CleanArchitecture.Tests.UseCases
 {
     public class TarefaUseCaseTests
@@ -14,6 +13,7 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
         private Provider _provider;
         private ITarefaUseCase _tarefaUseCase;
         private Faker<TarefaDAO> _fakerTarefaDao;
+
         public TarefaUseCaseTests()
         {
             _provider = new Provider();
@@ -51,10 +51,8 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
                     Email = "usuTeste1@email.com.br"
                 }
             };
-        
 
-
-           var retornoTarefaUseCase = _tarefaUseCase.AltereSituacao(1, ETipoStatus.Concluida);
+            var retornoTarefaUseCase = _tarefaUseCase.AltereSituacao(1, ETipoStatus.Concluida);
 
             try
             {
@@ -62,9 +60,8 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
 
                 Assert.True(true);
             }
-            catch 
+            catch
             {
-
                 Assert.True(false);
             }
         }
@@ -72,7 +69,7 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
         [Fact]
         public void Deve_Atribuir_Responsavel_Com_Successo()
         {
-            var resultaEsperadoTarefa =  new Tarefa
+            var resultaEsperadoTarefa = new Tarefa
             {
                 Id = 1,
                 Titulo = "Criar aplicação",
@@ -110,7 +107,6 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
             }
             catch
             {
-
                 Assert.True(false);
             }
         }
@@ -118,8 +114,6 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
         [Fact]
         public void Deve_Registrar_Tarefa_Com_Sucesso()
         {
-            var resultadoEsperado = new TarefaDAO();
-
             var taredaFakerDao = _fakerTarefaDao.Generate();
             taredaFakerDao.CriadorId = 1;
 
@@ -135,6 +129,6 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
             .RuleFor(t => t.PrazoValor, f => f.Random.Number(1, 30))
             .RuleFor(t => t.PrazoUnidade, f => f.PickRandom("dias", "semanas", "meses"))
             .RuleFor(t => t.Status, f => f.PickRandom("Pendente", "Atribuida", "EmAndamento", "PendenteAprovacao", "Concluida"))
-            .RuleFor(t => t.CriadorId, f => f.Random.Number(1, 100));     
+            .RuleFor(t => t.CriadorId, f => f.Random.Number(1, 100));
     }
 }

@@ -11,7 +11,7 @@ namespace Fiap.CleanArchitecture.Api
     {
         public static void Swagger(SwaggerGenOptions options)
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Fiap.CleanArchitecture.Api", Version = "v1" });
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Fiap.CleanArchitecture.Api", Version = "v1.0" });
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -19,13 +19,14 @@ namespace Fiap.CleanArchitecture.Api
 
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Description = "JWT Authorization Header - utilizado com Bearer Authorization.\r\n" +
-                "Digite 'Bearer' [espaço] e então seu token, no campo abaixo.\r\n" +
+                Description = "JWT Authorization Header - utilizado com Bearer Authorization.\r\n\r\n" +
+                "Digite 'Bearer' [espaço] e então seu token, no campo abaixo.\r\n\r\n" +
                 "Exemplo (informar sem aspas): 'Bearer 123456abcdef'",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
             });
 
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
