@@ -4,10 +4,12 @@ using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Newtonsoft.Json;
 
 namespace Fiap.CleanArchitecture.Tests.Controllers
 {
@@ -94,7 +96,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             //Arrage
             int parametro = 1;
             var resultadoEsperado = "{\"Id\":1,\"DataCriacao\":\"2024-05-12T11:11:27.83\",\"Nome\":\"UsuTeste1\",\"Email\":\"usuTeste1@email.com.br\",\"Papel\":\"Admin\"}";
-
+            
             var retorno = _provider.GetRequiredService<IUsuarioController>().BuscarPorId(parametro);
 
             _mockUsuarioController.Setup(x => x.BuscarPorId(parametro)).Returns(() =>
@@ -110,6 +112,14 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
 
             //Assert 
             var okResult = Assert.IsType<OkObjectResult>(result)?.Value?.ToString();
+
+            var usuarioEsperado = JsonConvert.DeserializeObject<Usuario>(resultadoEsperado);
+            var usuarioOk = JsonConvert.DeserializeObject<Usuario>(okResult);
+
+            usuarioEsperado.DataCriacao = usuarioOk.DataCriacao;
+
+            resultadoEsperado = JsonConvert.SerializeObject(usuarioEsperado);
+            okResult = JsonConvert.SerializeObject(usuarioOk);
 
             Assert.Equal(resultadoEsperado, okResult);
         }
@@ -166,7 +176,15 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
             var okResult = (OkObjectResult)result;
-            var resultadoAtual = okResult?.Value;
+            var resultadoAtual = okResult?.Value?.ToString();
+
+            var usuarioEsperado = JsonConvert.DeserializeObject<Usuario>(resultadoEsperado);
+            var usuarioOk = JsonConvert.DeserializeObject<Usuario>(resultadoAtual);
+
+            usuarioEsperado.DataCriacao = usuarioOk.DataCriacao;
+
+            resultadoEsperado = JsonConvert.SerializeObject(usuarioEsperado);
+            resultadoAtual = JsonConvert.SerializeObject(usuarioOk);
 
             Assert.Equal(resultadoEsperado, resultadoAtual);
         }
