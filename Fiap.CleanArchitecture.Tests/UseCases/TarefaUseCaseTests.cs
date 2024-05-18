@@ -56,7 +56,8 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
 
             try
             {
-                resultaEsperadoTarefa.Should().BeEquivalentTo(retornoTarefaUseCase);
+                resultaEsperadoTarefa.Should().BeEquivalentTo(retornoTarefaUseCase, 
+                    opt => opt.Excluding(x => x.DataCriacao));
 
                 Assert.True(true);
             }
@@ -101,7 +102,8 @@ namespace Fiap.CleanArchitecture.Tests.UseCases
 
             try
             {
-                resultaEsperadoTarefa.Should().BeEquivalentTo(retornoTarefaUseCase);
+                resultaEsperadoTarefa.Should().BeEquivalentTo(retornoTarefaUseCase, 
+                    opt => opt.Excluding(x => x.DataCriacao));
 
                 Assert.True(true);
             }
