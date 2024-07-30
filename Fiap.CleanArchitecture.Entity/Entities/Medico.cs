@@ -7,7 +7,6 @@
 
 using Fiap.CleanArchitecture.Entities;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
-using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 
 
@@ -20,13 +19,20 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public int AgendaId { get; set; }
 
-        public AgendaMedico Agenda { get; set; }
+        public AgendaMedicoMes Agenda { get; set; }
 
+        public Medico()
+        {
+            
+        }
         public Medico(string email, string senha) : base(email, senha) { }
 
         public Medico(UsuarioDAO usuarioDAO, string crm) : base(usuarioDAO) 
         {
             ValidarEntity(crm);
+
+            if (!usuarioDAO.Papel.Equals("Medico"))
+                throw new Exception(MensagensValidacoes.Usuario_Papel_invalido_medico);    
 
             if (!CrmValido(crm))
                 throw new Exception(MensagensValidacoes.Usuario_Crm_Inavalido);
@@ -34,9 +40,12 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.Crm = crm;
         }
 
-        public Medico(UsuarioDAO usuarioDAO, string crm, AgendaMedico agenda) : base(usuarioDAO)
+        public Medico(UsuarioDAO usuarioDAO, string crm, AgendaMedicoMes agenda) : base(usuarioDAO)
         {
             ValidarEntity(crm, agenda);
+
+            if (!usuarioDAO.Papel.Equals("Medico"))
+                throw new Exception(MensagensValidacoes.Usuario_Papel_invalido_medico);
 
             if (!CrmValido(crm))
                 throw new Exception(MensagensValidacoes.Usuario_Crm_Inavalido);
@@ -49,14 +58,14 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         private  bool CrmValido(string crm) => crm != null && crm != "" && crm.Length == 7 && crm.Contains("/");
 
-        private bool AgendaValida(AgendaMedico agt) => agt != null && agt.DiasDaAgenda.Any();
+        private bool AgendaValida(AgendaMedicoMes agt) => agt != null && agt.DiasDaAgenda.Any();
 
         public void ValidarEntity(string crm)
         {
             AssertionConcern.AssertArgumentTrue(CrmValido(crm), MensagensValidacoes.Usuario_Crm_Inavalido);
         }
 
-        public void ValidarEntity(string crm, AgendaMedico agenda)
+        public void ValidarEntity(string crm, AgendaMedicoMes agenda)
         {
             AssertionConcern.AssertArgumentTrue(CrmValido(crm), MensagensValidacoes.Usuario_Crm_Inavalido);
             AssertionConcern.AssertArgumentTrue(AgendaValida(agenda), MensagensValidacoes.Usuario_Agenda_Inavalido);
