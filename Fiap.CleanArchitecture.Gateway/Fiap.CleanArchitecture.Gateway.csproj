@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.16.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Fiap.CleanArchitecture.Data\Fiap.CleanArchitecture.Data.csproj" />
     <ProjectReference Include="..\Fiap.CleanArchitecture.Entity\Fiap.CleanArchitecture.Entity.csproj" />
   </ItemGroup>
