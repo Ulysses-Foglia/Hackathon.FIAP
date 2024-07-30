@@ -108,16 +108,30 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+                
                 var sql = UsuarioSQLScript.Criar;
 
-                var param = new DynamicParameters();
+                comd.CommandText = sql;
 
-                param.Add("@NOME", usuario.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
-                param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
-                param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
-                param.Add("@PAPEL", usuario.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
+                comd.Parameters.AddWithValue("@NOME", usuario.Nome);
+                comd.Parameters.AddWithValue("@EMAIL", usuario.Email);
+                comd.Parameters.AddWithValue("@SENHA", usuario.Senha);
+                comd.Parameters.AddWithValue("@PAPEL", usuario.Papel);
 
-                conn.Execute(sql, param, commandTimeout: Timeout);
+                comd.ExecuteScalar();
+                trans.Commit();
+
+                //var param = new DynamicParameters();
+                //param.Add("@NOME", usuario.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
+                //param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
+                //param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
+                //param.Add("@PAPEL", usuario.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
+                //conn.Execute(sql, param, commandTimeout: Timeout);
             }
         }
 

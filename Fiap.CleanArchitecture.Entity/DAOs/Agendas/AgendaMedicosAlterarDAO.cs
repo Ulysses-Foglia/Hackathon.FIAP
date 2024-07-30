@@ -16,10 +16,10 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 {
     public class AgendaMedicosAlterarDAO
     {
-        public Usuario Medico { get; private set; }
+        public int Id { get; set; }
 
-        public int MedicoId { get; private set; }
+        public int MedicoId { get;  set; }
 
-        public ICollection<AgendaMedicoDia> DiasDaAgenda { get; private set; }
+        public ICollection<AgendaMedicoDia> DiasDaAgenda { get;  set; }
     }
 }

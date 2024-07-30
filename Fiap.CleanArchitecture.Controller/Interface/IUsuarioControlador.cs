@@ -1,4 +1,4 @@
-﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 
 namespace Fiap.CleanArchitecture.Controller.Interface
 {

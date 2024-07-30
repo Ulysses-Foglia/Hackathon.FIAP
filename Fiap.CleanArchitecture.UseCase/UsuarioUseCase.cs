@@ -1,4 +1,4 @@
-﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.Gateway.Interfaces;

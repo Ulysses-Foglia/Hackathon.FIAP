@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class AgendaMedicoDia : EntityBase
-    { 
+    {
+        public int AgendaMedicoId { get; set; }
 
         public DiaDaSemanaEnum  Dia { get; set; }
 

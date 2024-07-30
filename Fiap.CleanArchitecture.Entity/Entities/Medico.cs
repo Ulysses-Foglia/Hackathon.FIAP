@@ -6,7 +6,7 @@
 // ------------------------------------------------------------------------------------------------------
 
 using Fiap.CleanArchitecture.Entities;
-using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 

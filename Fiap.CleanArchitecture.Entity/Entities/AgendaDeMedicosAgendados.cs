@@ -7,6 +7,8 @@
 
 
 
+using Fiap.CleanArchitecture.Entity.Enums;
+
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class AgendaDeMedicosAgendados : EntityBase
@@ -19,10 +21,9 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public Usuario Paciente { get; private set; }
 
+        public AgendaStatusEnum  Status { get; private set; }
+
         public DateTime DataAgendada { get; private set; }
-
-        
-
 
 
     }

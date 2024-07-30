@@ -12,7 +12,7 @@ namespace Fiap.CleanArchitecture.Entity.Enums
     {
         DOMINGO = DayOfWeek.Sunday,
 
-        SEGUNDA = DayOfWeek.Monday,
+        SEGUNDA_FEIRA = DayOfWeek.Monday,
 
         TERCA_FEIRA = DayOfWeek.Tuesday,
 

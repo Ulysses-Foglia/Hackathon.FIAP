@@ -21,7 +21,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         public AgendaMedico(AgendaMedicoDAO agendaMedicoDAO)
         {
 
-            
 
         }
 
