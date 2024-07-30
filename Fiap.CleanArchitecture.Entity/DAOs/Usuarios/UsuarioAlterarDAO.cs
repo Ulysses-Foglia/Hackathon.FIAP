@@ -1,10 +1,10 @@
-﻿namespace Fiap.CleanArchitecture.Entity.DAOs.Usuario
+﻿namespace Fiap.CleanArchitecture.Entity.DAOs.Usuarios
 {
-    public class UsuarioDAO
+    public class UsuarioAlterarDAO
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
-        public string Senha { get; set; }
         public string Papel { get; set; }
     }
 }

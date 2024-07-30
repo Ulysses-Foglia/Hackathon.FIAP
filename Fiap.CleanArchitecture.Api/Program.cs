@@ -25,6 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(ApiConfig.Swagger);
 
+
+
 var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Authentication:Secret"));
 
 builder.Services
