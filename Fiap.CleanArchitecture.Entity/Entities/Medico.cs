@@ -7,6 +7,7 @@
 
 using Fiap.CleanArchitecture.Entities;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
+using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 
 
@@ -25,26 +26,27 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         {
             
         }
+
         public Medico(string email, string senha) : base(email, senha) { }
 
-        public Medico(UsuarioDAO usuarioDAO, string crm) : base(usuarioDAO) 
+        public Medico(MedicoDAO medicoDAO) : base(medicoDAO) 
         {
-            ValidarEntity(crm);
+            ValidarEntity(medicoDAO.Crm);
 
-            if (!usuarioDAO.Papel.Equals("Medico"))
-                throw new Exception(MensagensValidacoes.Usuario_Papel_invalido_medico);    
+            if (!medicoDAO.Papel.Equals("Medico"))
+                throw new Exception(MensagensValidacoes.Usuario_Papel_invalido_medico);
 
-            if (!CrmValido(crm))
+            if (!CrmValido(medicoDAO.Crm))
                 throw new Exception(MensagensValidacoes.Usuario_Crm_Inavalido);
             
-            this.Crm = crm;
+            this.Crm = medicoDAO.Crm;
         }
 
-        public Medico(UsuarioDAO usuarioDAO, string crm, AgendaMedicoMes agenda) : base(usuarioDAO)
+        public Medico(MedicoDAO medicoDAO, string crm, AgendaMedicoMes agenda) : base(medicoDAO)
         {
             ValidarEntity(crm, agenda);
 
-            if (!usuarioDAO.Papel.Equals("Medico"))
+            if (!medicoDAO.Papel.Equals("Medico"))
                 throw new Exception(MensagensValidacoes.Usuario_Papel_invalido_medico);
 
             if (!CrmValido(crm))
@@ -56,7 +58,16 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.Crm = crm;
         }
 
-        private  bool CrmValido(string crm) => crm != null && crm != "" && crm.Length == 7 && crm.Contains("/");
+
+        public Medico(MedicoAlterarDAO medicoAlterarDAO) : base(medicoAlterarDAO)
+        {
+            if (!CrmValido(medicoAlterarDAO.Crm))
+                throw new Exception(MensagensValidacoes.Usuario_Crm_Inavalido);
+
+            this.Crm = medicoAlterarDAO.Crm;
+        }
+
+        private  bool CrmValido(string crm) => crm != null && crm != "" && crm.Length == 6;
 
         private bool AgendaValida(AgendaMedicoMes agt) => agt != null && agt.DiasDaAgenda.Any();
 

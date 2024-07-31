@@ -4,7 +4,7 @@
     {
         public static string VerificarUsuario => @"
         
-            SELECT TOP 1 NOME, EMAIL, SENHA, PAPEL 
+            SELECT TOP 1 NOME, EMAIL, CPF, CRM, SENHA, PAPEL 
             FROM USUARIOS WITH (NOLOCK)
             WHERE EMAIL = @EMAIL AND SENHA = @SENHA ORDER BY 1 ASC
 
@@ -16,6 +16,8 @@
             	ID AS Id,
                	DATA_CRIACAO AS DataCriacao,
             	NOME AS Nome,
+                CPF as 'Cpf',
+                CRM as 'Crm',
                	EMAIL AS Email,
                	SENHA AS Senha,
             	PAPEL AS Papel
@@ -29,6 +31,8 @@
             	ID AS Id,
                	DATA_CRIACAO AS DataCriacao,
             	NOME AS Nome,
+                CPF as 'Cpf',
+                CRM as 'Crm',
                	EMAIL AS Email,
                	SENHA AS Senha,
             	PAPEL AS Papel
@@ -39,15 +43,15 @@
 
         public static string Criar => @"
 
-            INSERT INTO USUARIOS (DATA_CRIACAO, NOME, EMAIL, SENHA, PAPEL) 
-            VALUES (GETDATE(), @NOME, @EMAIL, @SENHA, @PAPEL)
+            INSERT INTO USUARIOS (DATA_CRIACAO, NOME, CPF, CRM, EMAIL, SENHA, PAPEL) 
+            VALUES (GETDATE(), @NOME, @CPF, @CRM, @EMAIL, @SENHA, @PAPEL)
 
         ";
 
         public static string Alterar => @"
 
             UPDATE USUARIOS 
-            SET NOME = @NOME, EMAIL = @EMAIL, PAPEL = @PAPEL 
+            SET NOME = @NOME, CPF = @CPF, CRM = @CRM, EMAIL = @EMAIL, PAPEL = @PAPEL 
             WHERE ID = @ID
 
         ";

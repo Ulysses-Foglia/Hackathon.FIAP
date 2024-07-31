@@ -14,6 +14,7 @@ namespace Fiap.CleanArchitecture.Gateway
         }
 
         public string GerarToken(Usuario usuario) => _database.GerarToken(usuario);
+        public string GerarToken(Medico medico) => _database.GerarToken(medico);
         public IEnumerable<Usuario> BuscarTodos() => _database.BuscarTodosUsuarios();
         public Usuario BuscarPorId(int id) => _database.BuscarUsuarioPorId(id);
         public void Criar(Usuario usuario) => _database.CriarUsuario(usuario);

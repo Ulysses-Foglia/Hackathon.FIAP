@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Fiap.CleanArchitecture.Util
 {
@@ -25,5 +26,11 @@ namespace Fiap.CleanArchitecture.Util
 
             return attribute != null ? attribute.Description : value?.ToString();
         }
+
+        public static string FormatarString(string valor)
+        {
+            return Regex.Replace(valor, "[^a-zA-Z0-9]", "");
+        }
+
     }
 }
