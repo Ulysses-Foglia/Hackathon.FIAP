@@ -21,11 +21,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             _medicoControlador = new MedicoControlador(_databaseClient);
         }
 
-
-
-        [HttpPost]
         [VersaoApi("V1.0")]
-        [Route("autenticar-medico")]
+        [HttpPost("autenticar-medico")]
         public IActionResult AutenticarMedico([FromBody] MedicoDAO medicoDAO)
         {
             try
@@ -78,9 +75,9 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             }
         }
 
-        //[Authorize]
-        //[Papel("Medico")]
-        //[VersaoApi("V1.0")]
+        [Authorize]
+        [Papel("Medico")]
+        [VersaoApi("V1.0")]
         [HttpPost("criar")]
         public IActionResult Criar([FromBody] MedicoDAO medicoDAO)
         {

@@ -122,6 +122,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 comd.Parameters.AddWithValue("@NOME", medico.Nome);
                 comd.Parameters.AddWithValue("@EMAIL", medico.Email);
+                comd.Parameters.AddWithValue("@CPF", Ferramentas.FormatarString(medico.Cpf));
+                comd.Parameters.AddWithValue("@CRM", Ferramentas.FormatarString(medico.Crm));
                 comd.Parameters.AddWithValue("@SENHA", medico.Senha);
                 comd.Parameters.AddWithValue("@PAPEL", medico.Papel);
 
@@ -140,6 +142,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 param.Add("@ID", medico.Id, DbType.Int32, ParameterDirection.Input);
                 param.Add("@NOME", medico.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@CPF", Ferramentas.FormatarString(medico.Cpf));
+                param.Add("@CRM", Ferramentas.FormatarString(medico.Crm));
                 param.Add("@EMAIL", medico.Email, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@PAPEL", medico.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
 

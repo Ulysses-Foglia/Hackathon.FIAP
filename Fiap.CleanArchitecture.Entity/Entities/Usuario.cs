@@ -9,6 +9,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
     public class Usuario : EntityBase
     {
         public string Nome { get; set; }
+        public string Cpf { get; set; }      
         public string Email { get; set; }
         public string Senha { get; set; }
         public TipoPapel Papel { get; set; }
@@ -49,7 +50,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             Nome = usuarioDAO.Nome;
             Email = usuarioDAO.Email;            
             Senha = Crypto.Encode(usuarioDAO.Senha);
-          
+            Cpf = usuarioDAO.Cpf;
         }
 
         public Usuario(UsuarioAlterarDAO usuarioAlterarDAO)
@@ -67,6 +68,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             Nome = usuarioAlterarDAO.Nome;
             Email = usuarioAlterarDAO.Email;
             Papel = papel;
+            Cpf = usuarioAlterarDAO.Cpf;
         }
 
         private bool NomeValido(string nome) => nome.Length <= 100;
