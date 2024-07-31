@@ -38,11 +38,11 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             HorarioDisponivel = horarioDisponivel;
         }
 
-        public AgendaMedicoDia(AgendaMedicoDiaDAO agendaMedicoDia)
+        public AgendaMedicoDia(AgendaMedicoDiaDAO agendaMedicoDia, bool EhNovoCadastro)
         {
-            ValideEntity(agendaMedicoDia);
+            ValideEntity(agendaMedicoDia, EhNovoCadastro);
 
-            if (!AgendaMedicoIdValido(agendaMedicoDia.AgendaMedicoId))
+            if (!EhNovoCadastro && !AgendaMedicoIdValido(agendaMedicoDia.AgendaMedicoId))
                 throw new Exception(MensagensValidacoes.Agenda_Dia_IdAgenda);
             if (!HorarioDisponivelValido(agendaMedicoDia.HorarioDisponivel))
                 throw new Exception(MensagensValidacoes.Agenda_Dia_HoraDisponivel);
@@ -77,9 +77,9 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         #region TESTES
 
-        private void ValideEntity(AgendaMedicoDiaDAO agendaMedicoDia)
+        private void ValideEntity(AgendaMedicoDiaDAO agendaMedicoDia, bool EhNovoCadastro)
         {
-            AssertionConcern.AssertArgumentTrue(AgendaMedicoIdValido(agendaMedicoDia.AgendaMedicoId), MensagensValidacoes.Agenda_Dia_IdAgenda);
+            if (!EhNovoCadastro) { AssertionConcern.AssertArgumentTrue(AgendaMedicoIdValido(agendaMedicoDia.AgendaMedicoId), MensagensValidacoes.Agenda_Dia_IdAgenda); }
             AssertionConcern.AssertArgumentTrue(HorarioDisponivelValido(agendaMedicoDia.HorarioDisponivel), MensagensValidacoes.Agenda_Dia_HoraDisponivel);
             AssertionConcern.AssertArgumentTrue(HorarioValido(agendaMedicoDia.Horario), MensagensValidacoes.Agenda_Dia_Horario);
 

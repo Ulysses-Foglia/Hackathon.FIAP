@@ -27,11 +27,11 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public ICollection<AgendaMedicoDia> DiasDaAgenda { get;  set; }
 
-        public AgendaMedicoMes(AgendaMedicoMesDAO agendaMedicoDAO)
+        public AgendaMedicoMes(AgendaMedicoMesDAO agendaMedicoDAO, bool EhNovoCadastro)
         {
-            ValideEntity(agendaMedicoDAO);
+            ValideEntity(agendaMedicoDAO, EhNovoCadastro);
 
-            if (!MedicoIdValido(agendaMedicoDAO.MedicoId))
+            if (!EhNovoCadastro && !MedicoIdValido(agendaMedicoDAO.MedicoId))
                 throw new Exception(MensagensValidacoes.Agenda_Mes_IdMedico);
             if (!MesAnoValido(agendaMedicoDAO.MesAno))
                 throw new Exception(MensagensValidacoes.Agenda_Mes_MesAno);
@@ -39,7 +39,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
                 throw new Exception(MensagensValidacoes.Agenda_Mes_Dia);
             if (!DiaDisponivelValido(agendaMedicoDAO.DiaDisponivel))
                 throw new Exception(MensagensValidacoes.Agenda_Mes_DiaDisponivel);
-            if (!MedicoDiasDaAgenda(agendaMedicoDAO.ConvertaDiasDaAgendaEntity()))
+            if (!MedicoDiasDaAgenda(agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro)))
                 throw new Exception(MensagensValidacoes.Agenda_Mes_DiaAgenda);
 
             this.Medico = new Medico() { Id = agendaMedicoDAO.MedicoId };
@@ -47,7 +47,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.MesAno = agendaMedicoDAO.MesAno;
             this.Dia = agendaMedicoDAO.Dia;
             this.DiaDisponivel = Enum.GetValues<DiaDisponivelEnum>().First(x => x.ToString().Equals(agendaMedicoDAO.DiaDisponivel));
-            this.DiasDaAgenda = agendaMedicoDAO.ConvertaDiasDaAgendaEntity();
+            this.DiasDaAgenda = agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro);
         }
 
 
@@ -59,20 +59,20 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         private bool MesAnoValido(string mesAno) => mesAno != null && mesAno.Length > 0 && mesAno.Length <=6;
 
-        private bool DiaValido(int dia) => dia != 0 && dia < 0 && dia <= 31;
+        private bool DiaValido(int dia) => dia != 0 && dia > 0 && dia <= 31;
 
         private bool DiaDisponivelValido(string diaDisponivel) => diaDisponivel != null && diaDisponivel.Equals(DiaDisponivelEnum.DISPONIVEL.ToString()) || diaDisponivel.Equals(DiaDisponivelEnum.INDISPONIVEL.ToString());
 
         #endregion
 
 
-        private void ValideEntity(AgendaMedicoMesDAO agendaMedicoDAO)
+        private void ValideEntity(AgendaMedicoMesDAO agendaMedicoDAO, bool EhNovoCadastro)
         {
-            AssertionConcern.AssertArgumentTrue(MedicoIdValido(agendaMedicoDAO.MedicoId), MensagensValidacoes.Agenda_Mes_IdMedico);
+            if (!EhNovoCadastro) { AssertionConcern.AssertArgumentTrue(MedicoIdValido(agendaMedicoDAO.MedicoId), MensagensValidacoes.Agenda_Mes_IdMedico); }
             AssertionConcern.AssertArgumentTrue(MesAnoValido(agendaMedicoDAO.MesAno), MensagensValidacoes.Agenda_Mes_MesAno);
             AssertionConcern.AssertArgumentTrue(DiaValido(agendaMedicoDAO.Dia), MensagensValidacoes.Agenda_Mes_Dia);
             AssertionConcern.AssertArgumentTrue(DiaDisponivelValido(agendaMedicoDAO.DiaDisponivel), MensagensValidacoes.Agenda_Mes_DiaDisponivel);
-            AssertionConcern.AssertArgumentTrue(MedicoDiasDaAgenda(agendaMedicoDAO.ConvertaDiasDaAgendaEntity()), MensagensValidacoes.Agenda_Mes_DiaAgenda);
+            AssertionConcern.AssertArgumentTrue(MedicoDiasDaAgenda(agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro)), MensagensValidacoes.Agenda_Mes_DiaAgenda);
         }
 
     }
