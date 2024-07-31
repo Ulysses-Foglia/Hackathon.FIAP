@@ -26,14 +26,14 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 
         public ICollection<AgendaMedicoDiaDAO> DiasDaAgenda { get; set; }
 
-        public ICollection<AgendaMedicoDia> ConvertaDiasDaAgendaEntity() 
+        public ICollection<AgendaMedicoDia> ConvertaDiasDaAgendaEntity(bool EhNovoCadastro) 
         {
             ICollection <AgendaMedicoDia> _DiasDaAgenda = new List<AgendaMedicoDia>();
             if (DiasDaAgenda.Any()) 
             {
                 foreach (var item in DiasDaAgenda)
                 {
-                    _DiasDaAgenda.Add(new AgendaMedicoDia(item));
+                    _DiasDaAgenda.Add(new AgendaMedicoDia(item, EhNovoCadastro));
                 }
             }
 
