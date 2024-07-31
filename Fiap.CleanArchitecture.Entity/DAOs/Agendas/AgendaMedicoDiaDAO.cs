@@ -13,6 +13,7 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 {
     public class AgendaMedicoDiaDAO
     {
+        public AgendaMedicoDiaDAO(){}
         public int Id { get; set; }
 
         public int AgendaMedicoId { get; set; }

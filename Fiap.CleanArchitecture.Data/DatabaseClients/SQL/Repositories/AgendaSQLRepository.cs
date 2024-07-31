@@ -30,6 +30,11 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         }
 
 
+        /// <summary>
+        /// Cria uma agenda composta com os horarios disponíves
+        /// </summary>
+        /// <param name="agenda"></param>
+        /// <returns></returns>
         public int CrieAgendaDoMedico(AgendaMedicoMes agenda)
         {
             using (var conn = new SqlConnection(ConnectionString))
@@ -71,7 +76,40 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             }
         }
 
+        /// <summary>
+        /// Cria um Horario na agenda do Médico
+        /// </summary>
+        /// <param name="horario"></param>
+        /// <returns></returns>
+        public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDia horario) 
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
 
+                comd.Transaction = trans;
+                comd.CommandText = AgendaMedicoSQLScript.CriarHorarioAgenda;
+
+                comd.Parameters.Clear();
+                comd.Parameters.AddWithValue("@HORARIO", horario.Horario);
+                comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
+                comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
+                comd.Parameters.AddWithValue("@AGENDAMEDICOID", horario.AgendaMedicoId);
+                var idGerado = (int)comd.ExecuteScalar();
+                trans.Commit();
+
+                return idGerado;
+            }
+        }
+
+        
+        /// <summary>
+        /// Busca as agendas do médico pelo seu ID
+        /// </summary>
+        /// <param name="idMedico"></param>
+        /// <returns></returns>
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedico(int idMedico)
         {
 
@@ -93,7 +131,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                         var param2 = new DynamicParameters();
 
-                        param2.Add("@AGENDAMEDICOID", idMedico, DbType.Int32, ParameterDirection.Input);
+                        param2.Add("@AGENDAMEDICOID", agenda.Id, DbType.Int32, ParameterDirection.Input);
 
                         var horaios = conn.Query<AgendaMedicoDia>(sql2, param2, commandTimeout: Timeout);
 
@@ -107,10 +145,269 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 return result;
             }
 
+        }
 
+        /// <summary>
+        /// Busca as agendas do médico pelo seu ID e ID da sua agenda
+        /// </summary>
+        /// <param name="idMedico"></param>
+        /// <returns></returns>
+        public AgendaMedicoMes BusqueAgendaDoMedicoPorId(int idMedico, int IdAgenda)
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = AgendaMedicoSQLScript.BuscaAgendaDoMedicoPorIdEhMedico;
+
+                var param = new DynamicParameters();
+
+                param.Add("@MEDICOID", idMedico, DbType.Int32, ParameterDirection.Input);
+                param.Add("@ID", IdAgenda, DbType.Int32, ParameterDirection.Input);
+
+                var result = conn.Query<AgendaMedicoMes>(sql, param, commandTimeout: Timeout);
+
+                if (result.Any())
+                {
+                    foreach (var agenda in result)
+                    {
+                        var sql2 = AgendaMedicoSQLScript.ObtenhaHorariosDaAgendaPeloIdAgenda;
+
+                        var param2 = new DynamicParameters();
+
+                        param2.Add("@AGENDAMEDICOID", agenda.Id, DbType.Int32, ParameterDirection.Input);
+
+                        var horaios = conn.Query<AgendaMedicoDia>(sql2, param2, commandTimeout: Timeout);
+
+                        if (horaios.Any())
+                        {
+                            agenda.DiasDaAgenda = horaios.ToList();
+                        }
+                    }
+                }
+
+                return result.FirstOrDefault();
+            }
+
+        }
+
+
+        /// <summary>
+        /// Busca as agendas com base nos parametros do filtro
+        /// </summary>
+        /// <param name="idMedico"></param>
+        /// <param name="dia"></param>
+        /// <param name="mesano"></param>
+        /// <returns></returns>
+        public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(int idMedico, int dia, string mesano) 
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = AgendaMedicoSQLScript.BuscaAgendasDoMedicoPorIdEhDiaEhMes;
+
+                var param = new DynamicParameters();
+
+                param.Add("@MEDICOID", idMedico, DbType.Int32, ParameterDirection.Input);
+                param.Add("@DIA", dia, DbType.Int32, ParameterDirection.Input);
+                param.Add("@MESANO", mesano, DbType.String, ParameterDirection.Input);
+
+                var result = conn.Query<AgendaMedicoMes>(sql, param, commandTimeout: Timeout);
+
+                if (result.Any())
+                {
+                    foreach (var agenda in result)
+                    {
+                        var sql2 = AgendaMedicoSQLScript.ObtenhaHorariosDaAgendaPeloIdAgenda;
+
+                        var param2 = new DynamicParameters();
+
+                        param2.Add("@AGENDAMEDICOID", agenda.Id, DbType.Int32, ParameterDirection.Input);
+
+                        var horaios = conn.Query<AgendaMedicoDia>(sql2, param2, commandTimeout: Timeout);
+
+                        if (horaios.Any())
+                        {
+                            agenda.DiasDaAgenda = horaios.ToList();
+                        }
+                    }
+                }
+
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Atualiza a disponibilidade da agenda
+        /// </summary>
+        /// <param name="IdAgenda"></param>
+        /// <param name="disponibilidade"></param>
+        /// <returns></returns>
+        public AgendaMedicoMes AtualizeDisponibilidadeAgendaMedicoPorId(int IdAgenda, string disponibilidade)
+        {
+            int idMedico = 0;
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+
+                comd.CommandText = AgendaMedicoSQLScript.AtualizeAgendaMedicoPorId;
+
+                comd.Parameters.AddWithValue("@ID", IdAgenda);
+                comd.Parameters.AddWithValue("@DIADISPONIVEL", disponibilidade);
+
+                var linhasafetadas = (int)comd.ExecuteNonQuery();
+
+                if (linhasafetadas != 0)
+                {
+                    comd.Parameters.Clear();
+                    comd.CommandText = "SELECT MEDICOID FROM AGENDA_MEDICO_MES WITH (NOLOCK) WHERE ID IN (SELECT AGENDAMEDICOID FROM AGENDA_MEDICO_DIA WHERE ID = @ID)";
+                    comd.Parameters.AddWithValue("@ID", IdAgenda);
+                    idMedico = comd.ExecuteReader().GetInt32(0);
+                }
+
+                trans.Commit();
+            }
+
+            return BusqueAgendaDoMedicoPorId(idMedico, IdAgenda);
+
+        }
+
+
+        /// <summary>
+        /// Atualiza um horario de determinada agenda e medico para um paciente
+        /// </summary>
+        /// <param name="idHorario"></param>
+        /// <param name="IdAgendaMedico"></param>
+        /// <param name="IdPaciente"></param>
+        /// <param name="disponibilidade"></param>
+        /// <returns></returns>
+        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade)
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+
+                comd.CommandText = AgendaMedicoSQLScript.AtualizeHorarioComPasciente;
+
+                comd.Parameters.AddWithValue("@ID", idHorario);
+                comd.Parameters.AddWithValue("@PACIENTEID", IdPaciente);
+                comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
+                comd.Parameters.AddWithValue("@DIADISPONIVEL", disponibilidade);
+
+                var linhasafetadas = (int)comd.ExecuteNonQuery();
+
+                trans.Commit();
+
+                return linhasafetadas;
+            }
 
 
         }
+
+
+        /// <summary>
+        /// Libere horario da agenda do médico para DISPONIVEL
+        /// </summary>
+        /// <param name="idHorario"></param>
+        /// <param name="IdAgendaMedico"></param>
+        /// <returns></returns>
+        public int AtualizeLibereHorarioDaAgenda(int idHorario, int IdAgendaMedico)
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+
+                comd.CommandText = AgendaMedicoSQLScript.AtualizeLibereHorario;
+
+                comd.Parameters.AddWithValue("@ID", idHorario);
+                comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
+                
+                var linhasafetadas = (int)comd.ExecuteNonQuery();
+
+                trans.Commit();
+
+                return linhasafetadas;
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// Atualiza o horario da agenda do médico conforme parametro
+        /// </summary>
+        /// <param name="idHorario"></param>
+        /// <param name="IdAgendaMedico"></param>
+        /// <returns></returns>
+        public int AtualizeHorarioDaAgenda(int idHorario, int IdAgendaMedico, string horario)
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+
+                comd.CommandText = AgendaMedicoSQLScript.AtualizeHorario;
+
+                comd.Parameters.AddWithValue("@ID", idHorario);
+                comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
+                comd.Parameters.AddWithValue("@HORARIO", IdAgendaMedico);
+
+                var linhasafetadas = (int)comd.ExecuteNonQuery();
+
+                trans.Commit();
+
+                return linhasafetadas;
+            }
+        }
+
+        /// <summary>
+        /// Remove um horario relacionado a agenda
+        /// </summary>
+        /// <param name="idHorario"></param>
+        /// <returns></returns>
+        public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico)
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+
+                comd.CommandText = AgendaMedicoSQLScript.DeleteHorario;
+
+                comd.Parameters.AddWithValue("@ID", idHorario);
+                comd.Parameters.AddWithValue("@AGENDAMEDICOID", idAgendaMedico);
+
+                var linhasafetadas = (int)comd.ExecuteNonQuery();
+
+                trans.Commit();
+
+                return linhasafetadas;
+            }
+        }
+
 
     }
 }

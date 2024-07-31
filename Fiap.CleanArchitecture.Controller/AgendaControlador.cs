@@ -10,6 +10,7 @@ using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
+using Fiap.CleanArchitecture.Presenter;
 using Fiap.CleanArchitecture.UseCase;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
 using System;
@@ -36,7 +37,9 @@ namespace Fiap.CleanArchitecture.Controller
 
         public string BusqueTodasAgendasDoMedico(int idMedico)
         {
-            throw new NotImplementedException();
+            var agendas = _agendaGateway.BusqueTodasAgendasDoMedico(idMedico);
+
+            return AgendaPresenter.ToJson(agendas);
         }
 
         public int CrieAgendaDoMedico(AgendaMedicoMesDAO agenda)

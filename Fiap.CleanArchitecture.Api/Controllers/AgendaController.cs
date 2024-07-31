@@ -35,7 +35,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [Papel("Medico")]
         [VersaoApi("V1.0")]
-        [HttpPost("criar-agenda-medico")]
+        [HttpPost("criar")]
         public IActionResult CriarAgendaMedico([FromBody] AgendaMedicoMesDAO angendaDAO)
         {
             try
@@ -43,6 +43,24 @@ namespace Fiap.CleanArchitecture.Api.Controllers
                 _agendaControlador.CrieAgendaDoMedico(angendaDAO);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [Authorize]
+        [VersaoApi("V1.0")]
+        [HttpGet("buscar-por-medico-id/{id:int}")]
+        public IActionResult BuscarPorId(int id)
+        {
+            try
+            {
+                var usuarios = _agendaControlador.BusqueTodasAgendasDoMedico(id);
+
+                return Ok(usuarios);
             }
             catch (Exception ex)
             {

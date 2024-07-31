@@ -20,6 +20,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class AgendaMedicoDia : EntityBase
     {
+        public AgendaMedicoDia(){}
         public int AgendaMedicoId { get; set; }
 
         public HorarioDisponivelEnum HorarioDisponivel { get; set; }
@@ -55,6 +56,19 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             HorarioDisponivel = Enum.GetValues<HorarioDisponivelEnum>().First(e => e.ToString().Equals(agendaMedicoDia.HorarioDisponivel));
             Horario = agendaMedicoDia.Horario;
             PacienteId = agendaMedicoDia.PacienteId;
+        }
+
+
+        public AgendaMedicoDiaDAO ConvertaEmDAO() 
+        {
+            return new AgendaMedicoDiaDAO()
+            {
+                Id = this.Id,
+                AgendaMedicoId = this.AgendaMedicoId,
+                Horario = this.Horario,
+                HorarioDisponivel = this.HorarioDisponivel.ToString(),
+                PacienteId = this.PacienteId
+            };
         }
 
         #region VALIDACOES

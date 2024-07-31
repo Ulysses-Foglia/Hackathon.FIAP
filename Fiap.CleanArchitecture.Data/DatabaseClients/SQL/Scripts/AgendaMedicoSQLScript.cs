@@ -42,7 +42,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         public static string BuscarTodasAgendasDosMedicos => @"
             
                 SELECT 
-                AM.ID
+                AM.ID,
                 AM.MEDICOID, 
                 AM.MESANO, 
                 AM.DIA, 
@@ -57,7 +57,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         public static string BuscaAgendasDoMedicoPorID => @"
             
                 SELECT 
-                AM.ID
+                AM.ID,
                 AM.MEDICOID, 
                 AM.MESANO, 
                 AM.DIA, 
@@ -68,12 +68,49 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         ";
 
         /// <summary>
+        /// @MEDICOID (ID do Médico)
+        /// @ID (ID AGENDA)
+        /// </summary>
+        public static string BuscaAgendaDoMedicoPorIdEhMedico => @"
+            
+                SELECT 
+                AM.ID,
+                AM.MEDICOID, 
+                AM.MESANO, 
+                AM.DIA, 
+                AM.DIADISPONIVEL, 
+                AM.DATA_CRIACAO
+                FROM AGENDA_MEDICO_MES AM WITH (NOLOCK)
+                WHERE AM.MEDICOID = @MEDICOID and ID = @ID 
+        ";
+
+
+        /// <summary>
+        /// @MEDICOID (ID do Médico)
+        /// @DIA (Dia da Agenda)
+        /// @MESANO (Mes eh Ano)
+        /// </summary>
+        public static string BuscaAgendasDoMedicoPorIdEhDiaEhMes => @"
+            
+                SELECT 
+                AM.ID,
+                AM.MEDICOID, 
+                AM.MESANO, 
+                AM.DIA, 
+                AM.DIADISPONIVEL, 
+                AM.DATA_CRIACAO
+                FROM AGENDA_MEDICO_MES AM WITH (NOLOCK)
+                WHERE AM.MEDICOID = @MEDICOID and AM.DIA = @DIA AND AM.MESANO = @MESANO
+        ";
+
+
+        /// <summary>
         ///  @AGENDAMEDICOID (ID da Agenda do médico)
         /// </summary>
         public static string ObtenhaHorariosDaAgendaPeloIdAgenda => @"
             
                SELECT
-               AD.ID
+               AD.ID,
                AD.HORARIO, 
                AD.HORARIODISPONIVEL, 
                AD.DATA_CRIACAO, 
@@ -93,6 +130,44 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
 
         ";
 
+        /// <summary>
+        /// @PACIENTEID (ID do paciente)
+        /// @HORARIODISPONIVEL (Enum HorarioDisponivel)
+        /// @AGENDAMEDICOID (Id agenda do medico)
+        /// @ID (Id do horario)
+        /// </summary>
+        public static string AtualizeHorarioComPasciente => @"
+            
+             UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = @PACIENTEID, HORARIODISPONIVEL = @HORARIODISPONIVEL WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
+
+        ";
+
+        /// <summary>
+        /// @AGENDAMEDICOID (Id agenda do medico)
+        /// @ID (Id do horario)
+        /// </summary>
+        public static string AtualizeLibereHorario => @"
+            
+             UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = NULL, HORARIODISPONIVEL = 'DISPONIVEL' WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
+
+        ";
+
+        /// <summary>
+        /// @AGENDAMEDICOID (Id agenda do medico)
+        /// @ID (Id do horario)
+        /// @HORARIO (Horario para atualização formato '00:00')
+        /// </summary>
+        public static string AtualizeHorario => @"
+            
+             UPDATE  AGENDA_MEDICO_DIA SET HORARIO = @HORARIO WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
+
+        ";
+
+        public static string DeleteHorario => @"
+            
+             DELETE FROM AGENDA_MEDICO_DIA WHERE ID = @ID AND AGENDAMEDICOID = @AGENDAMEDICOID
+
+        ";
 
 
     }

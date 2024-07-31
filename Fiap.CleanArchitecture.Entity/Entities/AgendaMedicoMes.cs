@@ -10,11 +10,13 @@ using Fiap.CleanArchitecture.Entities;
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
+using System.Runtime.CompilerServices;
 
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class AgendaMedicoMes : EntityBase
     {
+        public AgendaMedicoMes(){}
         public Medico Medico { get;  set; }
 
         public int MedicoId { get;  set; }
@@ -48,6 +50,27 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.Dia = agendaMedicoDAO.Dia;
             this.DiaDisponivel = Enum.GetValues<DiaDisponivelEnum>().First(x => x.ToString().Equals(agendaMedicoDAO.DiaDisponivel));
             this.DiasDaAgenda = agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro);
+        }
+
+
+        public AgendaMedicoMesDAO ConvertaEmDAO()
+        {
+            var listaNova = new List<AgendaMedicoDiaDAO>();
+            foreach (var item in DiasDaAgenda)
+            {
+                listaNova.Add(item.ConvertaEmDAO());
+            }
+
+            return new AgendaMedicoMesDAO()
+            {
+                Id = this.Id,
+                MedicoId = this.MedicoId,
+                Dia = this.Dia,
+                DiaDisponivel = this.DiaDisponivel.ToString(),
+                MesAno = this.MesAno,
+                DiasDaAgenda = listaNova,
+
+            };
         }
 
 
