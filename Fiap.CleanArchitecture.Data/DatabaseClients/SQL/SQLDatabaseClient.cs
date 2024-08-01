@@ -67,11 +67,15 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
 
         public AgendaMedicoMes AtualizeDisponibilidadeAgendaMedicoPorId(int IdAgenda, string disponibilidade) => _agentaSQLRepository.AtualizeDisponibilidadeAgendaMedicoPorId(IdAgenda, disponibilidade);
 
-        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade) => _agentaSQLRepository.AtualizeHorarioDaAgendaComPaciente(idHorario,IdAgendaMedico,IdPaciente,disponibilidade);
+        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade, byte[] versaoLinha) => _agentaSQLRepository.AtualizeHorarioDaAgendaComPaciente(idHorario,IdAgendaMedico,IdPaciente,disponibilidade, versaoLinha);
 
         public int AtualizeLibereHorarioDaAgenda(int idHorario, int IdAgendaMedico) => _agentaSQLRepository.AtualizeLibereHorarioDaAgenda(idHorario,IdAgendaMedico);
 
         public int AtualizeHorarioDaAgenda(int idHorario, int IdAgendaMedico, string horario) => _agentaSQLRepository.AtualizeHorarioDaAgenda(idHorario, IdAgendaMedico, horario);
+
+        public byte[] ObtenhaAhVersaoDaLinhaDoHorario(int idHorario) => _agentaSQLRepository.ObtenhaAhVersaoDaLinhaDoHorario(idHorario);
+
+        public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario) => _agentaSQLRepository.BusqueAgendaDiaDoMedicoPorId(idHorario);
 
         #endregion
     }

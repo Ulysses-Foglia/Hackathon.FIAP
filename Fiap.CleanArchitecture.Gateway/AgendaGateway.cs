@@ -30,9 +30,9 @@ namespace Fiap.CleanArchitecture.Gateway
             return _database.AtualizeHorarioDaAgenda(idHorario, IdAgendaMedico, horario);   
         }
 
-        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade)
+        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade, byte[] versaoLinha)
         {
-            return _database.AtualizeHorarioDaAgendaComPaciente(idHorario, IdAgendaMedico, IdPaciente, disponibilidade);
+            return _database.AtualizeHorarioDaAgendaComPaciente(idHorario, IdAgendaMedico, IdPaciente, disponibilidade, versaoLinha);
         }
 
         public int AtualizeLibereHorarioDaAgenda(int idHorario, int IdAgendaMedico)
@@ -64,5 +64,16 @@ namespace Fiap.CleanArchitecture.Gateway
         {
             return _database.CrieHorarioNaAgendaDoMedico(horario);
         }
+
+        public byte[] ObtenhaAhVersaoDaLinhaDoHorario(int idHorario)
+        {
+            return _database.ObtenhaAhVersaoDaLinhaDoHorario(idHorario);
+        }
+
+        public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario) 
+        {
+            return _database.BusqueAgendaDiaDoMedicoPorId(idHorario);
+        }
+
     }
 }

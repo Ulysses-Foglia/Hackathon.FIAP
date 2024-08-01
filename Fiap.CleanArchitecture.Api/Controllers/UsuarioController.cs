@@ -80,8 +80,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             }            
         }
 
-        [Authorize]
-        [Papel("Admin")]
+        [AllowAnonymous]
         [VersaoApi("V1.0")]
         [HttpPost("criar")]
         public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
@@ -99,7 +98,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Paciente")]
         [VersaoApi("V1.0")]
         [HttpPut("alterar")]
         public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
@@ -117,7 +116,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Paciente")]
         [VersaoApi("V1.0")]
         [HttpDelete("excluir/{id:int}")]
         public IActionResult Excluir(int id)
