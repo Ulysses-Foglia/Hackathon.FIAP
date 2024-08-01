@@ -30,9 +30,9 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         /// </summary>
         public static string CriarHorarioAgenda => @"
                 
-                INSERT INTO AGENDA_MEDICO_DIA (HORARIO, HORARIODISPONIVEL, DATA_CRIACAO, PACIENTEID, AGENDAMEDICOID, VERSAOLINHA)
+                INSERT INTO AGENDA_MEDICO_DIA (HORARIO, HORARIODISPONIVEL, DATA_CRIACAO, PACIENTEID, AGENDAMEDICOID)
                 OUTPUT INSERTED.ID 
-                VALUES (@HORARIO, @HORARIODISPONIVEL, GETDATE(), @PACIENTEID, @AGENDAMEDICOID, @VERSAOLINHA)
+                VALUES (@HORARIO, @HORARIODISPONIVEL, GETDATE(), @PACIENTEID, @AGENDAMEDICOID)
     
          ";
 
@@ -141,7 +141,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         public static string AtualizeHorarioComPasciente => @"
             
              UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = @PACIENTEID, HORARIODISPONIVEL = @HORARIODISPONIVEL, VERSAOLINHA = @VERSAOLINHA WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
-
+            
         ";
 
         /// <summary>

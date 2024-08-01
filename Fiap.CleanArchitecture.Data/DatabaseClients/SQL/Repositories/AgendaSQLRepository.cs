@@ -65,9 +65,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                         comd.Parameters.Clear();
                         comd.Parameters.AddWithValue("@HORARIO", horario.Horario);
                         comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
-                        comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
-                        comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
-                        comd.Parameters.AddWithValue("@AGENDAMEDICOID", idGerado);
+                        comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);                       
+                        comd.Parameters.AddWithValue("@AGENDAMEDICOID", idGerado);                       
                         comd.ExecuteScalar();
                     }
                 }
@@ -97,8 +96,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.Clear();
                 comd.Parameters.AddWithValue("@HORARIO", horario.Horario);
                 comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
-                comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
-                comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
+                comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);               
                 comd.Parameters.AddWithValue("@AGENDAMEDICOID", horario.AgendaMedicoId);
                 var idGerado = (int)comd.ExecuteScalar();
                 trans.Commit();
@@ -309,8 +307,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 comd.Parameters.AddWithValue("@ID", idHorario);
                 comd.Parameters.AddWithValue("@PACIENTEID", IdPaciente);
-                comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
-                comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
+                comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);             
                 comd.Parameters.AddWithValue("@DIADISPONIVEL", disponibilidade);
 
                 var linhasafetadas = (int)comd.ExecuteNonQuery();
