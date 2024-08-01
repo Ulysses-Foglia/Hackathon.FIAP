@@ -26,5 +26,7 @@ namespace Fiap.CleanArchitecture.Controller.Interface
 
         public string AtualizeHorarioDaAgenda(AgendaMedicoAtualizeHorarioDAO dados);
 
+        public int AtualizeHorarioDaAgendaComPaciente(AgendaMedicoAgendarPacienteDAO dados);
+
     }
 }

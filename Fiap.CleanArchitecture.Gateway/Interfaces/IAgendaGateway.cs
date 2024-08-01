@@ -28,11 +28,14 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
 
         public AgendaMedicoMes AtualizeDisponibilidadeAgendaMedicoPorId(int IdAgenda, string disponibilidade);
 
-        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade);
+        public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade, byte[] versaoLinha);
 
         public int AtualizeLibereHorarioDaAgenda(int idHorario, int IdAgendaMedico);
 
         public int AtualizeHorarioDaAgenda(int idHorario, int IdAgendaMedico, string horario);
 
+        public byte[] ObtenhaAhVersaoDaLinhaDoHorario(int idHorario);
+
+        public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario);
     }
 }
