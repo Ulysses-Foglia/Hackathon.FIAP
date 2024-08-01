@@ -72,6 +72,28 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             }
         }
 
+        [Authorize]
+        [Papel("Medico")]
+        [VersaoApi("V1.0")]
+        [HttpPost("atualizar-horario-agenda")]
+        public IActionResult AtualizeHorarioAgenda([FromBody] AgendaMedicoAtualizeHorarioDAO dados)
+        {
+            try
+            {
+                if (!ModelState.IsValid) { throw new Exception("Formato invalido dos dados"); };
+
+                dados.ValideEntradaDoUsuario();
+
+                var agenda = _agendaControlador.AtualizeHorarioDaAgenda(dados);
+
+                return Ok(agenda);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
 
         [Authorize]
         [VersaoApi("V1.0")]

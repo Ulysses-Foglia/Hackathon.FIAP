@@ -66,6 +66,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                         comd.Parameters.AddWithValue("@HORARIO", horario.Horario);
                         comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
                         comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
+                        comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
                         comd.Parameters.AddWithValue("@AGENDAMEDICOID", idGerado);
                         comd.ExecuteScalar();
                     }
@@ -97,6 +98,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.AddWithValue("@HORARIO", horario.Horario);
                 comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
                 comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
+                comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
                 comd.Parameters.AddWithValue("@AGENDAMEDICOID", horario.AgendaMedicoId);
                 var idGerado = (int)comd.ExecuteScalar();
                 trans.Commit();
@@ -294,7 +296,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade)
         {
-
+            
             using (var conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand comd = conn.CreateCommand();
@@ -308,6 +310,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.AddWithValue("@ID", idHorario);
                 comd.Parameters.AddWithValue("@PACIENTEID", IdPaciente);
                 comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
+                comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
                 comd.Parameters.AddWithValue("@DIADISPONIVEL", disponibilidade);
 
                 var linhasafetadas = (int)comd.ExecuteNonQuery();
@@ -342,7 +345,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 comd.Parameters.AddWithValue("@ID", idHorario);
                 comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
-                
+                comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
+
                 var linhasafetadas = (int)comd.ExecuteNonQuery();
 
                 trans.Commit();
@@ -375,7 +379,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 comd.Parameters.AddWithValue("@ID", idHorario);
                 comd.Parameters.AddWithValue("@AGENDAMEDICOID", IdAgendaMedico);
-                comd.Parameters.AddWithValue("@HORARIO", IdAgendaMedico);
+                comd.Parameters.AddWithValue("@HORARIO", horario);
+                comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
 
                 var linhasafetadas = (int)comd.ExecuteNonQuery();
 

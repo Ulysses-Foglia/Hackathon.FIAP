@@ -24,5 +24,7 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 
         public int PacienteId { get; set; }
 
+        public int VersaoLinha { get; set; }    
+
     }
 }

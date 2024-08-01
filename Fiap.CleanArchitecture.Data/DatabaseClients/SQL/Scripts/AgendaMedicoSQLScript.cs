@@ -30,9 +30,9 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         /// </summary>
         public static string CriarHorarioAgenda => @"
                 
-                INSERT INTO AGENDA_MEDICO_DIA (HORARIO, HORARIODISPONIVEL, DATA_CRIACAO, PACIENTEID, AGENDAMEDICOID)
+                INSERT INTO AGENDA_MEDICO_DIA (HORARIO, HORARIODISPONIVEL, DATA_CRIACAO, PACIENTEID, AGENDAMEDICOID, VERSAOLINHA)
                 OUTPUT INSERTED.ID 
-                VALUES (@HORARIO, @HORARIODISPONIVEL, GETDATE(), @PACIENTEID, @AGENDAMEDICOID)
+                VALUES (@HORARIO, @HORARIODISPONIVEL, GETDATE(), @PACIENTEID, @AGENDAMEDICOID, @VERSAOLINHA)
     
          ";
 
@@ -115,7 +115,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
                AD.HORARIODISPONIVEL, 
                AD.DATA_CRIACAO, 
                AD.PACIENTEID, 
-               AD.AGENDAMEDICOID
+               AD.AGENDAMEDICOID,
+               AD.VERSAOLINHA
                FROM AGENDA_MEDICO_DIA AD WITH (NOLOCK)
                WHERE AD.AGENDAMEDICOID = @AGENDAMEDICOID
         ";
@@ -135,20 +136,22 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         /// @HORARIODISPONIVEL (Enum HorarioDisponivel)
         /// @AGENDAMEDICOID (Id agenda do medico)
         /// @ID (Id do horario)
+        /// @VERSAOLINHA (VALOR RANDOMICO)
         /// </summary>
         public static string AtualizeHorarioComPasciente => @"
             
-             UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = @PACIENTEID, HORARIODISPONIVEL = @HORARIODISPONIVEL WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
+             UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = @PACIENTEID, HORARIODISPONIVEL = @HORARIODISPONIVEL, VERSAOLINHA = @VERSAOLINHA WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
 
         ";
 
         /// <summary>
         /// @AGENDAMEDICOID (Id agenda do medico)
         /// @ID (Id do horario)
+        /// @VERSAOLINHA (VALOR RANDOMICO)
         /// </summary>
         public static string AtualizeLibereHorario => @"
             
-             UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = NULL, HORARIODISPONIVEL = 'DISPONIVEL' WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
+             UPDATE  AGENDA_MEDICO_DIA SET PACIENTEID = NULL, HORARIODISPONIVEL = 'DISPONIVEL', VERSAOLINHA = @VERSAOLINHA WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
 
         ";
 
@@ -156,10 +159,11 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         /// @AGENDAMEDICOID (Id agenda do medico)
         /// @ID (Id do horario)
         /// @HORARIO (Horario para atualização formato '00:00')
+        /// @VERSAOLINHA (VALOR RANDOMICO)
         /// </summary>
         public static string AtualizeHorario => @"
             
-             UPDATE  AGENDA_MEDICO_DIA SET HORARIO = @HORARIO WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
+             UPDATE  AGENDA_MEDICO_DIA SET HORARIO = @HORARIO, VERSAOLINHA = @VERSAOLINHA WHERE AGENDAMEDICOID = @AGENDAMEDICOID AND ID = @ID
 
         ";
 

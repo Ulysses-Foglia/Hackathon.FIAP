@@ -53,5 +53,10 @@ namespace Fiap.CleanArchitecture.Presenter
             return JsonConvert.SerializeObject(agendaPresenter);
         }
 
+        public static string ToJson(object dado)
+        {
+            return JsonConvert.SerializeObject(dado);
+        }
+
     }
 }

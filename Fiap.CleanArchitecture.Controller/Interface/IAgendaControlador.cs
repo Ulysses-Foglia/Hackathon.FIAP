@@ -24,5 +24,7 @@ namespace Fiap.CleanArchitecture.Controller.Interface
 
         public string AtualizeAhDisponibilidadeDaAgendaDoMedico(int idAgenda, string disponibilidade);
 
+        public string AtualizeHorarioDaAgenda(AgendaMedicoAtualizeHorarioDAO dados);
+
     }
 }

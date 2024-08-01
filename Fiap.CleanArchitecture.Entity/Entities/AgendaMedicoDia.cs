@@ -31,6 +31,8 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         public int PacienteId { get; set; }
 
+        public int VersaoLinha { get; set; }
+
         public AgendaMedicoDia(int agendaMedicoId, HorarioDisponivelEnum horarioDisponivel, string horario, Usuario paciente)
         {
             AgendaMedicoId = agendaMedicoId;
@@ -56,6 +58,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             HorarioDisponivel = Enum.GetValues<HorarioDisponivelEnum>().First(e => e.ToString().Equals(agendaMedicoDia.HorarioDisponivel));
             Horario = agendaMedicoDia.Horario;
             PacienteId = agendaMedicoDia.PacienteId;
+            VersaoLinha = agendaMedicoDia.VersaoLinha;
         }
 
 
@@ -67,7 +70,8 @@ namespace Fiap.CleanArchitecture.Entity.Entities
                 AgendaMedicoId = this.AgendaMedicoId,
                 Horario = this.Horario,
                 HorarioDisponivel = this.HorarioDisponivel.ToString(),
-                PacienteId = this.PacienteId
+                PacienteId = this.PacienteId,
+                VersaoLinha = this.VersaoLinha
             };
         }
 

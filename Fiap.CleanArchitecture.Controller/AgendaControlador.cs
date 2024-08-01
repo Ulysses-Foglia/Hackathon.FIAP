@@ -53,8 +53,19 @@ namespace Fiap.CleanArchitecture.Controller
 
             return AgendaPresenter.ToJson(agenda);
         }
-        
 
+        public string AtualizeHorarioDaAgenda(AgendaMedicoAtualizeHorarioDAO dados) 
+        {
+            var linhasAfetadas =  _agendaGateway.AtualizeHorarioDaAgenda(dados.idHorario, dados.idAgendaMedico, dados.Horario);
+            if (linhasAfetadas != 0) 
+            {
+                return AgendaPresenter.ToJson(new { Mensagem = $"O Horario de ID: {dados.idHorario} foi atualizado para {dados.Horario}" });
+            }
+            else
+            {
+                return AgendaPresenter.ToJson(new { Mensagem = $"Não foi possível atualizar o horário, verifique os dados e tente novamente." });
+            }
+        }
 
     }
 }
