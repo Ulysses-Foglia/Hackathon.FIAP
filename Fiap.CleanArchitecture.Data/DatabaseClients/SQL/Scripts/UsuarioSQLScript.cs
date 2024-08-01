@@ -21,6 +21,8 @@
                	SENHA AS Senha,
             	PAPEL AS Papel
             FROM USUARIOS WITH (NOLOCK)
+            WHERE
+             PAPEL like 'Paciente'
 
         ";
 
@@ -36,7 +38,7 @@
             	PAPEL AS Papel
             FROM USUARIOS WITH (NOLOCK)
             WHERE ID = @ID
-
+            and PAPEL like 'Paciente' 
         ";
 
         public static string Criar => @"
@@ -51,7 +53,7 @@
             UPDATE USUARIOS 
             SET NOME = @NOME, CPF = @CPF, EMAIL = @EMAIL, PAPEL = @PAPEL 
             WHERE ID = @ID
-
+            
         ";
 
         public static string Excluir => @"

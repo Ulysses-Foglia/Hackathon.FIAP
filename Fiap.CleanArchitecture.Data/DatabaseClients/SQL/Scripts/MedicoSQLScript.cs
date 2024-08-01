@@ -28,7 +28,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
                	SENHA AS Senha,
             	PAPEL AS Papel
             FROM USUARIOS WITH (NOLOCK)
-
+            where PAPEL like '%Medico%'
         ";
 
         public static string BuscarPorId => @"
@@ -44,7 +44,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
             	PAPEL AS Papel
             FROM USUARIOS WITH (NOLOCK)
             WHERE ID = @ID
-
+            and USUARIOS.PAPEL like '%Medico%'
         ";
 
         public static string Criar => @"
@@ -85,6 +85,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
              from USUARIOS USUMED
              join AGENDA_MEDICO_MES AGMED on AGMED.MEDICOID = USUMED.ID
              join AGENDA_MEDICO_DIA AGEMEDIA on AGEMEDIA.AGENDAMEDICOID = AGMED.ID
+             where USUMED.PAPEL like '%Medico%'
         ";
     }
 }
