@@ -2,6 +2,6 @@
 {
     public interface IEmailControlador
     {
-        Task SendMail(string message);
+        Task SendMail(string email, string mensagem);
     }
 }

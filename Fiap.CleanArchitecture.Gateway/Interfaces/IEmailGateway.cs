@@ -2,6 +2,6 @@
 {
     public interface IEmailGateway
     {
-        Task SendMailMessage(string message);
+        Task SendMailMessage(string email, string mensagem);
     }
 }

@@ -12,6 +12,7 @@ namespace Fiap.CleanArchitecture.Controller
             _emailGateway = emailGateway;
         }
 
-        public async Task SendMail(string message) => await _emailGateway.SendMailMessage(message);
+        public async Task SendMail(string email, string mensagem) 
+            => await _emailGateway.SendMailMessage(email, mensagem);
     }
 }

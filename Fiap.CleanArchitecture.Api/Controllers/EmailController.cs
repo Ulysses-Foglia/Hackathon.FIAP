@@ -1,4 +1,5 @@
 ﻿using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Entity.DAOs.Email;
 using Fiap.CleanArchitecture.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,11 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [VersaoApi("V1.0")]
         [HttpPost("enviar-email")]
-        public IActionResult SendMail([FromBody] string mensagem)
+        public async Task<IActionResult> SendMail([FromBody] EmailDAO mail)
         {
             try
             {
-                _emailControlador.SendMail(mensagem);
+                await _emailControlador.SendMail(mail.Email, mail.Mensagem);
 
                 return Ok();
             }
