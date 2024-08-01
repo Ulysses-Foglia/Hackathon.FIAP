@@ -115,8 +115,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
                AD.HORARIODISPONIVEL, 
                AD.DATA_CRIACAO, 
                AD.PACIENTEID, 
-               AD.AGENDAMEDICOID,
-               AD.VERSAOLINHA
+               AD.AGENDAMEDICOID
                FROM AGENDA_MEDICO_DIA AD WITH (NOLOCK)
                WHERE AD.AGENDAMEDICOID = @AGENDAMEDICOID
         ";
@@ -133,8 +132,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
                AD.HORARIODISPONIVEL, 
                AD.DATA_CRIACAO, 
                AD.PACIENTEID, 
-               AD.AGENDAMEDICOID,
-               AD.VERSAOLINHA
+               AD.AGENDAMEDICOID
                FROM AGENDA_MEDICO_DIA AD WITH (NOLOCK)
                WHERE AD.ID = @ID
         ";
