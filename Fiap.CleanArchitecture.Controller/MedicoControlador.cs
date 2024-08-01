@@ -14,12 +14,13 @@ namespace Fiap.CleanArchitecture.Controller
         private readonly IMedicoGateway _medicoGateway;
         private readonly IDatabaseClient _databaseClient;
         private readonly IMedicoUseCase _medicoUseCase;
-
+        private readonly IAgendaGateway _agendaGateway;
         public MedicoControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;
-            _medicoGateway = new MedicoGateway(_databaseClient);            
-            _medicoUseCase = new MedicoUseCase(_medicoGateway);
+            _medicoGateway = new MedicoGateway(_databaseClient);   
+            _agendaGateway = new AgendaGateway(_databaseClient);
+            _medicoUseCase = new MedicoUseCase(_medicoGateway, _agendaGateway);
         }
 
         public string GerarToken(MedicoDAO medicoDAO)

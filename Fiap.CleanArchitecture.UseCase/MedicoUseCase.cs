@@ -49,7 +49,7 @@ namespace Fiap.CleanArchitecture.UseCase
         {
             var medico = _agendaGateway.BusqueTodasAgendasDoMedico(IdMedico);
             
-            if (!(medico is null))
+            if (!medico.Any())
                 _medicoGateway.Excluir(IdMedico);
             else
                 throw new Exception(MensagensValidacoes.Medico_RelacaoAgenda);
