@@ -67,5 +67,22 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
             DELETE FROM USUARIOS WHERE ID = @ID
         
         ";
+
+        public static string BuscarMedicosDisponibilidade => @"
+             select Distinct
+	                
+                 USUMED.Nome,
+                 USUMED.CRM, 
+                 USUMED.EMAIL, 
+                 AGMED.DIA as 'Dia', 
+                 AGMED.MESANO as 'Mes',
+                 AGMED.DIADISPONIVEL 'Dia Disponibilidade',
+                 AGEMEDIA.HORARIO as 'Hora' , 
+                 AGEMEDIA.HORARIODISPONIVEL as 'Horario Disponibilidade'
+
+                 from USUARIOS USUMED
+                 join AGENDA_MEDICO_MES AGMED on AGMED.MEDICOID = USUMED.ID
+                 join AGENDA_MEDICO_DIA AGEMEDIA on AGEMEDIA.AGENDAMEDICOID = AGMED.ID
+        ";
     }
 }
