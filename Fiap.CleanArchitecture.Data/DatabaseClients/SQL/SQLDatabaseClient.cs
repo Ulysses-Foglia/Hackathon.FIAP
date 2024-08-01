@@ -10,6 +10,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         private readonly IConfiguration _configuration;
 
         private readonly UsuarioSQLRepository _usuarioSQLRepository;
+        private readonly MedicoSQLRepository _medicoSQLRepository;
         private readonly TarefaSQLRepository _tarefaSQLRepository;
 
         public SQLDatabaseClient(IConfiguration configuration)
@@ -18,7 +19,16 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
 
             _usuarioSQLRepository = new UsuarioSQLRepository(_configuration);
             _tarefaSQLRepository = new TarefaSQLRepository(_configuration);
-        }
+            _medicoSQLRepository = new MedicoSQLRepository(_configuration);
+        } 
+
+        public string GerarToken(Medico medico) => _medicoSQLRepository.GerarToken(medico);
+        public IEnumerable<Medico> BuscarTodosMedicos() => _medicoSQLRepository.BuscarTodos();
+        public Medico BuscarMedicoPorId(int id) => _medicoSQLRepository.BuscarPorId(id);
+        public void CriarMedico(Medico medico) => _medicoSQLRepository.Criar(medico);
+        public Medico AlterarMedico(Medico medico) => _medicoSQLRepository.Alterar(medico);
+        public void ExcluirMedico(int id) => _medicoSQLRepository.Excluir(id);
+
 
         #region UsuarioRepository
         public string GerarToken(Usuario usuario) => _usuarioSQLRepository.GerarToken(usuario);
@@ -37,6 +47,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public void ExcluirTarefa(int id) => _tarefaSQLRepository.Excluir(id);
 
         public void Aprovar(int id) => _tarefaSQLRepository.Aprovar(id);
+
         #endregion
     }
 }

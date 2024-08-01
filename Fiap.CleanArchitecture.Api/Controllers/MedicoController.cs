@@ -1,4 +1,4 @@
-using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
+﻿using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
@@ -10,27 +10,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fiap.CleanArchitecture.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UsuarioController : ControllerBase, IUsuarioController
+    public class MedicoController: ControllerBase, IMedicoController
     {
-        private readonly IDatabaseClient _databaseClient;       
-        private IUsuarioControlador _usuarioControlador;
+        private readonly IDatabaseClient _databaseClient;
+        private readonly IMedicoControlador _medicoControlador;
 
-        public UsuarioController(IDatabaseClient databaseClient)
+        public MedicoController(IDatabaseClient databaseClient)
         {
-            _databaseClient = databaseClient;     
-            _usuarioControlador = new UsuarioControlador(_databaseClient) ; 
+            _databaseClient = databaseClient;
+            _medicoControlador = new MedicoControlador(_databaseClient);
         }
 
-        [HttpPost]
         [VersaoApi("V1.0")]
-        [Route("autenticar")]
-        public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
+        [HttpPost("autenticar-medico")]
+        public IActionResult AutenticarMedico([FromBody] MedicoDAO medicoDAO)
         {
             try
-            {                
-                var token = _usuarioControlador.GerarToken(usuarioDAO);
+            {
+                var token = _medicoControlador.GerarToken(medicoDAO);
 
                 return Ok(new { token });
             }
@@ -51,9 +48,9 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                var usuarios = _usuarioControlador.BuscarTodos();
+                var medicos = _medicoControlador.BuscarTodos();
 
-                return Ok(usuarios);
+                return Ok(medicos);
             }
             catch (Exception ex)
             {
@@ -68,68 +65,70 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                var usuarios = _usuarioControlador.BuscarPorId(id);
+                var medicos = _medicoControlador.BuscarPorId(id);
 
-                return Ok(usuarios);
+                return Ok(medicos);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
 
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Medico")]
         [VersaoApi("V1.0")]
         [HttpPost("criar")]
-        public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
+        public IActionResult Criar([FromBody] MedicoDAO medicoDAO)
         {
             try
             {
-                _usuarioControlador.Criar(usuarioDAO);
+                _medicoControlador.Criar(medicoDAO);
 
                 return Ok();
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
 
+
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Medico")]
         [VersaoApi("V1.0")]
         [HttpPut("alterar")]
-        public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
+        public IActionResult Alterar([FromBody] MedicoAlterarDAO medicoAlterarDAO)
         {
             try
             {
-                var novoUsuario = _usuarioControlador.Alterar(usuarioAlterarDAO);
+                var novoMedico = _medicoControlador.Alterar(medicoAlterarDAO);
 
-                return Ok(novoUsuario);
+                return Ok(novoMedico);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
 
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Medico")]
         [VersaoApi("V1.0")]
         [HttpDelete("excluir/{id:int}")]
         public IActionResult Excluir(int id)
         {
             try
             {
-                _usuarioControlador.Excluir(id);
+                _medicoControlador.Excluir(id);
 
                 return Ok();
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-            }            
+            }
         }
+
     }
 }

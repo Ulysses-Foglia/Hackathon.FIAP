@@ -2,13 +2,14 @@
 
 namespace Fiap.CleanArchitecture.Controller.Interface
 {
-    public interface IUsuarioControlador
+    public interface IMedicoControlador
     {
-        string GerarToken(UsuarioDAO usuarioDAO);
+        string GerarToken(MedicoDAO medicoDAO);
         string BuscarTodos();
         string BuscarPorId(int id);
-        void Criar(UsuarioDAO usuarioDAO);
-        string Alterar(UsuarioAlterarDAO usuarioAlterarDAO);
+        void Criar(MedicoDAO medicoDAO);
+        string Alterar(MedicoAlterarDAO medicoAlterarDAO);
         void Excluir(int id);
     }
+
 }
