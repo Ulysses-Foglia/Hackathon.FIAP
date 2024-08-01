@@ -5,7 +5,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers.Interfaces
 {
     public interface IUsuarioController
     {      
-        IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO);
+        IActionResult Autenticar([FromBody] AutenticacaoModelDAO dados);
         IActionResult BuscarTodos();
         IActionResult BuscarPorId(int id);
         IActionResult Criar([FromBody] UsuarioDAO usuarioDAO);

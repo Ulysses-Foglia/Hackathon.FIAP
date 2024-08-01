@@ -8,6 +8,7 @@
 using Dapper;
 using Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts;
 using Fiap.CleanArchitecture.Entity.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -267,7 +268,12 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                     comd.Parameters.Clear();
                     comd.CommandText = "SELECT MEDICOID FROM AGENDA_MEDICO_MES WITH (NOLOCK) WHERE ID IN (SELECT AGENDAMEDICOID FROM AGENDA_MEDICO_DIA WHERE ID = @ID)";
                     comd.Parameters.AddWithValue("@ID", IdAgenda);
-                    idMedico = comd.ExecuteReader().GetInt32(0);
+                    var reader = comd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        idMedico = reader.GetInt32(0);
+                    }
+                    reader.Close();
                 }
 
                 trans.Commit();

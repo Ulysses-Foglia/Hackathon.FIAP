@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fiap.CleanArchitecture.Api.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class MedicoController: ControllerBase, IMedicoController
     {
         private readonly IDatabaseClient _databaseClient;
@@ -23,11 +25,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [VersaoApi("V1.0")]
         [HttpPost("autenticar-medico")]
-        public IActionResult AutenticarMedico([FromBody] MedicoDAO medicoDAO)
+        public IActionResult AutenticarMedico([FromBody] AutenticacaoModelDAO dados)
         {
             try
             {
-                var token = _medicoControlador.GerarToken(medicoDAO);
+                if (!ModelState.IsValid) { throw new Exception("Dados fora do padão esperado"); }
+
+                var token = _medicoControlador.GerarToken(new MedicoDAO() { Email = dados.Email, Senha = dados.Senha});
 
                 return Ok(new { token });
             }
@@ -75,8 +79,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             }
         }
 
-        [Authorize]
-        [Papel("Medico")]
+        [AllowAnonymous]
         [VersaoApi("V1.0")]
         [HttpPost("criar")]
         public IActionResult Criar([FromBody] MedicoDAO medicoDAO)

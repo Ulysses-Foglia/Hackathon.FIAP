@@ -20,7 +20,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
         public MedicoSQLRepository(IConfiguration configuration) : base(configuration)
         {
-
+            _configuration = configuration;
         }
 
         public string GerarToken(Medico medico)

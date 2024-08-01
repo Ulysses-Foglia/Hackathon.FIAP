@@ -26,11 +26,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [HttpPost]
         [VersaoApi("V1.0")]
         [Route("autenticar")]
-        public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
+        public IActionResult Autenticar([FromBody] AutenticacaoModelDAO dados)
         {
             try
-            {                
-                var token = _usuarioControlador.GerarToken(usuarioDAO);
+            {
+                if (!ModelState.IsValid) { throw new Exception("Dados fora do padão esperado"); }
+
+                var token = _usuarioControlador.GerarToken(new MedicoDAO() { Email = dados.Email, Senha = dados.Senha });
 
                 return Ok(new { token });
             }

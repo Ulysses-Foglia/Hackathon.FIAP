@@ -46,5 +46,15 @@ namespace Fiap.CleanArchitecture.Controller
         {
             return _agendaUseCase.CrieAgendaDoMedico(agenda);
         }
+
+        public string AtualizeAhDisponibilidadeDaAgendaDoMedico(int idAgenda, string disponibilidade)
+        {
+            var agenda = _agendaGateway.AtualizeDisponibilidadeAgendaMedicoPorId(idAgenda, disponibilidade);
+
+            return AgendaPresenter.ToJson(agenda);
+        }
+        
+
+
     }
 }

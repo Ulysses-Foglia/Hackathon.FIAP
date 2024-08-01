@@ -50,6 +50,28 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             }
         }
 
+        [Authorize]
+        [Papel("Medico")]
+        [VersaoApi("V1.0")]
+        [HttpPost("atualizar-diponibilidade-agenda")]
+        public IActionResult AtualizeDiponibilidadeAgenda([FromBody] AgendaMedicoAtualizarDisponibilidadeDAO dados)
+        {
+            try
+            {
+                if (!ModelState.IsValid) { throw new Exception("Formato invalido dos dados"); };
+
+                dados.ValideEntradaDeUsuario();
+
+                var agenda = _agendaControlador.AtualizeAhDisponibilidadeDaAgendaDoMedico(dados.AgendaId, dados.Disponibilidade);
+
+                return Ok(agenda);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
 
         [Authorize]
         [VersaoApi("V1.0")]

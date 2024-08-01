@@ -60,6 +60,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
 
         public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDia horario) => _agentaSQLRepository.CrieHorarioNaAgendaDoMedico(horario);
 
+        
         public AgendaMedicoMes BusqueAgendaDoMedicoPorId(int idMedico, int IdAgenda) => _agentaSQLRepository.BusqueAgendaDoMedicoPorId(idMedico,IdAgenda);
 
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(int idMedico, int dia, string mesano) => _agentaSQLRepository.BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(idMedico, dia, mesano);

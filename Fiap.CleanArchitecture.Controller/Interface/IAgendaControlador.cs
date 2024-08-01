@@ -22,5 +22,7 @@ namespace Fiap.CleanArchitecture.Controller.Interface
 
         public string BusqueTodasAgendasDoMedico(int idMedico);
 
+        public string AtualizeAhDisponibilidadeDaAgendaDoMedico(int idAgenda, string disponibilidade);
+
     }
 }
