@@ -62,7 +62,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = UsuarioSQLScript.VerificarUsuario;
+                var sql = MedicoSQLScript.VerificarUsuario;
 
                 var param = new DynamicParameters();
 
@@ -82,7 +82,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = UsuarioSQLScript.BuscarTodos;
+                var sql = MedicoSQLScript.BuscarTodos;
 
                 var result = conn.Query<Medico>(sql, commandTimeout: Timeout);
 
@@ -94,7 +94,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = UsuarioSQLScript.BuscarPorId;
+                var sql = MedicoSQLScript.BuscarPorId;
 
                 var param = new DynamicParameters();
 
@@ -136,7 +136,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = UsuarioSQLScript.Alterar;
+                var sql = MedicoSQLScript.Alterar;
 
                 var param = new DynamicParameters();
 
@@ -157,7 +157,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = UsuarioSQLScript.Excluir;
+                var sql = MedicoSQLScript.Excluir;
 
                 var param = new DynamicParameters();
 
