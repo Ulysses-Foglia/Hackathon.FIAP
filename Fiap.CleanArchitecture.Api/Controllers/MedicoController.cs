@@ -64,6 +64,23 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 
         [Authorize]
         [VersaoApi("V1.0")]
+        [HttpGet("buscar-medicos-disponibilidade")]
+        public IActionResult BuscarMedicosDisponibilidade()
+        {
+            try
+            {
+                var medicos = _medicoControlador.BuscarMedicosDisponibilidade();
+
+                return Ok(medicos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize]
+        [VersaoApi("V1.0")]
         [HttpGet("buscar-por-id/{id:int}")]
         public IActionResult BuscarPorId(int id)
         {

@@ -26,6 +26,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
 
         public string GerarToken(Medico medico) => _medicoSQLRepository.GerarToken(medico);
         public IEnumerable<Medico> BuscarTodosMedicos() => _medicoSQLRepository.BuscarTodos();
+        public IEnumerable<Medico> BuscarMedicosDisponibilidade() => _medicoSQLRepository.BuscarMedicosDisponibilidade();
         public Medico BuscarMedicoPorId(int id) => _medicoSQLRepository.BuscarPorId(id);
         public void CriarMedico(Medico medico) => _medicoSQLRepository.Criar(medico);
         public Medico AlterarMedico(Medico medico) => _medicoSQLRepository.Alterar(medico);

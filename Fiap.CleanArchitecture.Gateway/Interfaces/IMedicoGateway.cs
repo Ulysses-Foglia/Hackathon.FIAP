@@ -6,6 +6,7 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
     {
         string GerarToken(Medico medico);
         IEnumerable<Medico> BuscarTodos();
+        IEnumerable<Medico> BuscarMedicosDisponibilidade();
         Medico BuscarPorId(int id);
         void Criar(Medico medico);
         Medico Alterar(Medico medico);

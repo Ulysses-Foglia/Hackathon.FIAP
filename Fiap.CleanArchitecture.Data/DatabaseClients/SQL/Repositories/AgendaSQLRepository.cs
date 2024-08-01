@@ -65,9 +65,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                         comd.Parameters.Clear();
                         comd.Parameters.AddWithValue("@HORARIO", horario.Horario);
                         comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
-                        comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
-                        comd.Parameters.AddWithValue("@VERSAOLINHA", new Random().Next(1, 999999999));
-                        comd.Parameters.AddWithValue("@AGENDAMEDICOID", idGerado);
+                        comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);                       
+                        comd.Parameters.AddWithValue("@AGENDAMEDICOID", idGerado);                       
                         comd.ExecuteScalar();
                     }
                 }

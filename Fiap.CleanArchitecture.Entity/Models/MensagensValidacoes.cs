@@ -7,7 +7,7 @@
         public static string Usuario_Senha = "Senha deve possuir entre 6 e 20 caracteres!";
         public static string Usuario_Papel = "Papel inválido! Verifique o formato correto.";
         public static string Usuario_Papel_invalido_medico = "Papel inválido para o médico!";
-        public static string Usuario_RelacaoTarefas = "Usuario possui relação com tarefas, não é possivel excluir.";
+        public static string Usuario_RelacaoTarefas = "Usuario possui relação com tarefas, não é possivel excluir.";       
         public static string Usuario_Crm_Inavalido = "O Crm informado está inválido";
         public static string Usuario_Agenda_Inavalido = "A Agenda informada está inválida";
         public static string Tarefa_Titulo = "Titulo deve possuir no máximo 100 caracteres!";
@@ -36,6 +36,6 @@
         public static string Agenda_Dia_IdAgenda = "É preciso informar a identificação da agenda para cadastrar o horario";
         public static string Agenda_Dia_HoraDisponivel = "É preciso informar a diponibilidade da hora e minuto para cadastrar o horario";
         public static string Agenda_Dia_Horario = "É preciso informar um horário válido para cadastro";
-
+        public static string Medico_RelacaoAgenda = "Medico possui agendas registradas não é possivel excluir";
     }
 }

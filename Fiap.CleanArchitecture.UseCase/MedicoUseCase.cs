@@ -15,10 +15,11 @@ namespace Fiap.CleanArchitecture.UseCase
     public class MedicoUseCase : IMedicoUseCase
     {
         private readonly IMedicoGateway _medicoGateway;
-
-        public MedicoUseCase(IMedicoGateway medicoGateway)
+        private readonly IAgendaGateway _agendaGateway;
+        public MedicoUseCase(IMedicoGateway medicoGateway, IAgendaGateway agendaGateway)
         {
             _medicoGateway = medicoGateway;
+            _agendaGateway = agendaGateway;
         }
 
         public Medico AltereMedico(MedicoAlterarDAO medicoAlterarDAO)
@@ -46,13 +47,12 @@ namespace Fiap.CleanArchitecture.UseCase
 
         public void ExcluaMedico(int IdMedico)
         {
-            //var tarefas = _medicoGateway.BuscarTodos()
-            //    .Where(x => x.Responsavel.Id == IdMedico || x.Criador.Id == IdMedico);
-
-            //if (tarefas.Any())
-            //    _medicoGateway.Excluir(IdMedico);
-            //else
-            //    throw new Exception(MensagensValidacoes.Medico_RelacaoTarefas);
+            var medico = _agendaGateway.BusqueTodasAgendasDoMedico(IdMedico);
+            
+            if (!(medico is null))
+                _medicoGateway.Excluir(IdMedico);
+            else
+                throw new Exception(MensagensValidacoes.Medico_RelacaoAgenda);
         }
     }
 }
