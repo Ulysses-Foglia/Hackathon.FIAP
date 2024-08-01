@@ -34,6 +34,13 @@ namespace Fiap.CleanArchitecture.Controller
             return MedicoPresenter.ToJson(medicos);
         }
 
+        public string BuscarMedicosDisponibilidade()
+        {
+            var medicos = _medicoGateway.BuscarMedicosDisponibilidade();
+
+            return MedicoPresenter.ToJson(medicos);
+        }
+
         public string BuscarPorId(int id)
         {
             var medico = _medicoGateway.BuscarPorId(id);

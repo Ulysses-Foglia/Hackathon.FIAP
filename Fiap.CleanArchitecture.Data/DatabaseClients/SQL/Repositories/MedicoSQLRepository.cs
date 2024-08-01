@@ -90,6 +90,32 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             }
         }
 
+        public IEnumerable<Medico> BuscarMedicosDisponibilidade()
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = MedicoSQLScript.BuscarMedicosDisponibilidade;
+
+                var medicos = conn.Query<Medico, AgendaMedicoMes, AgendaMedicoDia, Medico>(sql, (medico, agendaMes, agendaDia) =>
+                    {                       
+                        medico.Agenda = agendaMes;
+                        
+                        if (medico.Agenda != null)
+                        {
+                            medico.Agenda.DiasDaAgenda = medico.Agenda.DiasDaAgenda ?? new List<AgendaMedicoDia>();
+                            medico.Agenda.DiasDaAgenda.Add(agendaDia);
+                        }
+
+                        return medico;
+                    },
+                    splitOn: "MedicoId, AgendaMedicoMesId, AgendaMedicoDiaId", 
+                    commandType: CommandType.Text
+                ).ToList();
+
+                return medicos;
+            }
+        }
+
         public Medico BuscarPorId(int id)
         {
             using (var conn = new SqlConnection(ConnectionString))

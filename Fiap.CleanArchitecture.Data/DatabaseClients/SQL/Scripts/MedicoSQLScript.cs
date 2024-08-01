@@ -69,20 +69,22 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         ";
 
         public static string BuscarMedicosDisponibilidade => @"
-             select Distinct
-	                
-                 USUMED.Nome,
-                 USUMED.CRM, 
-                 USUMED.EMAIL, 
-                 AGMED.DIA as 'Dia', 
-                 AGMED.MESANO as 'Mes',
-                 AGMED.DIADISPONIVEL 'Dia Disponibilidade',
-                 AGEMEDIA.HORARIO as 'Hora' , 
-                 AGEMEDIA.HORARIODISPONIVEL as 'Horario Disponibilidade'
+             select distinct
+             USUMED.ID as 'MedicoId',
+             USUMED.Nome,
+             USUMED.CRM, 
+             USUMED.EMAIL, 
+             AGMED.ID as 'AgendaMedicoMesId',
+             AGMED.DIA,
+             AGMED.MESANO, 
+             AGMED.DIADISPONIVEL, 
+             AGEMEDIA.ID as 'AgendaMedicoDiaId',
+             AGEMEDIA.HORARIO, 
+             AGEMEDIA.HORARIODISPONIVEL
 
-                 from USUARIOS USUMED
-                 join AGENDA_MEDICO_MES AGMED on AGMED.MEDICOID = USUMED.ID
-                 join AGENDA_MEDICO_DIA AGEMEDIA on AGEMEDIA.AGENDAMEDICOID = AGMED.ID
+             from USUARIOS USUMED
+             join AGENDA_MEDICO_MES AGMED on AGMED.MEDICOID = USUMED.ID
+             join AGENDA_MEDICO_DIA AGEMEDIA on AGEMEDIA.AGENDAMEDICOID = AGMED.ID
         ";
     }
 }
