@@ -1,10 +1,16 @@
-﻿namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
 {
-    public class UsuarioSQLScript
+    public class MedicoSQLScript
     {
         public static string VerificarUsuario => @"
         
-            SELECT TOP 1 NOME, EMAIL, CPF, SENHA, PAPEL 
+            SELECT TOP 1 NOME, EMAIL, CPF, CRM, SENHA, PAPEL 
             FROM USUARIOS WITH (NOLOCK)
             WHERE EMAIL = @EMAIL AND SENHA = @SENHA ORDER BY 1 ASC
 
@@ -16,7 +22,8 @@
             	ID AS Id,
                	DATA_CRIACAO AS DataCriacao,
             	NOME AS Nome,
-                CPF as 'Cpf',              
+                CPF as 'Cpf',
+                CRM as 'Crm',
                	EMAIL AS Email,
                	SENHA AS Senha,
             	PAPEL AS Papel
@@ -30,7 +37,8 @@
             	ID AS Id,
                	DATA_CRIACAO AS DataCriacao,
             	NOME AS Nome,
-                CPF as 'Cpf',               
+                CPF as 'Cpf',
+                CRM as 'Crm',
                	EMAIL AS Email,
                	SENHA AS Senha,
             	PAPEL AS Papel
@@ -41,15 +49,15 @@
 
         public static string Criar => @"
 
-            INSERT INTO USUARIOS (DATA_CRIACAO, NOME, CPF, EMAIL, SENHA, PAPEL) 
-            VALUES (GETDATE(), @NOME, @CPF, @EMAIL, @SENHA, @PAPEL)
+            INSERT INTO USUARIOS (DATA_CRIACAO, NOME, CPF, CRM, EMAIL, SENHA, PAPEL) 
+            VALUES (GETDATE(), @NOME, @CPF, @CRM, @EMAIL, @SENHA, @PAPEL)
 
         ";
 
         public static string Alterar => @"
 
             UPDATE USUARIOS 
-            SET NOME = @NOME, CPF = @CPF, EMAIL = @EMAIL, PAPEL = @PAPEL 
+            SET NOME = @NOME, CPF = @CPF, CRM = @CRM, EMAIL = @EMAIL, PAPEL = @PAPEL 
             WHERE ID = @ID
 
         ";
