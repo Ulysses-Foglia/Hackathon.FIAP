@@ -9,12 +9,12 @@ namespace Fiap.CleanArchitecture.UseCase
     public class UsuarioUseCase : IUsuarioUseCase
     {
         private readonly IUsuarioGateway _usuarioGateway;
-        private readonly ITarefaGateway _tarefaGateway;
+   
 
-        public UsuarioUseCase(IUsuarioGateway usuarioGatway, ITarefaGateway tarefaGateway)
+        public UsuarioUseCase(IUsuarioGateway usuarioGatway)
         {
             _usuarioGateway = usuarioGatway;
-            _tarefaGateway = tarefaGateway;
+
         }
 
         public Usuario AltereUsuaio(UsuarioAlterarDAO usuario)
@@ -42,13 +42,7 @@ namespace Fiap.CleanArchitecture.UseCase
 
         public void ExcluaUsuario(int IdUsuario)
         {
-            var tarefas = _tarefaGateway.BuscarTodos()
-                .Where(x => x.Responsavel.Id == IdUsuario || x.Criador.Id == IdUsuario);
-
-            if (tarefas.Any())
-                _usuarioGateway.Excluir(IdUsuario);
-            else
-                throw new Exception(MensagensValidacoes.Usuario_RelacaoTarefas);
+            _usuarioGateway.Excluir(IdUsuario);
         }
     }
 }

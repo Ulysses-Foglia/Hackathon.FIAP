@@ -17,10 +17,13 @@ var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").B
 builder.Services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(configuration));
 builder.Services.AddScoped<IEmailGateway, EmailGateway>(provider => new EmailGateway(configuration));
 builder.Services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-builder.Services.AddScoped<ITarefaGateway, TarefaGateway>();
+builder.Services.AddScoped<IAgendaGateway, AgendaGateway>();
+builder.Services.AddScoped<IMedicoGateway, MedicoGateway>();
 builder.Services.AddScoped<IUsuarioControlador, UsuarioControlador>();
 builder.Services.AddScoped<IEmailControlador, EmailControlador>();
 builder.Services.AddScoped<IUsuarioController, UsuarioController>();
+builder.Services.AddScoped<IMedicoController, MedicoController>();
+builder.Services.AddScoped<IAgendaControlador, AgendaControlador>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

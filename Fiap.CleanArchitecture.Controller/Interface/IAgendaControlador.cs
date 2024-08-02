@@ -26,5 +26,16 @@ namespace Fiap.CleanArchitecture.Controller.Interface
 
         public string AtualizeHorarioDaAgenda(AgendaMedicoAtualizeHorarioDAO dados);
 
+        public int AtualizeHorarioDaAgendaComPaciente(AgendaMedicoAgendarPacienteDAO dados);
+
+        public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDiaDAO dados);
+
+        public string BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(AgendaMedicoFiltroIdMedicoDiaMesAnoDAO dados);
+
+        public string RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico);
+
+        public string RemovaHorarioDaAgenda(AgendaMedicoFiltroExclusaoHorarioDAO dados);
+
+        public string BusqueTodasAsAgendasDosMedicos(int limiteLinhas);
     }
 }

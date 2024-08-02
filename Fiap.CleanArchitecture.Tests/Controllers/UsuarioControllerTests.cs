@@ -3,7 +3,7 @@ using Fiap.CleanArchitecture.Api.Controllers;
 using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
-using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
@@ -38,15 +38,15 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             //Arrange
             var resultadoEsperado = new { token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU2NDQ0NzksImV4cCI6MTcxNTY0ODA3OSwiaWF0IjoxNzE1NjQ0NDc5LCJpc3MiOiJBUEktRmlhcC5DbGVhbkFyY2hpdGVjdHVyZSIsImF1ZCI6ImRYTjFWR1Z6ZEdVeFFHVnRZV2xzTG1OdmJTNWljZz09In0.4ulEKcfcgvqNI1-6czZUQp5nrOl8D-p9uFgG9WgI5EU" };
 
-            UsuarioDAO usuario = new UsuarioDAO
+            AutenticacaoModelDAO usuario = new AutenticacaoModelDAO
             {
-                Nome = "UsuTeste1",
+               
                 Email = "usuTeste1@email.com.br",
                 Senha = "123456",
-                Papel = "Admin"
+              
             };
 
-            _mockUsuarioController.Setup(s => s.Autenticar(It.IsAny<UsuarioDAO>()))
+            _mockUsuarioController.Setup(s => s.Autenticar(It.IsAny<AutenticacaoModelDAO>()))
                 .Returns((UsuarioDAO usuario) =>
             {
                 if (usuario == null)
@@ -209,6 +209,6 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             .RuleFor(u => u.Nome, f => f.Name.FirstName())
             .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Nome))
             .RuleFor(u => u.Senha, f => f.Internet.Password())
-            .RuleFor(u => u.Papel, f => f.PickRandom(TipoPapel.Admin.ToString(), TipoPapel.Comum.ToString()));
+            .RuleFor(u => u.Papel, f => f.PickRandom(TipoPapel.Admin.ToString(), TipoPapel.Paciente.ToString()));
     }
 }

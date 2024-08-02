@@ -20,12 +20,15 @@ namespace Fiap.CleanArchitecture.UseCase
     public class AgendaUseCase : IAgendaUseCase
     {
         private readonly IAgendaGateway _agendaGateway;
-        public AgendaUseCase(IAgendaGateway agendaGateway)
+        private readonly IMedicoGateway _medicoGateway;
+        public AgendaUseCase(IAgendaGateway agendaGateway, IMedicoGateway medicoGateway)
         {
             _agendaGateway = agendaGateway;
+            _medicoGateway = medicoGateway;
         }
         public int CrieAgendaDoMedico(AgendaMedicoMesDAO agenda)
         {
+                       
 
             var medicoMes = new AgendaMedicoMes(agenda, true);
 

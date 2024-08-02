@@ -6,6 +6,7 @@ namespace Fiap.CleanArchitecture.Controller.Interface
     {
         string GerarToken(MedicoDAO medicoDAO);
         string BuscarTodos();
+        string BuscarMedicosDisponibilidade();
         string BuscarPorId(int id);
         void Criar(MedicoDAO medicoDAO);
         string Alterar(MedicoAlterarDAO medicoAlterarDAO);

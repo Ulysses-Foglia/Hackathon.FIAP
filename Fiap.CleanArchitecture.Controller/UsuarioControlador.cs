@@ -12,7 +12,6 @@ namespace Fiap.CleanArchitecture.Controller
     public class UsuarioControlador : IUsuarioControlador
     {
         private readonly IUsuarioGateway _usuarioGateway;
-        private readonly ITarefaGateway _tarefaGateway;
         private readonly IDatabaseClient _databaseClient;
         private readonly IUsuarioUseCase _usuarioUserCase;
 
@@ -20,8 +19,7 @@ namespace Fiap.CleanArchitecture.Controller
         {
             _databaseClient = databaseClient;
             _usuarioGateway = new UsuarioGateway(_databaseClient);           
-            _tarefaGateway = new TarefaGateway(_databaseClient);
-            _usuarioUserCase = new UsuarioUseCase(_usuarioGateway, _tarefaGateway);
+            _usuarioUserCase = new UsuarioUseCase(_usuarioGateway);
         }
 
         public string GerarToken(UsuarioDAO usuarioDAO)
