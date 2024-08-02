@@ -29,11 +29,15 @@ namespace Fiap.CleanArchitecture.ServiceBus
 
             var mensagemEmail = new MensagemEmail(_configuration)
             {
-                To = new MailAddress(mailDAO.Email),
-                Subject = "Paciente Agendado!"
+                To = new MailAddress(mailDAO.MedicoEmail),
+                Subject = "Health&Med - Nova consulta agendada!"
             };
 
-            mensagemEmail.Message = mensagemEmail.HTML.Replace("@MENSAGEM", mailDAO.Mensagem);
+            mensagemEmail.Message = mensagemEmail.HTML
+                .Replace("@MedicoNome", mailDAO.MedicoNome)
+                .Replace("@PacienteNome ", mailDAO.PacienteNome)
+                .Replace("@DataHora_Data", mailDAO.DataHora.ToString("dd/MM/yyyy"))
+                .Replace("@DataHora_Hora", mailDAO.DataHora.ToString("HH:mm"));
 
             try
             {

@@ -13,7 +13,7 @@ namespace Fiap.CleanArchitecture.Entity.Models
         public MailAddress To { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
-        public string HTML => "<!DOCTYPE html><html><head><meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge'><title>EmailGrupo11</title><meta name='viewport' content='width=device-width, initial-scale=1'></head><body><div class=\"container\" style=\"background-color:#EE145B;color:white;padding:25px\"><div class=\"form-group\"><div class=\"row\"><b>@MENSAGEM</b></div></div></div></body></html>";
+        public string HTML => "<!DOCTYPE html> <html> <head> <meta charset='utf-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <title>EmailGrupo11</title> <meta name='viewport' content='width=device-width, initial-scale=1'/> </head> <body> <div class=\"container\" style=\"background-color:#EE145B;color:white;padding:25px\"> <div class=\"form-group\"> <div class=\"row\"> <p>Olá, Dr. <b>@MedicoNome</b>!</p> </br> <p>Você tem uma nova consulta marcada!</p> </br> <p>Paciente: <b>@PacienteNome</b>.</p> <p>Data e horário: <b>@DataHora_Data</b> às <b>@DataHora_Hora</b>.</p> </div> </div> </div> </body> </html>";
 
         public MensagemEmail(IConfiguration configuration) 
         {

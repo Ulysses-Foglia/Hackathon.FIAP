@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using Fiap.CleanArchitecture.Entity.DAOs.Email;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -14,11 +15,17 @@ namespace Fiap.CleanArchitecture.Gateway
             _configuration = configuration;
         }
 
-        public async Task SendMailMessage(string email, string mensagem)
+        public async Task SendMailMessage(EmailDAO emailDAO)
         {
             try
             {
-                var json = JsonConvert.SerializeObject(new { email, mensagem });
+                var json = JsonConvert.SerializeObject(new 
+                {
+                    emailDAO.MedicoEmail,
+                    emailDAO.MedicoNome,
+                    emailDAO.PacienteNome,
+                    emailDAO.DataHora
+                });
 
                 var messageToSend = new ServiceBusMessage(json);
 

@@ -24,7 +24,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         {
             try
             {
-                await _emailControlador.SendMail(mail.Email, mail.Mensagem);
+                await _emailControlador.SendMail(mail);
 
                 return Ok();
             }

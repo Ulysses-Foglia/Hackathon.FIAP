@@ -1,7 +1,9 @@
-﻿namespace Fiap.CleanArchitecture.Gateway.Interfaces
+﻿using Fiap.CleanArchitecture.Entity.DAOs.Email;
+
+namespace Fiap.CleanArchitecture.Gateway.Interfaces
 {
     public interface IEmailGateway
     {
-        Task SendMailMessage(string email, string mensagem);
+        Task SendMailMessage(EmailDAO emailDAO);
     }
 }

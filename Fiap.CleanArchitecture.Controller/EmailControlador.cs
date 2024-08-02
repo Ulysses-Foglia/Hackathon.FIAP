@@ -1,4 +1,5 @@
 ﻿using Fiap.CleanArchitecture.Controller.Interface;
+using Fiap.CleanArchitecture.Entity.DAOs.Email;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 
 namespace Fiap.CleanArchitecture.Controller
@@ -12,7 +13,7 @@ namespace Fiap.CleanArchitecture.Controller
             _emailGateway = emailGateway;
         }
 
-        public async Task SendMail(string email, string mensagem) 
-            => await _emailGateway.SendMailMessage(email, mensagem);
+        public async Task SendMail(EmailDAO emailDAO) 
+            => await _emailGateway.SendMailMessage(emailDAO);
     }
 }
