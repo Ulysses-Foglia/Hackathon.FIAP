@@ -9,7 +9,6 @@ using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 
-
 namespace Fiap.CleanArchitecture.Gateway
 {
     public class AgendaGateway : IAgendaGateway

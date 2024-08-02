@@ -15,6 +15,7 @@ namespace Fiap.CleanArchitecture.Controller
         private readonly IDatabaseClient _databaseClient;
         private readonly IMedicoUseCase _medicoUseCase;
         private readonly IAgendaGateway _agendaGateway;
+
         public MedicoControlador(IDatabaseClient databaseClient)
         {
             _databaseClient = databaseClient;

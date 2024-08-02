@@ -5,13 +5,11 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------------
 
-
 namespace Fiap.CleanArchitecture.Entity.Enums
 {
     public enum AgendaStatusEnum
     {
         A_ATENDER,
-
         ATENDIDA
     }
 }

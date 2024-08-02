@@ -7,7 +7,6 @@
 
 using Fiap.CleanArchitecture.Entities;
 using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
-using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
 
 
@@ -17,9 +16,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
     {
 
         public  string Crm { get; set; }
-
         public int AgendaId { get; set; }
-
         public AgendaMedicoMes Agenda { get; set; }
 
         public Medico()
@@ -58,7 +55,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.Crm = crm;
         }
 
-
         public Medico(MedicoAlterarDAO medicoAlterarDAO) : base(medicoAlterarDAO)
         {
             if (!CrmValido(medicoAlterarDAO.Crm))
@@ -68,7 +64,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         }
 
         private  bool CrmValido(string crm) => crm != null && crm != "" && crm.Length == 6;
-
         private bool AgendaValida(AgendaMedicoMes agt) => agt != null && agt.DiasDaAgenda.Any();
 
         public void ValidarEntity(string crm)
@@ -81,6 +76,5 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             AssertionConcern.AssertArgumentTrue(CrmValido(crm), MensagensValidacoes.Usuario_Crm_Inavalido);
             AssertionConcern.AssertArgumentTrue(AgendaValida(agenda), MensagensValidacoes.Usuario_Agenda_Inavalido);
         }
-
     }
 }

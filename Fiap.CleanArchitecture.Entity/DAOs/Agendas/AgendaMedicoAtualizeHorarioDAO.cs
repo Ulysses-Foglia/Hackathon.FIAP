@@ -5,14 +5,8 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------------
 
-using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Entity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 {
@@ -24,9 +18,7 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
         }
 
         public int idHorario { get; set; }
-
         public int idAgendaMedico { get; set; }
-
         public string Horario { get; set; }
 
         public void ValideEntradaDoUsuario() 
@@ -40,14 +32,12 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
         }
 
         private bool IdValido(int Id) => Id != 0;
-
         private bool HorarioValido(string horario) => horario != null && horario.Count() == 5 && horario.Contains(":") && VerificaStringDaHora(horario);
 
         private bool VerificaStringDaHora(string hora)
         {
             var rgx = new Regex("^((?!0+:00)\\d{1,}:[0-5][0-9])$");
             return rgx.Match(hora).Success;
-
         }
     }
 }

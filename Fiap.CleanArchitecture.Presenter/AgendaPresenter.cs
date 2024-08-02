@@ -7,14 +7,7 @@
 
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
 using Fiap.CleanArchitecture.Entity.Entities;
-using Fiap.CleanArchitecture.Entity.Enums;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Presenter
 {
@@ -22,11 +15,8 @@ namespace Fiap.CleanArchitecture.Presenter
     {
         public  int Id { get; set; }
         public  int MedicoId { get; set; }
-
         public  string MesAno { get; set; }
-
         public  int Dia { get; set; }
-
         public  string DiaDisponivel { get; set; }
 
         public static string ToJson(IEnumerable<AgendaMedicoMes> agendas) 
@@ -57,6 +47,5 @@ namespace Fiap.CleanArchitecture.Presenter
         {
             return JsonConvert.SerializeObject(dado);
         }
-
     }
 }

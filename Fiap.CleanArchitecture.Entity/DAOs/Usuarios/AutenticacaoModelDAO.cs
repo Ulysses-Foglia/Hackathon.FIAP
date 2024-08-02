@@ -5,12 +5,6 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Fiap.CleanArchitecture.Entity.DAOs.Usuarios
 {
     public class AutenticacaoModelDAO
@@ -20,9 +14,6 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Usuarios
             
         }
         public string Email { get; set; }
-
         public string Senha { get; set; }
-
-
     }
 }

@@ -6,12 +6,6 @@
 // ------------------------------------------------------------------------------------------------------
 
 using Fiap.CleanArchitecture.Entity.Enums;
-using Fiap.CleanArchitecture.Entity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 {
@@ -21,10 +15,9 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
         {
             
         }
+
         public int IdHorario { get; set; }
-
         public int IdAgendaMedico { get; set; }
-
         public int IdPaciente { get; set; }
 
         
@@ -37,9 +30,8 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
             if (!IdValido(this.IdPaciente))
                 throw new Exception("O idPaciente tem de ser informado");
         }
+
         private bool IdValido(int Id) => Id != 0;
         private bool DiaDisponivelValido(string diaDisponivel) => diaDisponivel != null && diaDisponivel.Equals(DiaDisponivelEnum.DISPONIVEL.ToString()) || diaDisponivel.Equals(DiaDisponivelEnum.INDISPONIVEL.ToString());
-
-
     }
 }

@@ -31,6 +31,5 @@ namespace Fiap.CleanArchitecture.Util
         {
             return Regex.Replace(valor, "[^a-zA-Z0-9]", "");
         }
-
     }
 }

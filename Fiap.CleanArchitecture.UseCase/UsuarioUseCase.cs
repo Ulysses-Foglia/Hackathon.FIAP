@@ -1,6 +1,5 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Entity.Entities;
-using Fiap.CleanArchitecture.Entity.Models;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
 
@@ -9,7 +8,6 @@ namespace Fiap.CleanArchitecture.UseCase
     public class UsuarioUseCase : IUsuarioUseCase
     {
         private readonly IUsuarioGateway _usuarioGateway;
-   
 
         public UsuarioUseCase(IUsuarioGateway usuarioGatway)
         {

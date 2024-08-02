@@ -7,11 +7,6 @@
 
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 {
@@ -22,7 +17,6 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
             
         }
         public int AgendaId { get; set; }
-
         public string Disponibilidade { get; set; }
 
         public void ValideEntradaDeUsuario() 
@@ -33,6 +27,7 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
             if (!DiaDisponivelValido(this.Disponibilidade))
                 throw new Exception(MensagensValidacoes.Agenda_Mes_DiaDisponivel);
         }
+
         private bool IdValido(int Id) => Id != 0;
         private bool DiaDisponivelValido(string diaDisponivel) => diaDisponivel != null && diaDisponivel.Equals(DiaDisponivelEnum.DISPONIVEL.ToString()) || diaDisponivel.Equals(DiaDisponivelEnum.INDISPONIVEL.ToString());
     }

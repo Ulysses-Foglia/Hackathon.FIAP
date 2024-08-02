@@ -8,28 +8,20 @@
 using Dapper;
 using Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts;
 using Fiap.CleanArchitecture.Entity.Entities;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 {
     internal class AgendaSQLRepository : Repository
     {
-
         private readonly IConfiguration _configuration;
 
         public AgendaSQLRepository(IConfiguration configuration) : base(configuration)
         {
             _configuration = configuration;
         }
-
 
         /// <summary>
         /// Cria uma agenda composta com os horarios disponíves
@@ -54,7 +46,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.AddWithValue("@DIADISPONIVEL", agenda.DiaDisponivel.ToString());
 
                 var idGerado = (int)comd.ExecuteScalar();
-
 
                 if (agenda.DiasDaAgenda.Any() && agenda.DiasDaAgenda.Count > 0) 
                 {
@@ -98,13 +89,14 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.AddWithValue("@HORARIODISPONIVEL", horario.HorarioDisponivel.ToString());
                 comd.Parameters.AddWithValue("@PACIENTEID", horario.PacienteId);
                 comd.Parameters.AddWithValue("@AGENDAMEDICOID", horario.AgendaMedicoId);
+                
                 var idGerado = (int)comd.ExecuteScalar();
+                
                 trans.Commit();
 
                 return idGerado;
             }
         }
-
         
         /// <summary>
         /// Busca as agendas do médico pelo seu ID
@@ -113,7 +105,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedico(int idMedico)
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 var sql = AgendaMedicoSQLScript.BuscaAgendasDoMedicoPorID;
@@ -145,9 +136,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 return result ?? new List<AgendaMedicoMes>();
             }
-
         }
-
 
         /// <summary>
         /// Busca as agendas dos médicos
@@ -156,7 +145,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite)
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 var sql = AgendaMedicoSQLScript.BuscaAgendasDosMedicos;
@@ -188,7 +176,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 return result ?? new List<AgendaMedicoMes>();
             }
-
         }
 
         /// <summary>
@@ -198,7 +185,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public IEnumerable<AgendaMedicoDia> BusqueTodosHorariosDaAgendaPorId(int IdAgendaMedico) 
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 var sql = AgendaMedicoSQLScript.ObtenhaHorariosDaAgendaPeloIdAgenda;
@@ -209,12 +195,9 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 var result = conn.Query<AgendaMedicoDia>(sql, param, commandTimeout: Timeout);
 
-
                 return result ?? new List<AgendaMedicoDia>();    
             }
-
         }
-
 
         /// <summary>
         /// Busca as agendas do médico pelo seu ID e ID da sua agenda
@@ -223,7 +206,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public AgendaMedicoMes BusqueAgendaDoMedicoPorId(int idMedico, int IdAgenda)
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 var sql = AgendaMedicoSQLScript.BuscaAgendaDoMedicoPorIdEhMedico;
@@ -256,9 +238,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 return result.FirstOrDefault();
             }
-
         }
-
 
         /// <summary>
         /// Busca as agendas com base nos parametros do filtro
@@ -269,7 +249,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(int idMedico, int dia, string mesano) 
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 var sql = AgendaMedicoSQLScript.BuscaAgendasDoMedicoPorIdEhDiaEhMes;
@@ -304,7 +283,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 return result;
             }
         }
-
 
         /// <summary>
         /// Atualiza a disponibilidade da agenda
@@ -348,9 +326,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             }
 
             return BusqueAgendaDoMedicoPorId(idMedico, IdAgenda);
-
         }
-
 
         /// <summary>
         /// Atualiza um horario de determinada agenda e medico para um paciente
@@ -374,7 +350,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
             var versaoAtual = this.ObtenhaAhVersaoDaLinhaDoHorario(idHorario);
 
-
             ulong ValorDaLinhaAtual = 
            ((ulong)versaoAtual[0] << 56)
            | ((ulong)versaoAtual[1] << 48)
@@ -385,10 +360,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
            | ((ulong)versaoAtual[6] << 8)
            | versaoAtual[7];
 
-
             if (ValorDaLinhaAtual != ValorDaLinha)
                 throw new Exception("Horario já agendado por outro paciente.");
-
 
             using (var conn = new SqlConnection(ConnectionString))
             {
@@ -411,10 +384,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 return linhasafetadas;
             }
-
-
         }
-
 
         /// <summary>
         /// Libere horario da agenda do médico para DISPONIVEL
@@ -424,7 +394,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public int AtualizeLibereHorarioDaAgenda(int idHorario, int IdAgendaMedico)
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand comd = conn.CreateCommand();
@@ -444,10 +413,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 return linhasafetadas;
             }
-
-
         }
-
 
         /// <summary>
         /// Atualiza o horario da agenda do médico conforme parametro
@@ -457,7 +423,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public int AtualizeHorarioDaAgenda(int idHorario, int IdAgendaMedico, string horario)
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand comd = conn.CreateCommand();
@@ -487,7 +452,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         /// <returns></returns>
         public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico)
         {
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand comd = conn.CreateCommand();
@@ -509,7 +473,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             }
         }
 
-
         /// <summary>
         /// Remove uma agenda e seus horarios relacionados
         /// </summary>
@@ -521,16 +484,15 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
             var listaDeIdsDeHorarios = BusqueTodosHorariosDaAgendaPorId(idAgendaMedico)?.Select(x => x.Id).ToList();
 
-
             using (var conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand comd = conn.CreateCommand();
                 conn.Open();
                 SqlTransaction trans = conn.BeginTransaction();
                 comd.Transaction = trans;
+                
                 try
                 {
-
                     comd.CommandText = AgendaMedicoSQLScript.DeleteHorario;
 
                     //executando a exclusão dos horarios
@@ -550,7 +512,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                     comd.Parameters.AddWithValue("@ID", idAgendaMedico);
                     linhasafetadas += (int)comd.ExecuteNonQuery();
 
-
                     trans.Commit();
 
                     return linhasafetadas;
@@ -559,9 +520,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 {
                     trans.Rollback();
                     return 0;
-                }
-
-                
+                }                
             }
         }
 
@@ -596,7 +555,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 return bytes;
             }
         }
-
         
         public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario) 
         {
@@ -612,6 +570,5 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
             }
         }
-
     }
 }

@@ -5,26 +5,21 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------------
 
-
 using Fiap.CleanArchitecture.Entities;
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
-using System.Runtime.CompilerServices;
 
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class AgendaMedicoMes : EntityBase
     {
         public AgendaMedicoMes(){}
+
         public Medico Medico { get;  set; }
-
         public int MedicoId { get;  set; }
-
         public string MesAno { get; set; }
-
         public int Dia { get; set; }
-
         public DiaDisponivelEnum DiaDisponivel { get; set; }
 
         public ICollection<AgendaMedicoDia> DiasDaAgenda { get;  set; }
@@ -52,7 +47,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.DiasDaAgenda = agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro);
         }
 
-
         public AgendaMedicoMesDAO ConvertaEmDAO()
         {
             var listaNova = new List<AgendaMedicoDiaDAO>();
@@ -73,7 +67,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             };
         }
 
-
         #region VALIDAÇÕES
 
         private bool MedicoIdValido(int Id) => Id != 0;
@@ -88,7 +81,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
 
         #endregion
 
-
         private void ValideEntity(AgendaMedicoMesDAO agendaMedicoDAO, bool EhNovoCadastro)
         {
             if (!EhNovoCadastro) { AssertionConcern.AssertArgumentTrue(MedicoIdValido(agendaMedicoDAO.MedicoId), MensagensValidacoes.Agenda_Mes_IdMedico); }
@@ -97,6 +89,5 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             AssertionConcern.AssertArgumentTrue(DiaDisponivelValido(agendaMedicoDAO.DiaDisponivel), MensagensValidacoes.Agenda_Mes_DiaDisponivel);
             AssertionConcern.AssertArgumentTrue(MedicoDiasDaAgenda(agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro)), MensagensValidacoes.Agenda_Mes_DiaAgenda);
         }
-
     }
 }

@@ -44,35 +44,20 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         #endregion
 
         #region AgendaRepository
-
         public int CrieAgendaDoMedico(AgendaMedicoMes agenda) => _agentaSQLRepository.CrieAgendaDoMedico(agenda);
-
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedico(int idMedico) => _agentaSQLRepository.BusqueTodasAgendasDoMedico(idMedico);
-
         public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDia horario) => _agentaSQLRepository.CrieHorarioNaAgendaDoMedico(horario);
-        
         public AgendaMedicoMes BusqueAgendaDoMedicoPorId(int idMedico, int IdAgenda) => _agentaSQLRepository.BusqueAgendaDoMedicoPorId(idMedico,IdAgenda);
-
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(int idMedico, int dia, string mesano) => _agentaSQLRepository.BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(idMedico, dia, mesano);
-
         public AgendaMedicoMes AtualizeDisponibilidadeAgendaMedicoPorId(int IdAgenda, string disponibilidade) => _agentaSQLRepository.AtualizeDisponibilidadeAgendaMedicoPorId(IdAgenda, disponibilidade);
-
         public int AtualizeHorarioDaAgendaComPaciente(int idHorario, int IdAgendaMedico, int IdPaciente, string disponibilidade, byte[] versaoLinha) => _agentaSQLRepository.AtualizeHorarioDaAgendaComPaciente(idHorario,IdAgendaMedico,IdPaciente,disponibilidade, versaoLinha);
-
         public int AtualizeLibereHorarioDaAgenda(int idHorario, int IdAgendaMedico) => _agentaSQLRepository.AtualizeLibereHorarioDaAgenda(idHorario,IdAgendaMedico);
-
         public int AtualizeHorarioDaAgenda(int idHorario, int IdAgendaMedico, string horario) => _agentaSQLRepository.AtualizeHorarioDaAgenda(idHorario, IdAgendaMedico, horario);
-
         public byte[] ObtenhaAhVersaoDaLinhaDoHorario(int idHorario) => _agentaSQLRepository.ObtenhaAhVersaoDaLinhaDoHorario(idHorario);
-
         public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario) => _agentaSQLRepository.BusqueAgendaDiaDoMedicoPorId(idHorario);
-
         public IEnumerable<AgendaMedicoDia> BusqueTodosHorariosDaAgendaPorId(int IdAgendaMedico) => _agentaSQLRepository.BusqueTodosHorariosDaAgendaPorId(IdAgendaMedico);
-
         public int RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico) => _agentaSQLRepository.RemovaAgendaEhHorarioDaAgenda(idAgendaMedico);
-
         public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico) => _agentaSQLRepository.RemovaHorarioDaAgenda(idHorario, idAgendaMedico);
-
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite) => _agentaSQLRepository.BusqueTodasAgendasDosMedicos(Limite);
         #endregion
     }

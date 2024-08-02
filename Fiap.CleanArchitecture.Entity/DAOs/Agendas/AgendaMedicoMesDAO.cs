@@ -7,21 +7,15 @@
 
 
 using Fiap.CleanArchitecture.Entity.Entities;
-using Fiap.CleanArchitecture.Entity.Enums;
-using System.Collections.Generic;
 
 namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 {
     public class AgendaMedicoMesDAO
     {
         public int Id { get; set; }
-
         public int MedicoId { get; set; }
-
         public string MesAno { get; set; }
-
         public int Dia { get; set; }
-
         public string DiaDisponivel { get; set; }
 
         public ICollection<AgendaMedicoDiaDAO> DiasDaAgenda { get; set; }
@@ -39,6 +33,5 @@ namespace Fiap.CleanArchitecture.Entity.DAOs.Agendas
 
             return _DiasDaAgenda;
         }
-
     }
 }

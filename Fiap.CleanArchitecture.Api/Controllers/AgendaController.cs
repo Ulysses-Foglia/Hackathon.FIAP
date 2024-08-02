@@ -10,7 +10,6 @@ using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Attribute;
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
-using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +20,6 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     [Route("[controller]")]
     public class AgendaController : ControllerBase
     {
-
         private readonly IDatabaseClient _databaseClient;
         private readonly IAgendaControlador _agendaControlador;
 
@@ -69,7 +67,8 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             {
                 var resposta = _agendaControlador.CrieHorarioNaAgendaDoMedico(agendaMedicoDiaDAO);
 
-                return Ok(resposta != 0 ? $"Foi criado um horário com código {resposta}" : "Não foi possível criar o horário na agenda");
+                return Ok(resposta != 0 ? $"Foi criado um horário com código {resposta}" 
+                    : "Não foi possível criar o horário na agenda");
             }
             catch (Exception ex)
             {

@@ -90,13 +90,9 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             AssertionConcern.AssertArgumentTrue(EmailValido(usuarioDAO.Email), MensagensValidacoes.Usuario_Email);
             AssertionConcern.AssertArgumentTrue(SenhaValida(usuarioDAO.Senha), MensagensValidacoes.Usuario_Senha);
             AssertionConcern.AssertArgumentTrue(PapelValido(usuarioDAO.Papel, out TipoPapel papel), MensagensValidacoes.Usuario_Papel);
-
         }
 
         public bool PapelValido(string papel, out TipoPapel tipoPapel) 
             => Enum.TryParse(papel, out tipoPapel);
-
-    
-
     }
 }

@@ -6,36 +6,20 @@
 // ------------------------------------------------------------------------------------------------------
 
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
-using Fiap.CleanArchitecture.Entity.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Controller.Interface
 {
     public interface IAgendaControlador
     {
-
         public int CrieAgendaDoMedico(AgendaMedicoMesDAO agenda);
-
         public string BusqueTodasAgendasDoMedico(int idMedico);
-
         public string AtualizeAhDisponibilidadeDaAgendaDoMedico(int idAgenda, string disponibilidade);
-
         public string AtualizeHorarioDaAgenda(AgendaMedicoAtualizeHorarioDAO dados);
-
         public int AtualizeHorarioDaAgendaComPaciente(AgendaMedicoAgendarPacienteDAO dados);
-
         public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDiaDAO dados);
-
         public string BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(AgendaMedicoFiltroIdMedicoDiaMesAnoDAO dados);
-
         public string RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico);
-
         public string RemovaHorarioDaAgenda(AgendaMedicoFiltroExclusaoHorarioDAO dados);
-
         public string BusqueTodasAsAgendasDosMedicos(int limiteLinhas);
     }
 }

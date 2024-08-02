@@ -9,11 +9,6 @@ using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.UseCase
 {
@@ -34,8 +29,5 @@ namespace Fiap.CleanArchitecture.UseCase
 
             return _agendaGateway.CrieAgendaDoMedico(medicoMes);
         }
-
-
-
     }
 }

@@ -1,14 +1,8 @@
 ﻿using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Entity.Models;
-using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.UseCase
 {
@@ -16,6 +10,7 @@ namespace Fiap.CleanArchitecture.UseCase
     {
         private readonly IMedicoGateway _medicoGateway;
         private readonly IAgendaGateway _agendaGateway;
+
         public MedicoUseCase(IMedicoGateway medicoGateway, IAgendaGateway agendaGateway)
         {
             _medicoGateway = medicoGateway;

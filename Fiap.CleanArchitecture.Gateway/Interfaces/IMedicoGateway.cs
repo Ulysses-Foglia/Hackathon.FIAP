@@ -12,5 +12,4 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
         Medico Alterar(Medico medico);
         void Excluir(int id);
     }
-
 }

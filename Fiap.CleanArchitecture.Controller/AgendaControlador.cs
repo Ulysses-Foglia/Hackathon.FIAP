@@ -14,12 +14,6 @@ using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
 using Fiap.CleanArchitecture.UseCase;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Controller
 {
@@ -60,8 +54,8 @@ namespace Fiap.CleanArchitecture.Controller
 
         public string AtualizeHorarioDaAgenda(AgendaMedicoAtualizeHorarioDAO dados) 
         {
-
             var linhasAfetadas =  _agendaGateway.AtualizeHorarioDaAgenda(dados.idHorario, dados.idAgendaMedico, dados.Horario);
+            
             if (linhasAfetadas != 0) 
             {
                 return AgendaPresenter.ToJson(new { Mensagem = $"O Horario de ID: {dados.idHorario} foi atualizado para {dados.Horario}" });
@@ -83,9 +77,7 @@ namespace Fiap.CleanArchitecture.Controller
                 throw new Exception("O Horário já esta reservado.");
             }
 
-
            return  _agendaGateway.AtualizeHorarioDaAgendaComPaciente(dados.IdHorario, dados.IdAgendaMedico, dados.IdPaciente, "INDISPONIVEL", versaoLinhaAtual ?? []);
-
         }
 
         public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDiaDAO dados) 
@@ -100,7 +92,6 @@ namespace Fiap.CleanArchitecture.Controller
             }
 
             return _agendaGateway.CrieHorarioNaAgendaDoMedico(agendaDia);
-
         }
 
         public string BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(AgendaMedicoFiltroIdMedicoDiaMesAnoDAO dados)
@@ -126,7 +117,5 @@ namespace Fiap.CleanArchitecture.Controller
 
             return AgendaPresenter.ToJson(registros);
         }
-
-
     }
 }

@@ -129,6 +129,5 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         .RuleFor(m => m.Senha, f => f.Internet.Password())
         .RuleFor(m => m.Papel, _ => TipoPapel.Medico.ToString())
         .RuleFor(m => m.Crm, f => f.Random.Replace("######"));
-
     }
 }

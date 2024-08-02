@@ -9,28 +9,19 @@ using Fiap.CleanArchitecture.Entities;
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
 using Fiap.CleanArchitecture.Entity.Enums;
 using Fiap.CleanArchitecture.Entity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Fiap.CleanArchitecture.Entity.Entities
 {
     public class AgendaMedicoDia : EntityBase
     {
         public AgendaMedicoDia(){}
+
         public int AgendaMedicoId { get; set; }
-
         public HorarioDisponivelEnum HorarioDisponivel { get; set; }
-
         public string Horario { get; set; }
-
         public Usuario Paciente { get; set; }
-
         public int PacienteId { get; set; }
-
 
         public AgendaMedicoDia(int agendaMedicoId, HorarioDisponivelEnum horarioDisponivel, string horario, Usuario paciente)
         {
@@ -59,7 +50,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             PacienteId = agendaMedicoDia.PacienteId;
             
         }
-
 
         public AgendaMedicoDiaDAO ConvertaEmDAO() 
         {
@@ -103,9 +93,5 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         }
 
         #endregion
-
-
-
-
     }
 }
