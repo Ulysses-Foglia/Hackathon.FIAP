@@ -48,4 +48,8 @@
     <ProjectReference Include="..\Fiap.CleanArchitecture.Entity\Fiap.CleanArchitecture.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

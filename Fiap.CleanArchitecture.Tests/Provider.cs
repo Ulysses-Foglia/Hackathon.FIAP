@@ -6,8 +6,6 @@ using Fiap.CleanArchitecture.Data.DatabaseClients.SQL;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
-using Fiap.CleanArchitecture.UseCase;
-using Fiap.CleanArchitecture.UseCase.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,8 +23,6 @@ namespace Fiap.CleanArchitecture.Tests
             services.AddScoped<IUsuarioControlador, UsuarioControlador>();
             services.AddScoped<IUsuarioController, UsuarioController>();
             services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-            services.AddScoped<ITarefaGateway, TarefaGateway>();
-            services.AddScoped<ITarefaUseCase, TarefaUseCase>();
             services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(Configuration));
 
             _serviceDescriptors = services.BuildServiceProvider();

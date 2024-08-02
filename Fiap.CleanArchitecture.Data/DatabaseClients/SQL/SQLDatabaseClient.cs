@@ -43,7 +43,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public void ExcluirUsuario(int id) => _usuarioSQLRepository.Excluir(id);
         #endregion
 
-
         #region AgendaRepository
 
         public int CrieAgendaDoMedico(AgendaMedicoMes agenda) => _agentaSQLRepository.CrieAgendaDoMedico(agenda);
