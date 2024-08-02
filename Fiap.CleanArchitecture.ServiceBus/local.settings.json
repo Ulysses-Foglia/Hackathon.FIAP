@@ -1,10 +1,10 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "Endpoint=sb://fiaphackathongrupo11.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=VkWtVDmOZQjDVV/nY5fXK1F5vecnWAAF1+ASbMiB+Yk=",
+    "AzureWebJobsStorage": "Endpoint=sb://fiaphackathongrupo11.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=eHqKvvB6EbSNYHSyNal9t+Cl4lNmbXRgT+ASbB0nomM=",
     "FUNCTIONS_INPROC_NET8_ENABLED": "1",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    
+
     "EmailTopicName": "send-mail",
 
     "Mail:Host": "smtp.gmail.com",

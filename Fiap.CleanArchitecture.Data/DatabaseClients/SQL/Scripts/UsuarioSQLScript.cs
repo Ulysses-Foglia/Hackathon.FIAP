@@ -4,7 +4,7 @@
     {
         public static string VerificarUsuario => @"
         
-            SELECT TOP 1 NOME, EMAIL, CPF, SENHA, PAPEL 
+            SELECT TOP 1 NOME AS Nome, EMAIL AS Email, CPF as Cpf, SENHA AS Senha, PAPEL AS Papel
             FROM USUARIOS WITH (NOLOCK)
             WHERE EMAIL = @EMAIL AND SENHA = @SENHA ORDER BY 1 ASC
 
