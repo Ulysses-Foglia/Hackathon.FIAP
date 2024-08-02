@@ -5,11 +5,12 @@ namespace Fiap.CleanArchitecture.Api.Controllers.Interfaces
 {
     public interface IMedicoController
     {
-        //IActionResult Autenticar([FromBody] MedicoDAO usuarioDAO);
-        //IActionResult BuscarTodos();
-        //IActionResult BuscarPorId(int id);
-        //IActionResult Criar([FromBody] UsuarioDAO usuarioDAO);
-        //IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO);
-        //IActionResult Excluir(int id);
+        IActionResult AutenticarMedico([FromBody] AutenticacaoModelDAO dados);
+        IActionResult BuscarTodos();
+        IActionResult BuscarMedicosDisponibilidade();
+        IActionResult BuscarPorId(int id);
+        IActionResult Criar([FromBody] MedicoDAO medicoDAO);
+        IActionResult Alterar([FromBody] MedicoAlterarDAO medicoAlterarDAO);
+        IActionResult Excluir(int id);
     }
 }
