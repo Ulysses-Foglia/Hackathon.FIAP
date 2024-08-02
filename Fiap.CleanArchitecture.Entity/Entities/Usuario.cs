@@ -14,8 +14,6 @@ namespace Fiap.CleanArchitecture.Entity.Entities
         public string Senha { get; set; }
         public TipoPapel Papel { get; set; }
 
-        public IEnumerable<Tarefa> Tarefas { get; set; }
-
         public Usuario() { }
 
         public Usuario(string email, string senha)

@@ -151,7 +151,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.AddWithValue("@CPF", Ferramentas.FormatarString(medico.Cpf));
                 comd.Parameters.AddWithValue("@CRM", Ferramentas.FormatarString(medico.Crm));
                 comd.Parameters.AddWithValue("@SENHA", medico.Senha);
-                comd.Parameters.AddWithValue("@PAPEL", medico.Papel);
+                comd.Parameters.AddWithValue("@PAPEL", medico.Papel.ToString());
 
                 comd.ExecuteScalar();
                 trans.Commit();

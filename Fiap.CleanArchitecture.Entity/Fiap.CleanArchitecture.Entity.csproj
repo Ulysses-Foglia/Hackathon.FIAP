@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Fiap.CleanArchitecture.Util\Fiap.CleanArchitecture.Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\" />
+  </ItemGroup>
+
 </Project>

@@ -11,7 +11,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
 
         private readonly UsuarioSQLRepository _usuarioSQLRepository;
         private readonly MedicoSQLRepository _medicoSQLRepository;
-        private readonly TarefaSQLRepository _tarefaSQLRepository;
         private readonly AgendaSQLRepository _agentaSQLRepository;
 
 
@@ -20,11 +19,12 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
             _configuration = configuration;
             _agentaSQLRepository = new AgendaSQLRepository(configuration);
             _usuarioSQLRepository = new UsuarioSQLRepository(_configuration);
-            _tarefaSQLRepository = new TarefaSQLRepository(_configuration);
             _medicoSQLRepository = new MedicoSQLRepository(_configuration);
         } 
 
         public string GerarToken(Medico medico) => _medicoSQLRepository.GerarToken(medico);
+
+        #region MedicoRepository
         public IEnumerable<Medico> BuscarTodosMedicos() => _medicoSQLRepository.BuscarTodos();
         public IEnumerable<Medico> BuscarMedicosDisponibilidade() => _medicoSQLRepository.BuscarMedicosDisponibilidade();
         public Medico BuscarMedicoPorId(int id) => _medicoSQLRepository.BuscarPorId(id);
@@ -32,6 +32,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public Medico AlterarMedico(Medico medico) => _medicoSQLRepository.Alterar(medico);
         public void ExcluirMedico(int id) => _medicoSQLRepository.Excluir(id);
 
+        #endregion
 
         #region UsuarioRepository
         public string GerarToken(Usuario usuario) => _usuarioSQLRepository.GerarToken(usuario);
@@ -42,16 +43,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public void ExcluirUsuario(int id) => _usuarioSQLRepository.Excluir(id);
         #endregion
 
-        #region TarefaRepository
-        public IEnumerable<Tarefa> BuscarTodasTarefas() => _tarefaSQLRepository.BuscarTodos();
-        public Tarefa BuscarTarefaPorId(int id) => _tarefaSQLRepository.BuscarPorId(id);
-        public void CriarTarefa(Tarefa tarefa) => _tarefaSQLRepository.Criar(tarefa);
-        public Tarefa AlterarTarefa(Tarefa tarefa) => _tarefaSQLRepository.Alterar(tarefa);
-        public void ExcluirTarefa(int id) => _tarefaSQLRepository.Excluir(id);
-
-        public void Aprovar(int id) => _tarefaSQLRepository.Aprovar(id);
-
-        #endregion
 
         #region AgendaRepository
 
@@ -60,7 +51,6 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDoMedico(int idMedico) => _agentaSQLRepository.BusqueTodasAgendasDoMedico(idMedico);
 
         public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDia horario) => _agentaSQLRepository.CrieHorarioNaAgendaDoMedico(horario);
-
         
         public AgendaMedicoMes BusqueAgendaDoMedicoPorId(int idMedico, int IdAgenda) => _agentaSQLRepository.BusqueAgendaDoMedicoPorId(idMedico,IdAgenda);
 
@@ -78,6 +68,11 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
 
         public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario) => _agentaSQLRepository.BusqueAgendaDiaDoMedicoPorId(idHorario);
 
+        public IEnumerable<AgendaMedicoDia> BusqueTodosHorariosDaAgendaPorId(int IdAgendaMedico) => _agentaSQLRepository.BusqueTodosHorariosDaAgendaPorId(IdAgendaMedico);
+
+        public int RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico) => _agentaSQLRepository.RemovaAgendaEhHorarioDaAgenda(idAgendaMedico);
+
+        public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico) => _agentaSQLRepository.RemovaHorarioDaAgenda(idHorario, idAgendaMedico);
         #endregion
     }
 }

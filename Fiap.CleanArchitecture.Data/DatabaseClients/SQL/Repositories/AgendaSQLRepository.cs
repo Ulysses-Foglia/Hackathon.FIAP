@@ -143,10 +143,78 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                     }
                 }
 
-                return result;
+                return result ?? new List<AgendaMedicoMes>();
             }
 
         }
+
+
+        /// <summary>
+        /// Busca as agendas dos médicos
+        /// </summary>
+        /// <param name="idMedico"></param>
+        /// <returns></returns>
+        public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite)
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = AgendaMedicoSQLScript.BuscaAgendasDosMedicos;
+
+                var param = new DynamicParameters();
+
+                param.Add("@LIMITE", Limite, DbType.Int32, ParameterDirection.Input);
+
+                var result = conn.Query<AgendaMedicoMes>(sql, param, commandTimeout: Timeout);
+
+                if (result.Any())
+                {
+                    foreach (var agenda in result)
+                    {
+                        var sql2 = AgendaMedicoSQLScript.ObtenhaHorariosDaAgendaPeloIdAgenda;
+
+                        var param2 = new DynamicParameters();
+
+                        param2.Add("@AGENDAMEDICOID", agenda.Id, DbType.Int32, ParameterDirection.Input);
+
+                        var horaios = conn.Query<AgendaMedicoDia>(sql2, param2, commandTimeout: Timeout);
+
+                        if (horaios.Any())
+                        {
+                            agenda.DiasDaAgenda = horaios.ToList();
+                        }
+                    }
+                }
+
+                return result ?? new List<AgendaMedicoMes>();
+            }
+
+        }
+
+        /// <summary>
+        /// Busca todos os horarios da agenda do médico
+        /// </summary>
+        /// <param name="IdAgendaMedico">Id da Agenda do Médico</param>
+        /// <returns></returns>
+        public IEnumerable<AgendaMedicoDia> BusqueTodosHorariosDaAgendaPorId(int IdAgendaMedico) 
+        {
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = AgendaMedicoSQLScript.ObtenhaHorariosDaAgendaPeloIdAgenda;
+
+                var param = new DynamicParameters();
+
+                param.Add("@AGENDAMEDICOID", IdAgendaMedico, DbType.Int32, ParameterDirection.Input);
+
+                var result = conn.Query<AgendaMedicoDia>(sql, param, commandTimeout: Timeout);
+
+
+                return result ?? new List<AgendaMedicoDia>();    
+            }
+
+        }
+
 
         /// <summary>
         /// Busca as agendas do médico pelo seu ID e ID da sua agenda
@@ -441,6 +509,61 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
             }
         }
 
+
+        /// <summary>
+        /// Remove uma agenda e seus horarios relacionados
+        /// </summary>
+        /// <param name="idHorario"></param>
+        /// <returns></returns>
+        public int RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico)
+        {
+            int linhasafetadas = 0;
+
+            var listaDeIdsDeHorarios = BusqueTodosHorariosDaAgendaPorId(idAgendaMedico)?.Select(x => x.Id).ToList();
+
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                comd.Transaction = trans;
+                try
+                {
+
+                    comd.CommandText = AgendaMedicoSQLScript.DeleteHorario;
+
+                    //executando a exclusão dos horarios
+                    if (listaDeIdsDeHorarios != null && listaDeIdsDeHorarios.Any())
+                    {
+                        foreach (var id in listaDeIdsDeHorarios)
+                        {
+                            comd.Parameters.Clear();
+                            comd.Parameters.AddWithValue("@ID", id);
+                            comd.Parameters.AddWithValue("@AGENDAMEDICOID", idAgendaMedico);
+                            linhasafetadas += (int)comd.ExecuteNonQuery();
+                        }
+                    }
+
+                    comd.Parameters.Clear();
+                    comd.CommandText = AgendaMedicoSQLScript.DeleteAgenda;
+                    comd.Parameters.AddWithValue("@ID", idAgendaMedico);
+                    linhasafetadas += (int)comd.ExecuteNonQuery();
+
+
+                    trans.Commit();
+
+                    return linhasafetadas;
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    return 0;
+                }
+
+                
+            }
+        }
 
         /// <summary>
         /// Obtem a versao da linha do horario informado

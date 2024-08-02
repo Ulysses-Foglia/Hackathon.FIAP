@@ -8,6 +8,7 @@
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.DAOs.Agendas;
+using Fiap.CleanArchitecture.Entity.Entities;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
 using Fiap.CleanArchitecture.Presenter;
@@ -85,6 +86,39 @@ namespace Fiap.CleanArchitecture.Controller
            return  _agendaGateway.AtualizeHorarioDaAgendaComPaciente(dados.IdHorario, dados.IdAgendaMedico, dados.IdPaciente, "INDISPONIVEL", versaoLinhaAtual ?? []);
 
         }
+
+        public int CrieHorarioNaAgendaDoMedico(AgendaMedicoDiaDAO dados) 
+        {
+            var agendaDia = new AgendaMedicoDia(dados, true);
+
+            var agendasDoDia = _agendaGateway.BusqueTodosHorariosDaAgendaPorId(agendaDia.AgendaMedicoId);
+
+            if (agendasDoDia.Any(a => a.Horario.Equals(agendaDia.Horario))) 
+            {
+                throw new Exception("Já existe um horário criado para esse dia");
+            }
+
+            return _agendaGateway.CrieHorarioNaAgendaDoMedico(agendaDia);
+
+        }
+
+        public string BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(AgendaMedicoFiltroIdMedicoDiaMesAnoDAO dados)
+        {
+            var agendas = _agendaGateway.BusqueTodasAgendasDoMedicoPorIdEhDiaEhMes(dados.IdMedico, dados.Dia, dados.MesAno);
+
+            return AgendaPresenter.ToJson(agendas);
+        }
+
+        public string RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico) 
+        {
+            return _agendaGateway.RemovaAgendaEhHorarioDaAgenda(idAgendaMedico) != 0 ? "Agenda e horarios removidos" : "Agenda não removida ou encontrada";
+        }
+
+        public string RemovaHorarioDaAgenda(AgendaMedicoFiltroExclusaoHorarioDAO dados)
+        {
+            return _agendaGateway.RemovaHorarioDaAgenda(dados.IdHorario, dados.IdAgendaMedico) != 0 ? "Horario removido com sucesso" : "Horário não removido ou encontrado";
+        }
+
 
     }
 }

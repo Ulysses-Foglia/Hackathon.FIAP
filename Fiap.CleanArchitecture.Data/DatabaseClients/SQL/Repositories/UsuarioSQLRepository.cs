@@ -122,7 +122,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
                 comd.Parameters.AddWithValue("@EMAIL", usuario.Email);
                 comd.Parameters.AddWithValue("@CPF", Ferramentas.FormatarString(usuario.Cpf));
                 comd.Parameters.AddWithValue("@SENHA", usuario.Senha);
-                comd.Parameters.AddWithValue("@PAPEL", usuario.Papel);
+                comd.Parameters.AddWithValue("@PAPEL", usuario.Papel.ToString());
 
                 comd.ExecuteScalar();
                 trans.Commit();

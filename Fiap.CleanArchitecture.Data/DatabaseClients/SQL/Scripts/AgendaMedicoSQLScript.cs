@@ -68,6 +68,21 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
         ";
 
         /// <summary>
+        /// @LIMITE (lIMITE DE LINHAS)
+        /// </summary>
+        public static string BuscaAgendasDosMedicos => @"
+            
+                SELECT TOP (@LIMITE)
+                AM.ID,
+                AM.MEDICOID, 
+                AM.MESANO, 
+                AM.DIA, 
+                AM.DIADISPONIVEL, 
+                AM.DATA_CRIACAO
+                FROM AGENDA_MEDICO_MES AM WITH (NOLOCK)
+        ";
+
+        /// <summary>
         /// @MEDICOID (ID do Médico)
         /// @ID (ID AGENDA)
         /// </summary>
@@ -192,12 +207,25 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Scripts
 
         ";
 
+        /// <summary>
+        /// Deleta um horário
+        /// @ID (Id do Horário)
+        /// @AGENDAMEDICOID (Id da Agenda do Médico)
+        /// </summary>
         public static string DeleteHorario => @"
             
              DELETE FROM AGENDA_MEDICO_DIA WHERE ID = @ID AND AGENDAMEDICOID = @AGENDAMEDICOID
 
         ";
 
+        /// <summary>
+        /// Deleta uma Angenda
+        /// @ID (Id da agenda)
+        /// </summary>
+        public static string DeleteAgenda => @"
+            
+             DELETE FROM AGENDA_MEDICO_MES WHERE ID = @ID
 
+        ";
     }
 }

@@ -38,7 +38,7 @@ namespace Fiap.CleanArchitecture.Entity.Attribute
                 .Any(c => c.Type == ClaimTypes.Role && c.Value == _claimValue);
             bool existeRegra = false;
 
-            if (_claimValues.Any()) 
+            if (_claimValues != null && _claimValues.Any()) 
             {
                 foreach (string Valor in _claimValues)
                 {

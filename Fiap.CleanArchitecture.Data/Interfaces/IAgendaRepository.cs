@@ -37,5 +37,11 @@ namespace Fiap.CleanArchitecture.Data.Interfaces
         public byte[] ObtenhaAhVersaoDaLinhaDoHorario(int idHorario);
 
         public AgendaMedicoDia BusqueAgendaDiaDoMedicoPorId(int idHorario);
+
+        public IEnumerable<AgendaMedicoDia> BusqueTodosHorariosDaAgendaPorId(int IdAgendaMedico);
+
+        public int RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico);
+
+        public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico);
     }
 }
