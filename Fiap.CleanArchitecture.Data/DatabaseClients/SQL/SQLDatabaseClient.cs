@@ -73,6 +73,8 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL
         public int RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico) => _agentaSQLRepository.RemovaAgendaEhHorarioDaAgenda(idAgendaMedico);
 
         public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico) => _agentaSQLRepository.RemovaHorarioDaAgenda(idHorario, idAgendaMedico);
+
+        public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite) => _agentaSQLRepository.BusqueTodasAgendasDosMedicos(Limite);
         #endregion
     }
 }

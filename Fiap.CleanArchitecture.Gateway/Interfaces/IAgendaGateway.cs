@@ -43,5 +43,7 @@ namespace Fiap.CleanArchitecture.Gateway.Interfaces
         public int RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico);
 
         public int RemovaHorarioDaAgenda(int idHorario, int idAgendaMedico);
+
+        public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite);
     }
 }

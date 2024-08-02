@@ -86,7 +86,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [Papel("Medico")]
         [VersaoApi("V1.0")]
-        [HttpPost("atualizar-diponibilidade-agenda")]
+        [HttpPut("atualizar-diponibilidade-agenda")]
         public IActionResult AtualizeDiponibilidadeAgenda([FromBody] AgendaMedicoAtualizarDisponibilidadeDAO dados)
         {
             try
@@ -114,7 +114,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [Authorize]
         [Papel("Medico")]
         [VersaoApi("V1.0")]
-        [HttpPost("atualizar-horario-agenda")]
+        [HttpPut("atualizar-horario-agenda")]
         public IActionResult AtualizeHorarioAgenda([FromBody] AgendaMedicoAtualizeHorarioDAO dados)
         {
             try
@@ -202,6 +202,29 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             try
             {
                 var usuarios = _agendaControlador.BusqueTodasAgendasDoMedico(id);
+
+                return Ok(usuarios);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Busca todas agendas de todos os médicos usando um limitador de resultados como paramêtro
+        /// </summary>
+        /// <param name="limite">Limitador de resultados</param>
+        /// <returns>Lista com os resultados</returns>
+        [Authorize]
+        [Papel(["Paciente", "Medico"])]
+        [VersaoApi("V1.0")]
+        [HttpGet("buscar-por-limite-de-linhas")]
+        public IActionResult BuscarTodasAgendasDosMedicosLimitado([FromQuery]int limite)
+        {
+            try
+            {
+                var usuarios = _agendaControlador.BusqueTodasAsAgendasDosMedicos(limite);
 
                 return Ok(usuarios);
             }

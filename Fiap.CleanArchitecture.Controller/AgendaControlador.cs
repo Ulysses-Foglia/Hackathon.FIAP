@@ -16,6 +16,7 @@ using Fiap.CleanArchitecture.UseCase;
 using Fiap.CleanArchitecture.UseCase.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -117,6 +118,13 @@ namespace Fiap.CleanArchitecture.Controller
         public string RemovaHorarioDaAgenda(AgendaMedicoFiltroExclusaoHorarioDAO dados)
         {
             return _agendaGateway.RemovaHorarioDaAgenda(dados.IdHorario, dados.IdAgendaMedico) != 0 ? "Horario removido com sucesso" : "Horário não removido ou encontrado";
+        }
+
+        public string BusqueTodasAsAgendasDosMedicos(int limiteLinhas) 
+        {
+            var registros = _agendaGateway.BusqueTodasAgendasDosMedicos(limiteLinhas);
+
+            return AgendaPresenter.ToJson(registros);
         }
 
 

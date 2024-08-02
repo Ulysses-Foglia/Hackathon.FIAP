@@ -35,5 +35,7 @@ namespace Fiap.CleanArchitecture.Controller.Interface
         public string RemovaAgendaEhHorarioDaAgenda(int idAgendaMedico);
 
         public string RemovaHorarioDaAgenda(AgendaMedicoFiltroExclusaoHorarioDAO dados);
+
+        public string BusqueTodasAsAgendasDosMedicos(int limiteLinhas);
     }
 }

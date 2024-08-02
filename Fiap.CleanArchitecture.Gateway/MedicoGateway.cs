@@ -25,5 +25,6 @@ namespace Fiap.CleanArchitecture.Gateway
         public void Criar(Medico medico) => _database.CriarMedico(medico);
         public Medico Alterar(Medico medico) => _database.AlterarMedico(medico);
         public void Excluir(int id) => _database.ExcluirMedico(id);
+        public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite) => _database.BusqueTodasAgendasDoMedico(Limite);
     }
 }

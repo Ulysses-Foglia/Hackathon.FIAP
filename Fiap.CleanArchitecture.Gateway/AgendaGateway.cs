@@ -90,5 +90,10 @@ namespace Fiap.CleanArchitecture.Gateway
         {
             return _database.RemovaHorarioDaAgenda(idHorario,idAgendaMedico);
         }
+
+        public IEnumerable<AgendaMedicoMes> BusqueTodasAgendasDosMedicos(int Limite)
+        {
+            return _database.BusqueTodasAgendasDosMedicos(Limite);
+        }
     }
 }
