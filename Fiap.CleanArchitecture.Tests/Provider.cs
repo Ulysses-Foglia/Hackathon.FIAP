@@ -20,10 +20,27 @@ namespace Fiap.CleanArchitecture.Tests
         {
             var services = new ServiceCollection();
 
+            var configuration = new ConfigurationBuilder()
+             .AddJsonFile("appsettings.json", optional: false)
+             .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+
+
             services.AddScoped<IUsuarioControlador, UsuarioControlador>();
             services.AddScoped<IUsuarioController, UsuarioController>();
             services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-            services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(Configuration));
+
+            services.AddScoped<IAgendaController, AgendaController>();
+            services.AddScoped<IAgendaControlador, AgendaControlador>();
+            services.AddScoped<IAgendaGateway, AgendaGateway>();
+
+            services.AddScoped<IMedicoControlador, MedicoControlador>();
+            services.AddScoped<IMedicoController, MedicoController>();
+            services.AddScoped<IMedicoGateway, MedicoGateway>();
+
+            services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(provider.GetRequiredService<IConfiguration>()));
+            //services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(Configuration));
 
             _serviceDescriptors = services.BuildServiceProvider();
         }

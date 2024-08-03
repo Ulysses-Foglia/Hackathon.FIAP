@@ -42,7 +42,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             };
 
             _mockMedicoController.Setup(s => s.AutenticarMedico(It.IsAny<AutenticacaoModelDAO>()))
-                .Returns((MedicoDAO medico) =>
+                .Returns((AutenticacaoModelDAO medico) =>
                 {
                     if (medico == null)
                         return new BadRequestObjectResult(MensagensValidacoes.Tests_UsuarioInvalido);

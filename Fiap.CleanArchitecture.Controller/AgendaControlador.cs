@@ -29,7 +29,7 @@ namespace Fiap.CleanArchitecture.Controller
         private readonly IUsuarioGateway _usuarioGateway;
         private readonly IEmailGateway _emailGateway;
 
-        public AgendaControlador(IDatabaseClient databaseClient, IConfiguration configuration)
+        public AgendaControlador(IDatabaseClient databaseClient,  IConfiguration configuration)
         {
             _configuration = configuration;
             _databaseClient = databaseClient;
