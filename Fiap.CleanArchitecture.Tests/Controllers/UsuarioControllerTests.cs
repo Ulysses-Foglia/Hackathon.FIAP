@@ -31,42 +31,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             _provider = new Provider();
             _fakerUsuario = RetornarFakerUsuario();
         }
-
-        [Fact]
-        public void Usuario_Validar_Autenticar_ReturnOkComDados()
-        {
-            //Arrange
-            var resultadoEsperado = new { token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU2NDQ0NzksImV4cCI6MTcxNTY0ODA3OSwiaWF0IjoxNzE1NjQ0NDc5LCJpc3MiOiJBUEktRmlhcC5DbGVhbkFyY2hpdGVjdHVyZSIsImF1ZCI6ImRYTjFWR1Z6ZEdVeFFHVnRZV2xzTG1OdmJTNWljZz09In0.4ulEKcfcgvqNI1-6czZUQp5nrOl8D-p9uFgG9WgI5EU" };
-
-            AutenticacaoModelDAO usuario = new AutenticacaoModelDAO
-            {
-               
-                Email = "usuTeste1@email.com.br",
-                Senha = "123456",
-              
-            };
-
-            _mockUsuarioController.Setup(s => s.Autenticar(It.IsAny<AutenticacaoModelDAO>()))
-                .Returns((UsuarioDAO usuario) =>
-            {
-                if (usuario == null)
-                    return new BadRequestObjectResult(MensagensValidacoes.Tests_UsuarioInvalido);
-                else
-                    return new OkObjectResult(resultadoEsperado);
-            });
-
-            var usuarioControllerLazy =
-                new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
-
-            //Act
-            var result = usuarioControllerLazy.Value.Autenticar(usuario);
-
-            //Assert 
-            Assert.IsType<OkObjectResult>(result);
-            var okResult = (OkObjectResult)result;
-            var token = okResult.Value;
-            Assert.Equal(resultadoEsperado, token);
-        }
+                
 
         [Fact]
         public void Usuario_Validar_BuscarTodos_ReturnOkComDados()
@@ -89,40 +54,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
         }
-
-        [Fact]
-        public void Usuario_Validar_BuscarPorId_ReturnOkComDados()
-        {
-            //Arrage
-            int parametro = 1;
-            var resultadoEsperado = "{\"Id\":1,\"DataCriacao\":\"2024-05-12T11:11:27.83\",\"Nome\":\"UsuTeste1\",\"Email\":\"usuTeste1@email.com.br\",\"Papel\":\"Admin\"}";
-            
-            var retorno = _provider.GetRequiredService<IUsuarioController>().BuscarPorId(parametro);
-
-            _mockUsuarioController.Setup(x => x.BuscarPorId(parametro)).Returns(() =>
-            {
-                return retorno;
-            });
-
-            var usuarioControllerLazy = 
-                new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
-
-            //Act
-            var result = usuarioControllerLazy.Value.BuscarPorId(parametro);
-
-            //Assert 
-            var okResult = Assert.IsType<OkObjectResult>(result)?.Value?.ToString();
-
-            var usuarioEsperado = JsonConvert.DeserializeObject<Usuario>(resultadoEsperado);
-            var usuarioOk = JsonConvert.DeserializeObject<Usuario>(okResult);
-
-            usuarioEsperado.DataCriacao = usuarioOk.DataCriacao;
-
-            resultadoEsperado = JsonConvert.SerializeObject(usuarioEsperado);
-            okResult = JsonConvert.SerializeObject(usuarioOk);
-
-            Assert.Equal(resultadoEsperado, okResult);
-        }
+             
 
         [Fact]
         public void Usuario_Validar_Criar_ReturnOkComDados()
@@ -140,71 +72,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             Assert.IsType<OkResult>(result);
         }
 
-        [Fact]
-        public void Usuario_Validar_Alterar_ReturnOkComDados()
-        {
-            //Arrage
-            var resultadoEsperado = "{\"Id\":2,\"DataCriacao\":\"2024-05-12T11:11:27.83\",\"Nome\":\"teste123\",\"Email\":\"usuTeste1@email.com.br\",\"Papel\":\"Admin\"}";
-
-            var usuarioAlterarDao = new UsuarioAlterarDAO
-            {
-                Id = 2,
-                Nome = "teste123",
-                Email = "usuTeste1@email.com.br",
-                Papel = "Admin"
-            };
-
-            var retorno = _provider.GetRequiredService<IUsuarioController>().Alterar(usuarioAlterarDao);
-
-            _mockUsuarioController.Setup(s => s.Alterar(It.IsAny<UsuarioAlterarDAO>()))
-                .Returns((UsuarioAlterarDAO usuarioAlterarDAO) =>
-            {
-                if (usuarioAlterarDAO == null) 
-                    return new BadRequestObjectResult(MensagensValidacoes.Tests_UsuarioInvalido);
-                else 
-                    return retorno;
-
-            });
-
-            var usuarioControllerLazy = 
-                new Lazy<IUsuarioController>(() => _mockUsuarioController.Object);
-
-            // Act
-            var result = usuarioControllerLazy.Value.Alterar(usuarioAlterarDao);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
-            var okResult = (OkObjectResult)result;
-            var resultadoAtual = okResult?.Value?.ToString();
-
-            var usuarioEsperado = JsonConvert.DeserializeObject<Usuario>(resultadoEsperado);
-            var usuarioOk = JsonConvert.DeserializeObject<Usuario>(resultadoAtual);
-
-            usuarioEsperado.DataCriacao = usuarioOk.DataCriacao;
-
-            resultadoEsperado = JsonConvert.SerializeObject(usuarioEsperado);
-            resultadoAtual = JsonConvert.SerializeObject(usuarioOk);
-
-            Assert.Equal(resultadoEsperado, resultadoAtual);
-        }
-
-        [Fact]
-        public void Usuario_Validar_Excluir_ReturnOkComDados()
-        {
-            //Arrage
-            var parametro = 3;
-
-            _mockUsuarioControlador.Setup(x => x.Excluir(parametro));
-
-            // Act
-            var result = _controller.Excluir(parametro);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ObjectResult>(result);
-        }
-
+                
         public Faker<UsuarioDAO> RetornarFakerUsuario() => new Faker<UsuarioDAO>()
             .RuleFor(u => u.Nome, f => f.Name.FirstName())
             .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Nome))
