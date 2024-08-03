@@ -87,7 +87,15 @@ namespace Fiap.CleanArchitecture.Controller
             {
                 throw new Exception("O Horário já esta reservado.");
             }
-    
+            
+            var IdDoMedico = _agendaGateway.BusqueTodasAgendasDosMedicos(20000).Where(x => x.Id == dados.IdAgendaMedico).FirstOrDefault().MedicoId;
+            var Medico = _medicoGateway.BuscarPorId(IdDoMedico);
+            var Paciente = _usuarioGateway.BuscarPorId(dados.IdPaciente);
+
+            if (Medico == null) throw new Exception("Mecido não encontrado para a IdAgenda informado.");
+            if (Paciente == null) throw new Exception("Paciente não encontrado.");
+
+
             int resposta = _agendaGateway.AtualizeHorarioDaAgendaComPaciente(dados.IdHorario, dados.IdAgendaMedico, dados.IdPaciente, "INDISPONIVEL", versaoLinhaAtual ?? []);
 
             if (resposta != 0) 
@@ -95,10 +103,7 @@ namespace Fiap.CleanArchitecture.Controller
                 //envio do email aqui
                 try
                 {
-                    var IdDoMedico = _agendaGateway.BusqueTodasAgendasDosMedicos(20000).Where(x => x.Id == dados.IdAgendaMedico).FirstOrDefault().MedicoId;
-                    var Medico = _medicoGateway.BuscarPorId(IdDoMedico);
-                    var Paciente = _usuarioGateway.BuscarPorId(dados.IdPaciente);
-
+                 
                     _emailGateway.SendMailMessage(new Entity.DAOs.Email.EmailDAO() { DataHora = DateTime.Now, MedicoEmail = Medico.Email, MedicoNome = Medico.Nome, PacienteNome = Paciente.Nome });
                 }
                 catch (Exception)

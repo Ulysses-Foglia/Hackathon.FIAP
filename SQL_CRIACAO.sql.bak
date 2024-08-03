@@ -39,7 +39,7 @@ CREATE TABLE USUARIOS (
 
 
 INSERT INTO USUARIOS VALUES (GETDATE(), 'MedicoTeste1', '05155418500', '123456','MedicoTeste1@email.com', 'MTIzNDU2', 'Medico')
-INSERT INTO USUARIOS VALUES (GETDATE(), 'PacienteTeste1', '03086170530','123456', 'PacienteTeste1@email.com', 'MTIzNDU2', 'Paciente')
+INSERT INTO USUARIOS VALUES (GETDATE(), 'PacienteTeste1', '03086170530','', 'PacienteTeste1@email.com', 'MTIzNDU2', 'Paciente')
 
 
 
