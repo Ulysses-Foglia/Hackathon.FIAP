@@ -40,7 +40,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             _fakerAgendaMedicoMes = RetornarFakerAgenaMedicoMes(_fakerAgendaMedicoDia, _fakerMedico);
             _fakerAgendaMedicoAgendarPaciente = RetornarFakerAgendaMedicoAgendarPaciente();
             _mockDatabaseClient = new Mock<IDatabaseClient>();
-            _controller = new AgendaController(_mockDatabaseClient.Object);
+            _controller = new AgendaController(_mockDatabaseClient.Object, _provider.Configuration);
         }
 
         [Fact]
