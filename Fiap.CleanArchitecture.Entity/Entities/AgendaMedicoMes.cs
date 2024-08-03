@@ -45,6 +45,8 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             this.Dia = agendaMedicoDAO.Dia;
             this.DiaDisponivel = Enum.GetValues<DiaDisponivelEnum>().First(x => x.ToString().Equals(agendaMedicoDAO.DiaDisponivel));
             this.DiasDaAgenda = agendaMedicoDAO.ConvertaDiasDaAgendaEntity(EhNovoCadastro);
+
+            if (EhNovoCadastro) this.DataCriacao = DateTime.Now;
         }
 
         public AgendaMedicoMesDAO ConvertaEmDAO()

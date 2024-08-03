@@ -27,6 +27,14 @@ namespace Fiap.CleanArchitecture.UseCase
         public string AutentiqueMedico(MedicoDAO medico)
         {
             var medicoAut = new Medico(medico.Email, medico.Senha);
+            
+            var listaMedicos = _medicoGateway.BuscarTodos();
+
+            if (listaMedicos != null && listaMedicos.Any())
+            {
+                if(!listaMedicos.Any(x => x.Email == medico.Email && x.Papel == Entity.Enums.TipoPapel.Medico)) 
+                    throw new Exception("Medico não encontrado para login.");
+            }
 
             var token = _medicoGateway.GerarToken(medicoAut);
 

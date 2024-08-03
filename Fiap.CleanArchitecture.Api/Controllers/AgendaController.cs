@@ -22,11 +22,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly IAgendaControlador _agendaControlador;
+        private readonly IConfiguration _configuration;
 
-        public AgendaController(IDatabaseClient databaseClient)
+        public AgendaController(IDatabaseClient databaseClient, IConfiguration configuration)
         {
+            _configuration = configuration;
             _databaseClient = databaseClient;
-            _agendaControlador = new AgendaControlador(_databaseClient);
+            _agendaControlador = new AgendaControlador(_databaseClient, _configuration);
         }
 
         /// <summary>

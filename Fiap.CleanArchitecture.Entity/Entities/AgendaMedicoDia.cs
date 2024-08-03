@@ -48,6 +48,7 @@ namespace Fiap.CleanArchitecture.Entity.Entities
             HorarioDisponivel = Enum.GetValues<HorarioDisponivelEnum>().First(e => e.ToString().Equals(agendaMedicoDia.HorarioDisponivel));
             Horario = agendaMedicoDia.Horario;
             PacienteId = agendaMedicoDia.PacienteId;
+            if (EhNovoCadastro) this.DataCriacao = DateTime.Now;
             
         }
 
