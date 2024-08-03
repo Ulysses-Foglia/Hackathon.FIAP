@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 
 namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 {
-    internal class AgendaSQLRepository : Repository
+    public class AgendaSQLRepository : Repository
     {
         private readonly IConfiguration _configuration;
 

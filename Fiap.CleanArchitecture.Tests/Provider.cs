@@ -23,6 +23,16 @@ namespace Fiap.CleanArchitecture.Tests
             services.AddScoped<IUsuarioControlador, UsuarioControlador>();
             services.AddScoped<IUsuarioController, UsuarioController>();
             services.AddScoped<IUsuarioGateway, UsuarioGateway>();
+
+            services.AddScoped<IAgendaController, AgendaController>();
+            services.AddScoped<IAgendaControlador, AgendaControlador>();
+            services.AddScoped<IAgendaGateway, AgendaGateway>();
+
+            services.AddScoped<IMedicoControlador, MedicoControlador>();
+            services.AddScoped<IMedicoController, MedicoController>();
+            services.AddScoped<IMedicoGateway, MedicoGateway>();
+
+         
             services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(Configuration));
 
             _serviceDescriptors = services.BuildServiceProvider();

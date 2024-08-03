@@ -5,6 +5,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------------------------------
 
+using Fiap.CleanArchitecture.Api.Controllers.Interfaces;
 using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
@@ -18,7 +19,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AgendaController : ControllerBase
+    public class AgendaController : ControllerBase, IAgendaController
     {
         private readonly IDatabaseClient _databaseClient;
         private readonly IAgendaControlador _agendaControlador;
