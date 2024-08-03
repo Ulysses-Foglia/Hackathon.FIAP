@@ -1,0 +1,8 @@
+{
+  "nome": "Medico",
+  "cpf": "05155418500",
+  "email": "Medico@Medico.com",
+  "senha": "123456",
+  "papel": "Medico",
+  "crm": "123456"
+}
