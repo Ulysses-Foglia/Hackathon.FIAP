@@ -80,7 +80,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         {
             var retorno = _fakerAgendaMedicoAgendarPaciente.Generate();
 
-            var agendaMedico = _agentaSQLRepository.BusqueTodasAgendasDosMedicos(7).OrderByDescending(x => x.Id).FirstOrDefault();
+            var agendaMedico = _agentaSQLRepository.BusqueTodasAgendasDosMedicos(1).OrderByDescending(x => x.Id).FirstOrDefault();
             var agendaDia = _agentaSQLRepository.BusqueTodosHorariosDaAgendaPorId(agendaMedico.Id).OrderByDescending(x=>x.Id).FirstOrDefault();    
 
             retorno.IdAgendaMedico = !(agendaMedico is null) ? agendaMedico.Id : throw new InvalidOperationException("Nenhuma agenda médica foi encontrada.");
