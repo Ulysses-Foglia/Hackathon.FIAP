@@ -35,7 +35,7 @@ namespace Fiap.CleanArchitecture.ServiceBus
 
             mensagemEmail.Message = mensagemEmail.HTML
                 .Replace("@MedicoNome", mailDAO.MedicoNome)
-                .Replace("@PacienteNome ", mailDAO.PacienteNome)
+                .Replace("@PacienteNome", mailDAO.PacienteNome)
                 .Replace("@DataHora_Data", mailDAO.DataHora.ToString("dd/MM/yyyy"))
                 .Replace("@DataHora_Hora", mailDAO.DataHora.ToString("HH:mm"));
 
