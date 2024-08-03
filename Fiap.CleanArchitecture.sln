@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6ED946C6-71E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2AF12456-E5A1-4286-9973-F1CEF7CECDD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.CleanArchitecture.ServiceBus", "Fiap.CleanArchitecture.ServiceBus\Fiap.CleanArchitecture.ServiceBus.csproj", "{2CE5913F-879A-4C8C-AA32-2C4008156033}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{6980FA1D-9446-4DBF-B5FE-B8002B024DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6980FA1D-9446-4DBF-B5FE-B8002B024DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6980FA1D-9446-4DBF-B5FE-B8002B024DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE5913F-879A-4C8C-AA32-2C4008156033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE5913F-879A-4C8C-AA32-2C4008156033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE5913F-879A-4C8C-AA32-2C4008156033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE5913F-879A-4C8C-AA32-2C4008156033}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{13C9A934-EFE4-4362-A4A5-80EFC39A080E} = {6ED946C6-71E3-477B-80CC-C1DD6210155E}
 		{6980FA1D-9446-4DBF-B5FE-B8002B024DE3} = {2AF12456-E5A1-4286-9973-F1CEF7CECDD0}
 		{C49043B5-6B99-46B7-845E-3248FF51451E} = {6ED946C6-71E3-477B-80CC-C1DD6210155E}
+		{2CE5913F-879A-4C8C-AA32-2C4008156033} = {6ED946C6-71E3-477B-80CC-C1DD6210155E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03FDE19D-618E-453D-899F-33B76948F500}

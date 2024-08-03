@@ -6,8 +6,6 @@ using Fiap.CleanArchitecture.Data.DatabaseClients.SQL;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Gateway;
 using Fiap.CleanArchitecture.Gateway.Interfaces;
-using Fiap.CleanArchitecture.UseCase;
-using Fiap.CleanArchitecture.UseCase.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,12 +20,27 @@ namespace Fiap.CleanArchitecture.Tests
         {
             var services = new ServiceCollection();
 
+            var configuration = new ConfigurationBuilder()
+             .AddJsonFile("appsettings.json", optional: false)
+             .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+
+
             services.AddScoped<IUsuarioControlador, UsuarioControlador>();
             services.AddScoped<IUsuarioController, UsuarioController>();
             services.AddScoped<IUsuarioGateway, UsuarioGateway>();
-            services.AddScoped<ITarefaGateway, TarefaGateway>();
-            services.AddScoped<ITarefaUseCase, TarefaUseCase>();
-            services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(Configuration));
+
+            services.AddScoped<IAgendaController, AgendaController>();
+            services.AddScoped<IAgendaControlador, AgendaControlador>();
+            services.AddScoped<IAgendaGateway, AgendaGateway>();
+
+            services.AddScoped<IMedicoControlador, MedicoControlador>();
+            services.AddScoped<IMedicoController, MedicoController>();
+            services.AddScoped<IMedicoGateway, MedicoGateway>();
+
+            services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(provider.GetRequiredService<IConfiguration>()));
+            //services.AddScoped<IDatabaseClient>(provider => new SQLDatabaseClient(Configuration));
 
             _serviceDescriptors = services.BuildServiceProvider();
         }

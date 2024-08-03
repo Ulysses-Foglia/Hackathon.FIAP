@@ -108,16 +108,26 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
         {
             using (var conn = new SqlConnection(ConnectionString))
             {
+                SqlCommand comd = conn.CreateCommand();
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                comd.Transaction = trans;
+                
                 var sql = UsuarioSQLScript.Criar;
 
-                var param = new DynamicParameters();
+                comd.CommandText = sql;
 
-                param.Add("@NOME", usuario.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
-                param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
-                param.Add("@SENHA", usuario.Senha, DbType.AnsiString, ParameterDirection.Input, 20);
-                param.Add("@PAPEL", usuario.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
+                comd.Parameters.AddWithValue("@NOME", usuario.Nome);
+                comd.Parameters.AddWithValue("@EMAIL", usuario.Email);
+                comd.Parameters.AddWithValue("@CPF", Ferramentas.FormatarString(usuario.Cpf));
+                comd.Parameters.AddWithValue("@SENHA", usuario.Senha);
+                comd.Parameters.AddWithValue("@PAPEL", usuario.Papel.ToString());
 
-                conn.Execute(sql, param, commandTimeout: Timeout);
+                comd.ExecuteScalar();
+                trans.Commit();
+
+           
             }
         }
 
@@ -131,6 +141,7 @@ namespace Fiap.CleanArchitecture.Data.DatabaseClients.SQL.Repositories
 
                 param.Add("@ID", usuario.Id, DbType.Int32, ParameterDirection.Input);
                 param.Add("@NOME", usuario.Nome, DbType.AnsiString, ParameterDirection.Input, 100);
+                param.Add("@CPF", Ferramentas.FormatarString(usuario.Cpf));
                 param.Add("@EMAIL", usuario.Email, DbType.AnsiString, ParameterDirection.Input, 100);
                 param.Add("@PAPEL", usuario.Papel.ToString(), DbType.AnsiString, ParameterDirection.Input, 20);
 

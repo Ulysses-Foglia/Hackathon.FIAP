@@ -1,0 +1,51 @@
+{
+  "id": 0,
+  "medicoId": 1,
+  "mesAno": "082024",
+  "dia": 30,
+  "diaDisponivel": "DISPONIVEL",
+  "diasDaAgenda": [
+    {
+      "id": 0,
+      "agendaMedicoId": 0,
+      "horarioDisponivel": "DISPONIVEL",
+      "horario": "09:00",
+      "pacienteId": 0
+    },
+    {
+      "id": 0,
+      "agendaMedicoId": 0,
+      "horarioDisponivel": "DISPONIVEL",
+      "horario": "10:00",
+      "pacienteId": 0
+    },
+    {
+      "id": 0,
+      "agendaMedicoId": 0,
+      "horarioDisponivel": "DISPONIVEL",
+      "horario": "11:00",
+      "pacienteId": 0
+    },
+    {
+      "id": 0,
+      "agendaMedicoId": 0,
+      "horarioDisponivel": "DISPONIVEL",
+      "horario": "15:00",
+      "pacienteId": 0
+    },
+    {
+      "id": 0,
+      "agendaMedicoId": 0,
+      "horarioDisponivel": "DISPONIVEL",
+      "horario": "16:00",
+      "pacienteId": 0
+    },
+    {
+      "id": 0,
+      "agendaMedicoId": 0,
+      "horarioDisponivel": "DISPONIVEL",
+      "horario": "17:00",
+      "pacienteId": 0
+    }
+  ]
+}

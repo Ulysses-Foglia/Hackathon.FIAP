@@ -3,6 +3,7 @@
     public enum TipoPapel
     {
         Admin,
-        Comum
+        Paciente,
+        Medico
     }
 }

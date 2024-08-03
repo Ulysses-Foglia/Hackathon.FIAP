@@ -3,7 +3,7 @@ using Fiap.CleanArchitecture.Controller;
 using Fiap.CleanArchitecture.Controller.Interface;
 using Fiap.CleanArchitecture.Data.Interfaces;
 using Fiap.CleanArchitecture.Entity.Attribute;
-using Fiap.CleanArchitecture.Entity.DAOs.Usuario;
+using Fiap.CleanArchitecture.Entity.DAOs.Usuarios;
 using Fiap.CleanArchitecture.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,11 +26,13 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         [HttpPost]
         [VersaoApi("V1.0")]
         [Route("autenticar")]
-        public IActionResult Autenticar([FromBody] UsuarioDAO usuarioDAO)
+        public IActionResult Autenticar([FromBody] AutenticacaoModelDAO dados)
         {
             try
-            {                
-                var token = _usuarioControlador.GerarToken(usuarioDAO);
+            {
+                if (!ModelState.IsValid) { throw new Exception("Dados fora do padão esperado"); }
+
+                var token = _usuarioControlador.GerarToken(new MedicoDAO() { Email = dados.Email, Senha = dados.Senha });
 
                 return Ok(new { token });
             }
@@ -78,8 +80,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
             }            
         }
 
-        [Authorize]
-        [Papel("Admin")]
+        [AllowAnonymous]
         [VersaoApi("V1.0")]
         [HttpPost("criar")]
         public IActionResult Criar([FromBody] UsuarioDAO usuarioDAO)
@@ -97,7 +98,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Paciente")]
         [VersaoApi("V1.0")]
         [HttpPut("alterar")]
         public IActionResult Alterar([FromBody] UsuarioAlterarDAO usuarioAlterarDAO)
@@ -115,7 +116,7 @@ namespace Fiap.CleanArchitecture.Api.Controllers
         }
 
         [Authorize]
-        [Papel("Admin")]
+        [Papel("Paciente")]
         [VersaoApi("V1.0")]
         [HttpDelete("excluir/{id:int}")]
         public IActionResult Excluir(int id)
