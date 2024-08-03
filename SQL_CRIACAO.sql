@@ -40,8 +40,8 @@ CREATE TABLE USUARIOS (
 
 
 
-INSERT INTO USUARIOS VALUES (GETDATE(), 'MedicoTeste1', NULL, 'MedicoTeste1@email.com.br', 'MTIzNDU2', 'Medico')
-INSERT INTO USUARIOS VALUES (GETDATE(), 'MedicoTeste1', NULL, 'MedicoTeste1@email.com.br', 'MTIzNDU2', 'Paciente')
+INSERT INTO USUARIOS VALUES (GETDATE(), 'MedicoTeste1', NULL, 'MedicoTeste1@email.com', 'MTIzNDU2', 'Medico')
+INSERT INTO USUARIOS VALUES (GETDATE(), 'PacienteTeste1', NULL, 'PacienteTeste1@email.com', 'MTIzNDU2', 'Paciente')
 
 
 
