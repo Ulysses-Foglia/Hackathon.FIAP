@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fiap.CleanArchitecture.Api\Fiap.CleanArchitecture.Api.csproj" />
+    <ProjectReference Include="..\Fiap.CleanArchitecture.Data\Fiap.CleanArchitecture.Data.csproj" />
     <ProjectReference Include="..\Fiap.CleanArchitecture.Entity\Fiap.CleanArchitecture.Entity.csproj" />
   </ItemGroup>
 
