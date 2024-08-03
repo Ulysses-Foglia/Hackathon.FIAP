@@ -27,6 +27,7 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
         private readonly Faker<AgendaMedicoDiaDAO> _fakerAgendaMedicoDia;
         private readonly Faker<AgendaMedicoAgendarPacienteDAO> _fakerAgendaMedicoAgendarPaciente;
         private Mock<IDatabaseClient> _mockDatabaseClient;
+        private Mock<IConfiguration> _mockConfiguration;
         private readonly Faker<MedicoDAO> _fakerMedico;
         private readonly AgendaSQLRepository _agentaSQLRepository;
         public AgendaControllerTests()
@@ -40,7 +41,8 @@ namespace Fiap.CleanArchitecture.Tests.Controllers
             _fakerAgendaMedicoMes = RetornarFakerAgenaMedicoMes(_fakerAgendaMedicoDia, _fakerMedico);
             _fakerAgendaMedicoAgendarPaciente = RetornarFakerAgendaMedicoAgendarPaciente();
             _mockDatabaseClient = new Mock<IDatabaseClient>();
-            _controller = new AgendaController(_mockDatabaseClient.Object, _provider.Configuration);
+            _mockConfiguration = new Mock<IConfiguration>();
+            _controller = new AgendaController(_mockDatabaseClient.Object, new ConfigurationBuilder().AddJsonFile("appsettings.json").Build());
         }
 
         [Fact]
